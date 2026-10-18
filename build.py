@@ -117,8 +117,8 @@ index_body = f'''
     <div class="trio">
       <div>
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M3 10h18M9 4v12M15 4v12M8 20h8"/></svg></div>
-        <h3 class="h3">One record per module</h3>
-        <p>Manufacturing batch, location, every inspection, SCADA performance, work orders and real spend, linked by module ID across the asset's life.</p>
+        <h3 class="h3">A climate and condition database</h3>
+        <p>Every module recorded with its materials and batch, linked to where it sits: climate zone, terrain, coast, dust and fire exposure, plus every inspection and its energy performance. Over time, a map of how solar ages across Australia.</p>
       </div>
       <div>
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg></div>
@@ -329,6 +329,24 @@ technology_body = f'''
       <div><h3>Robot terahertz, on the panel</h3><p>A robot moves onto flagged modules and scans at close range. Scans of high-risk locations and stratified healthy samples give identifiable evidence of interface and dielectric state within compatible encapsulation structures. Scans are allocated where the extra information changes the intervention choice and expected avoided loss exceeds the cost.</p></div>
       <div><h3>Site and microclimate context</h3><p>Terrain, shading and long-term regional climate are combined with on-site irradiance, module and ambient temperature, humidity, wind, salt and dust, to separate regional conditions from microenvironments within the array.</p></div>
       <div><h3>Fast and slow states</h3><p>Operating states follow existing SCADA updates. Slower material states update through inspections, accumulated exposure and extreme events, so each modality updates the same asset's state distribution through calibrated observation models.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band band-tint" id="database">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The climate and condition database</p>
+      <h2 class="h2">Where every module is, what it is made of, and how it is behaving</h2>
+      <p class="lede">The core asset is a database that links each module to the place it lives. Over time it becomes a map of how solar hardware ages across Australia's climate zones, and a guide to what to build where.</p>
+    </div>
+    <div class="grid2">
+      <div><h3>Each module, as a record</h3><p>Manufacturer, model, bill of materials, factory batch and lamination record, install date, string position and mounting. Then every drone image, thermal frame, terahertz scan, work order and replacement, with timestamps.</p></div>
+      <div><h3>Linked to its environment</h3><p>Climate zone, long-term weather history, terrain and shading, distance from the coast, salt and dust load, vegetation and fire exposure, plus on-site irradiance, temperature, humidity and wind, down to the microclimate inside the array.</p></div>
+      <div><h3>Linked to its performance</h3><p>SCADA and string-level electrical data, weather-normalised, so condition changes can be tied to energy loss at the metering resolution available.</p></div>
+      <div><h3>Six climate zones as the proving ground</h3><p>From the monsoonal north to temperate Tasmania, each zone has its own dominant degradation mechanisms. Sites are stratified across them so the same materials can be compared under different exposure.</p></div>
+      <div><h3>From database to degradation map</h3><p>Repeat inspections of the same modules, season after season, turn individual findings into degradation rates by material, batch and zone, then into a fleet-wide risk ranking.</p></div>
+      <div><h3>From map to deployment guidance</h3><p>Invert the model: given a site's terrain, climate and a proposed module construction, estimate degradation, maintenance cost and premature replacement risk before a single post goes in.</p></div>
     </div>
   </div>
 </section>
