@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact — Metrifield Dynamics</title>
+<meta name="description" content="Get in touch with Metrifield about pilot sites, data partnerships and collaboration.">
+<link rel="canonical" href="https://www.metrifield.com/contact.html">
+<meta property="og:title" content="Contact — Metrifield Dynamics">
+<meta property="og:description" content="Get in touch with Metrifield about pilot sites, data partnerships and collaboration.">
+<meta property="og:image" content="https://www.metrifield.com/assets/hero-poster.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav nav-solid" id="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Metrifield Dynamics home"><img class="logo logo-dark" src="assets/logo.png" alt="Metrifield Dynamics" width="1227" height="410"><img class="logo logo-light" src="assets/logo-white.png" alt="" width="1227" height="410" aria-hidden="true"></a>
+    <nav class="nav-links" aria-label="Main"><a href="index.html">Home</a><a href="solutions.html">Solutions</a><a href="technology.html">Technology</a><a href="about.html">About</a></nav>
+    <a class="btn btn-dark nav-cta" href="contact.html">Talk to us</a>
+    <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+
+<main>
+<section class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Contact</p>
+    <h1>Talk to us</h1>
+    <p class="lede">Tell us about your plant, your project or your product and we will come back to you within two business days.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="row"><p class="k">Email</p><p class="v"><a href="mailto:info@metrifield.com">info@metrifield.com</a></p></div>
+        <div class="row"><p class="k">Location</p><p class="v">Sydney, NSW, Australia</p></div>
+        <div class="row">
+          <p class="k">We want to hear from</p>
+          <ul>
+            <li>Solar asset owners and O&amp;M providers</li>
+            <li>Developers and EPCs planning new plants</li>
+            <li>Module manufacturers</li>
+            <li>Research partners and engineers</li>
+          </ul>
+        </div>
+      </div>
+      <form class="form" id="contact-form" novalidate>
+        <div class="two">
+          <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="f-org">Organisation</label><input id="f-org" name="org" type="text" autocomplete="organization"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="f-type">I am a</label>
+            <select id="f-type" name="type">
+              <option>Solar asset owner / O&amp;M</option>
+              <option>Developer / EPC</option>
+              <option>Module manufacturer</option>
+              <option>Researcher / partner</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="msg" required></textarea></div>
+        <p class="ok">Thanks. Your email app should open with the message ready to send; if it doesn't, email us directly at info@metrifield.com.</p>
+        <div><button class="btn btn-dark" type="submit">Send message <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button></div>
+        <p class="note">No mailing lists. We only use your details to reply.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+<footer>
+  <div class="wrap">
+    <div class="fcol">
+      <a class="brand" href="index.html"><img class="logo" src="assets/logo-white.png" alt="Metrifield Dynamics" width="1227" height="410"></a>
+      <p style="max-width:34ch">Lifecycle intelligence for utility-scale solar. Sydney, Australia.</p>
+    </div>
+    <div class="fcol"><b>Site</b><a href="solutions.html">Solutions</a><a href="technology.html">Technology</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+    <div class="fcol"><b>Contact</b><a href="mailto:info@metrifield.com">info@metrifield.com</a><span>Sydney, NSW</span></div>
+    <div class="legal"><span>© 2026 Metrifield Dynamics Pty Ltd</span><span>metrifield.com</span></div>
+  </div>
+</footer>
+<script>
+(function(){
+  var n=document.getElementById('nav'),b=n&&n.querySelector('.nav-toggle');
+  if(b){b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)})}
+  var f=document.getElementById('contact-form');
+  if(f){f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var d=new FormData(f),s='Enquiry from '+(d.get('name')||'')+' — '+(d.get('org')||'');
+    var body='Name: '+d.get('name')+'\nOrganisation: '+d.get('org')+'\nEmail: '+d.get('email')+'\nI am: '+d.get('type')+'\n\n'+d.get('msg');
+    f.classList.add('sent');
+    try{window.location.href='mailto:info@metrifield.com?subject='+encodeURIComponent(s)+'&body='+encodeURIComponent(body)}catch(err){}
+  })}
+})();
+</script>
+</body>
+</html>
