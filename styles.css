@@ -251,3 +251,16 @@ footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding
 .nav.nav-solid.open .logo-light{display:none}.nav.nav-solid.open .logo-dark{display:block}
 footer .brand .logo{height:52px}
 @media (max-width:480px){.brand .logo{height:38px}}
+
+/* climate zone map */
+:root{--map-fill:#E3EAF0;--map-line:#9FB0BF}
+.db-top{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:clamp(28px,5vw,72px);align-items:center}
+.mapwrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(16px,2.5vw,28px)}
+.aumap{width:100%;height:auto;max-width:100%}
+.zones{display:grid;gap:10px;font-size:14px;min-width:0}
+.zones li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.zones .dot{width:22px;height:22px;border-radius:50%;color:#fff;font-family:var(--font-display);font-weight:700;font-size:12px;display:grid;place-items:center;flex:none;margin-top:1px}
+.zones b{display:block;font-family:var(--font-display);font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.25}
+.zones div span{color:var(--ink-2);font-size:13px}
+@media (max-width:960px){.db-top{grid-template-columns:1fr}}
+@media (max-width:560px){.mapwrap{grid-template-columns:1fr}}
