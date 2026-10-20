@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>About — Metrifield Dynamics</title>
-<meta name="description" content="Metrifield Dynamics is a Sydney-based company founded by Harrison, Sohan Domingo and Lauren to reduce the lifecycle cost of utility-scale solar.">
+<meta name="description" content="Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren: materials science, field inspection and edge AI for solar asset intelligence.">
 <link rel="canonical" href="https://www.metrifield.com/about.html">
 <meta property="og:title" content="About — Metrifield Dynamics">
-<meta property="og:description" content="Metrifield Dynamics is a Sydney-based company founded by Harrison, Sohan Domingo and Lauren to reduce the lifecycle cost of utility-scale solar.">
+<meta property="og:description" content="Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren: materials science, field inspection and edge AI for solar asset intelligence.">
 <meta property="og:image" content="https://www.metrifield.com/assets/hero-poster.jpg">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -32,8 +32,8 @@
 <section class="page-hero">
   <div class="wrap">
     <p class="eyebrow">About</p>
-    <h1>Metrifield Dynamics connects what happens to a solar module with what it costs</h1>
-    <p class="lede">We are a Sydney-based company founded in 2026 by three people with backgrounds in field sensing, edge AI, infrastructure and energy. Our aim is a measurable, repeatable reduction in the lifecycle cost of utility-scale solar, under Australian conditions first.</p>
+    <h1>Solar asset intelligence, grounded in engineering.</h1>
+    <p class="lede">Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren, Metrifield Dynamics brings together expertise in materials science, field inspection and edge AI to connect multiscale diagnostics with energy performance and lifecycle economics.</p>
   </div>
 </section>
 
@@ -45,10 +45,10 @@
     </div>
     <div class="people">
       <div class="person">
-        <div class="photo"></div>
-        <h3>Harrison</h3>
+        <div class="photo"><img src="assets/harrison.jpg" alt="Harrison Su" width="800" height="1000" loading="lazy"></div>
+        <h3>Harrison Su</h3>
         <p class="role">Co-founder</p>
-        <p>Bio to come.</p>
+        <p>PhD in Materials Science and Engineering, and Director of Caelvox Technologies, developing advanced sensing architecture and automated inspection systems. His research spans energy materials, terahertz imaging and advanced characterisation, including collaborations with the Australian Synchrotron and the Australian Centre for Neutron Scattering. Focused on translating materials science into validated diagnostics, industrial applications and asset intelligence.</p>
       </div>
       <div class="person">
         <div class="photo"><img src="assets/sohan.jpg" alt="Sohan Domingo" width="800" height="1000" loading="lazy"></div>
@@ -57,10 +57,10 @@
         <p>Founder of Edgegenix, a Sydney venture studio building computer vision and edge inference systems for councils, utilities, fire agencies and insurers, and of BrightBuddy, bringing companion robots to Australian aged care. Previously with Pano AI. Long-standing focus on LiDAR, computer vision and geospatial systems for infrastructure.</p>
       </div>
       <div class="person">
-        <div class="photo"></div>
-        <h3>Lauren</h3>
+        <div class="photo"><img src="assets/laurens.jpg" alt="Laurens Willems van Beveren" width="800" height="1000" loading="lazy"></div>
+        <h3>Laurens Willems van Beveren</h3>
         <p class="role">Co-founder</p>
-        <p>Bio to come.</p>
+        <p>PhD in Applied Physics and Director of Australian Vacuum Services and Australian Drone Surveys. Former Experimental Scientist at Australia's National Measurement Institute, with extensive experience in precision instrumentation, measurement science and systems engineering. Combines scientific instrumentation expertise with CASA-credentialed drone operations, supporting reliable sensor integration, field inspection and engineering deployment.</p>
       </div>
     </div>
   </div>
@@ -104,6 +104,29 @@
 (function(){
   var n=document.getElementById('nav'),b=n&&n.querySelector('.nav-toggle');
   if(b){b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)})}
+  var Z={
+   1:{name:"Monsoonal north",color:"#D6A75A",regions:"Top End, far-north and tropical Queensland, the Kimberley",exposure:"Sustained heat and humidity, intense UV, a long wet season, cyclonic wind and driving rain.",material:"Encapsulants, backsheets and edge seals with proven resistance to moisture ingress and UV; corrosion-resistant connectors and frames; mounting rated for cyclonic loads.",risk:"Delamination and moisture ingress, corrosion of interconnects and junction boxes, potential-induced degradation in humid conditions, biological growth and storm damage.",cost:"Moisture-driven mechanisms tend to progress once started, so early subsurface detection has high value. Post-wet-season inspection cadence and cyclone recovery dominate O&amp;M planning."},
+   2:{name:"Arid interior",color:"#C77D52",regions:"Central Australia, Pilbara and Goldfields, outback South Australia, western inland Queensland and New South Wales",exposure:"Extreme daytime heat, large day–night temperature swings, very high irradiance, dust and low humidity; remote sites with long travel distances.",material:"Interconnect and solder designs tolerant of thermal cycling; glass and coatings that resist abrasion and soiling; high-temperature-rated encapsulants and junction boxes.",risk:"Cell cracking and interconnect fatigue from thermal cycling, hot spots, soiling losses, accelerated encapsulant ageing under heat and UV.",cost:"Cleaning economics and travel cost dominate. Targeted diagnostics that avoid unnecessary site visits, and cleaning scheduled on measured recoverable energy, have the largest effect on lifetime cost."},
+   3:{name:"Subtropical east",color:"#7FA8C9",regions:"South-east and central Queensland coast, New South Wales north coast",exposure:"Warm, humid summers with severe storms and hail, high rainfall, salt load near the coast.",material:"Hail-rated front glass and frames; moisture-resistant encapsulation; corrosion protection within the coastal belt.",risk:"Hail impact and resulting micro-cracks, moisture ingress after storm damage, PID in humid periods, coastal corrosion.",cost:"Event-triggered screening after storms, and distinguishing cosmetic from performance-affecting hail damage, avoid both missed losses and unnecessary replacement."},
+   4:{name:"Temperate south-east",color:"#5F8F7A",regions:"Sydney, Hunter, Riverina and tablelands, the ACT, Victoria",exposure:"Moderate climate with frost, winter rain, variable irradiance, occasional heat extremes and bushfire smoke.",material:"Mainstream module constructions perform well; attention to frost tolerance, drainage and seasonal soiling from dust, pollen and smoke.",risk:"Gradual degradation rather than acute failure; seasonal soiling; occasional heatwave stress; smoke and ash deposition.",cost:"Lower exposure means intervention value is driven by gradual drift. Condition tracking over repeat inspections separates slow degradation from seasonal effects and times cleaning where it pays."},
+   5:{name:"Mediterranean south-west",color:"#9C8E6A",regions:"Perth and the south-west of Western Australia, Adelaide and the South Australian coast",exposure:"Hot, dry summers, cool wet winters, persistent coastal salt and strong winds near the coast.",material:"Corrosion-resistant frames, fasteners and connectors; anti-soiling surfaces for the dry season; robust seals against salt-laden moisture.",risk:"Salt corrosion of metallic components, summer soiling, thermal stress during heatwaves.",cost:"Salt accelerates degradation of exposed metals; the value of cleaning is strongly seasonal. Corrosion checks and dry-season cleaning schedules shape lifetime cost."},
+   6:{name:"Cool temperate Tasmania",color:"#6E7F99",regions:"Tasmania",exposure:"Lower irradiance, frequent moisture, strong winds and cool temperatures; coastal salt on exposed sites.",material:"Wind-load-rated mounting; seals and junction boxes resistant to persistent moisture; designs that tolerate low-light operation.",risk:"Moisture ingress, mechanical stress from wind, biological growth and soiling in damp conditions.",cost:"A lower energy baseline changes intervention economics: the same defect recovers less energy, so prioritisation by net benefit matters more, not less."}
+  };
+  var sel=document.getElementById('zone-select'),panel=document.getElementById('zone-panel');
+  function showZone(k){var z=Z[k]; if(!z||!panel)return; panel.hidden=false;
+    document.getElementById('zp-dot').style.background=z.color; document.getElementById('zp-eyebrow').textContent='Zone '+k;
+    document.getElementById('zp-title').textContent=z.name; document.getElementById('zp-regions').textContent=z.regions;
+    document.getElementById('zp-exposure').innerHTML=z.exposure; document.getElementById('zp-material').innerHTML=z.material;
+    document.getElementById('zp-risk').innerHTML=z.risk; document.getElementById('zp-cost').innerHTML=z.cost;
+    document.querySelectorAll('.zone-pin').forEach(function(e){e.classList.toggle('active',e.getAttribute('data-zone')===String(k))});
+    if(sel&&sel.value!==String(k)){for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===String(k)){sel.selectedIndex=i;break}}}
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  if(sel){sel.addEventListener('change',function(){if(sel.value)showZone(sel.value)})}
+  document.querySelectorAll('.zone-pin').forEach(function(e){
+    e.addEventListener('click',function(){showZone(e.getAttribute('data-zone'))});
+    e.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();showZone(e.getAttribute('data-zone'))}});
+  });
   var f=document.getElementById('contact-form');
   if(f){f.addEventListener('submit',function(e){
     e.preventDefault();

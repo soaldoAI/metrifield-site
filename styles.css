@@ -264,3 +264,54 @@ footer .brand .logo{height:52px}
 .zones div span{color:var(--ink-2);font-size:13px}
 @media (max-width:960px){.db-top{grid-template-columns:1fr}}
 @media (max-width:560px){.mapwrap{grid-template-columns:1fr}}
+
+/* stage strip under the diagram */
+.stages{margin-top:clamp(28px,4vw,44px);background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(20px,3vw,32px)}
+.stages ol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,3vw,36px);list-style:none;margin:0;padding:0}
+.stages li{display:grid;gap:6px;align-content:start}
+.stages .n{font-family:var(--font-display);font-size:12.5px;letter-spacing:.12em;color:var(--ink-3)}
+.stages b{font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.stages h3{font-size:18px;margin-top:4px}
+.stages p{font-size:15px;color:var(--ink-2)}
+.loopline{margin-top:clamp(18px,2.5vw,26px);padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:center;align-items:center;gap:10px;font-family:var(--font-display);font-weight:500;color:var(--ink-2);font-size:16px}
+.loopline svg{width:18px;height:18px;color:var(--accent-ink)}
+@media (max-width:900px){.stages ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.stages ol{grid-template-columns:1fr}}
+
+/* evidence chain note */
+.chain-note{margin-top:18px;font-style:italic;color:var(--ink-2);font-size:16px}
+
+/* how-we-work question strip + pathway */
+.qstrip{margin-top:clamp(32px,4vw,48px);display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:clamp(18px,2.5vw,28px)}
+.qstrip li{display:grid;justify-items:center;text-align:center;gap:4px}
+.qstrip svg{width:26px;height:26px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:4px}
+.qstrip b{font-family:var(--font-display);font-weight:600;font-size:16px;color:#fff}
+.qstrip span{font-size:14px;color:var(--on-dark-2)}
+@media (max-width:860px){.qstrip{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.pathway-line{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;font-family:var(--font-display);font-size:17px;color:#fff}
+.pathway-line .eyebrow{margin-right:8px}
+.pathway-line b{font-weight:600}
+.pathway-line i{font-style:normal;color:var(--accent)}
+
+/* interactive zone map */
+.zone-pick{display:grid;gap:8px;font-family:var(--font-display);font-weight:600;font-size:14px;color:var(--ink);max-width:420px;margin-top:6px}
+.zone-pick select{font:inherit;font-family:var(--font-body);font-weight:400;font-size:16px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);width:100%}
+.zone-pin{cursor:pointer}
+.aumap .zone-pin circle{transition:transform .15s ease;transform-box:fill-box;transform-origin:center}
+.aumap .zone-pin:hover circle,.aumap .zone-pin.active circle{transform:scale(1.18)}
+.aumap .zone-pin.active circle{stroke:var(--ink);stroke-width:2.5}
+.zones li.zone-pin{padding:4px 6px;margin:-4px -6px;border-radius:8px}
+.zones li.zone-pin:hover,.zones li.zone-pin.active{background:var(--bg-2)}
+.zones li.zone-pin.active b{color:var(--accent-ink)}
+.zone-pin:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.zone-panel{margin-top:22px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:clamp(20px,3vw,30px);display:grid;gap:18px}
+.zp-head{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.zp-head .dot{width:36px;height:36px;border-radius:50%}
+.zp-head h3{font-size:24px}
+.zp-regions{font-size:15px;color:var(--ink-2)}
+.zp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 28px}
+.zp-grid > div{display:grid;gap:6px;padding-top:12px;border-top:1px solid var(--line)}
+.zp-grid b{font-family:var(--font-display);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.zp-grid p{font-size:15.5px;color:var(--ink)}
+.zp-note{font-size:13.5px;color:var(--ink-3)}
+@media (max-width:700px){.zp-grid{grid-template-columns:1fr}}

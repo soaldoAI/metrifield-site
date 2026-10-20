@@ -32,8 +32,8 @@
 <section class="page-hero">
   <div class="wrap">
     <p class="eyebrow">Solutions</p>
-    <h1>Built around the decisions, not the data</h1>
-    <p class="lede">The same condition and degradation database serves three very different decisions: what to do on an operating plant this month, how to design the next one, and what to change in the factory.</p>
+    <h1>Reduce today's losses. Prevent tomorrow's.</h1>
+    <p class="lede">Not every anomaly warrants intervention. We assess the cost of inaction, prioritise by expected net benefit, and verify the outcomes, turning measured results into better decisions and fewer recurring losses.</p>
   </div>
 </section>
 
@@ -41,48 +41,45 @@
   <div class="wrap">
     <div class="sol" id="operators">
       <div class="sol-text">
-        <p class="eyebrow">Operating plants</p>
-        <h2 class="h2">Prioritise work by what it recovers</h2>
-        <p>Cleaning, reinspection, repairs and replacements are scheduled on recoverable energy, expected losses from failure and intervention cost. Before a human-reviewed work order is raised, the system records the predicted net benefit, timeframe and prediction interval for each option, including doing nothing yet.</p>
+        <p class="eyebrow">01 / Operating plants</p>
+        <h2 class="h2">Recover energy. Avoid unnecessary work.</h2>
+        <p>A detected anomaly is not automatically a work order. We combine existing plant data with scalable screening, escalating to detailed diagnostics only when further evidence could change a decision. Interventions are ranked by expected energy recovery, cost and risk, then evaluated against measured outcomes.</p>
         <ul>
-          <li>Event-triggered and scheduled screening with anomaly grading on site</li>
-          <li>Weather-normalised, controlled comparisons between cleaning zones to confirm response</li>
-          <li>Energy loss attributed at the metering resolution available, separating equipment, weather and curtailment</li>
-          <li>Reassessment triggered by new sites, unrepresented materials or prediction drift</li>
+          <li>Distinguish actionable losses from environmental and operational effects.</li>
+          <li>Match diagnostic effort to the value of the decision.</li>
+          <li>Verify recovery and use the results to refine future priorities.</li>
         </ul>
-        <p class="decides"><b>Decisions supported</b>Clean · reinspect · repair · replace · defer</p>
+        <p class="decides"><b>Decisions supported</b>Clean · Reinspect · Repair · Replace · Defer</p>
       </div>
       <div class="sol-media"><img src="assets/drone.jpg" alt="Inspection drone flying over rows of solar modules" loading="lazy"></div>
     </div>
 
     <div class="sol" id="developers">
       <div class="sol-text">
-        <p class="eyebrow">Planned plants</p>
-        <h2 class="h2">Rank design options by lifecycle cost, not just yield</h2>
-        <p>Existing irradiance and shading simulations already tell you how orientation and tilt affect energy. Metrifield adds site-specific degradation, failure risk and maintenance cost, with their uncertainties, so design options can be compared on delivered energy and whole-of-life cost together.</p>
+        <p class="eyebrow">02 / Deploying plants</p>
+        <h2 class="h2">Avoid costs before they are built in.</h2>
+        <p>Losses observed in operating plants reveal risks that conventional yield models may overlook. We translate comparable field evidence into site-specific design scenarios, evaluating material suitability, configuration and maintainability against lifetime energy and cost. Key assumptions remain traceable for validation once the plant is operational.</p>
         <ul>
-          <li>Orientation, tilt, row spacing, mounting height and module configuration ranked jointly</li>
-          <li>Serviceability and maintenance access priced into the layout</li>
-          <li>Material choice matched to hot, humid, saline or high-UV sites</li>
-          <li>Design scenario models become operational twins once the plant is accepted</li>
+          <li>Identify degradation risks under local environmental conditions.</li>
+          <li>Compare design alternatives by lifetime value, not upfront cost alone.</li>
+          <li>Carry design assumptions into commissioning and performance monitoring.</li>
         </ul>
-        <p class="decides"><b>Decisions supported</b>Layout · tilt · row spacing · mounting height · module choice</p>
+        <p class="decides"><b>Decisions supported</b>Module selection · Layout · Mounting · Maintenance access</p>
       </div>
-      <div class="sol-media"><img src="assets/hero-poster.jpg" alt="Aerial view of a solar farm layout" loading="lazy"></div>
+      <div class="sol-media"><img src="assets/aerial.jpg" alt="Aerial view of a solar farm layout" loading="lazy"></div>
     </div>
 
     <div class="sol" id="manufacturers">
       <div class="sol-text">
-        <p class="eyebrow">Module manufacturers</p>
-        <h2 class="h2">Trace field failure back to the factory</h2>
-        <p>Field failure modes and progression rates are linked to bills of materials, supplier batches, lamination processes and factory test records. Combined with your accelerated ageing results, the data identifies unsuitable material combinations and batch-specific process deviations earlier, narrowing material trials and reducing rework and warranty cost.</p>
+        <p class="eyebrow">03 / Manufacturing plants</p>
+        <h2 class="h2">Prevent recurring failures at the source.</h2>
+        <p>Recurring field failures can reveal opportunities to improve materials and production. By comparing performance across matched environments and batches, we investigate potential links to material selection and process conditions. Targeted validation then supports changes that can reduce future defects, rework and warranty exposure.</p>
         <ul>
-          <li>Same batches compared across environments; different batches within comparable environments</li>
-          <li>Encapsulant, backsheet or rear glass, and edge seal combinations ranked by environmental suitability</li>
-          <li>Lamination process windows (temperature, time, vacuum) flagged for controlled factory trials</li>
-          <li>Targeted inspection of at-risk batches already in the field</li>
+          <li>Separate environmental effects from material and batch variation.</li>
+          <li>Focus testing on suspected causes with the greatest economic impact.</li>
+          <li>Validate corrective measures before wider production changes.</li>
         </ul>
-        <p class="decides"><b>Decisions supported</b>Material selection · lamination windows · batch QA · product configuration by region</p>
+        <p class="decides"><b>Decisions supported</b>Material specifications · Process optimisation · Batch QA · Product design</p>
       </div>
       <div class="sol-media"><img src="assets/factory.jpg" alt="Solar module lamination line" loading="lazy"></div>
     </div>
@@ -112,6 +109,29 @@
 (function(){
   var n=document.getElementById('nav'),b=n&&n.querySelector('.nav-toggle');
   if(b){b.addEventListener('click',function(){var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)})}
+  var Z={
+   1:{name:"Monsoonal north",color:"#D6A75A",regions:"Top End, far-north and tropical Queensland, the Kimberley",exposure:"Sustained heat and humidity, intense UV, a long wet season, cyclonic wind and driving rain.",material:"Encapsulants, backsheets and edge seals with proven resistance to moisture ingress and UV; corrosion-resistant connectors and frames; mounting rated for cyclonic loads.",risk:"Delamination and moisture ingress, corrosion of interconnects and junction boxes, potential-induced degradation in humid conditions, biological growth and storm damage.",cost:"Moisture-driven mechanisms tend to progress once started, so early subsurface detection has high value. Post-wet-season inspection cadence and cyclone recovery dominate O&amp;M planning."},
+   2:{name:"Arid interior",color:"#C77D52",regions:"Central Australia, Pilbara and Goldfields, outback South Australia, western inland Queensland and New South Wales",exposure:"Extreme daytime heat, large day–night temperature swings, very high irradiance, dust and low humidity; remote sites with long travel distances.",material:"Interconnect and solder designs tolerant of thermal cycling; glass and coatings that resist abrasion and soiling; high-temperature-rated encapsulants and junction boxes.",risk:"Cell cracking and interconnect fatigue from thermal cycling, hot spots, soiling losses, accelerated encapsulant ageing under heat and UV.",cost:"Cleaning economics and travel cost dominate. Targeted diagnostics that avoid unnecessary site visits, and cleaning scheduled on measured recoverable energy, have the largest effect on lifetime cost."},
+   3:{name:"Subtropical east",color:"#7FA8C9",regions:"South-east and central Queensland coast, New South Wales north coast",exposure:"Warm, humid summers with severe storms and hail, high rainfall, salt load near the coast.",material:"Hail-rated front glass and frames; moisture-resistant encapsulation; corrosion protection within the coastal belt.",risk:"Hail impact and resulting micro-cracks, moisture ingress after storm damage, PID in humid periods, coastal corrosion.",cost:"Event-triggered screening after storms, and distinguishing cosmetic from performance-affecting hail damage, avoid both missed losses and unnecessary replacement."},
+   4:{name:"Temperate south-east",color:"#5F8F7A",regions:"Sydney, Hunter, Riverina and tablelands, the ACT, Victoria",exposure:"Moderate climate with frost, winter rain, variable irradiance, occasional heat extremes and bushfire smoke.",material:"Mainstream module constructions perform well; attention to frost tolerance, drainage and seasonal soiling from dust, pollen and smoke.",risk:"Gradual degradation rather than acute failure; seasonal soiling; occasional heatwave stress; smoke and ash deposition.",cost:"Lower exposure means intervention value is driven by gradual drift. Condition tracking over repeat inspections separates slow degradation from seasonal effects and times cleaning where it pays."},
+   5:{name:"Mediterranean south-west",color:"#9C8E6A",regions:"Perth and the south-west of Western Australia, Adelaide and the South Australian coast",exposure:"Hot, dry summers, cool wet winters, persistent coastal salt and strong winds near the coast.",material:"Corrosion-resistant frames, fasteners and connectors; anti-soiling surfaces for the dry season; robust seals against salt-laden moisture.",risk:"Salt corrosion of metallic components, summer soiling, thermal stress during heatwaves.",cost:"Salt accelerates degradation of exposed metals; the value of cleaning is strongly seasonal. Corrosion checks and dry-season cleaning schedules shape lifetime cost."},
+   6:{name:"Cool temperate Tasmania",color:"#6E7F99",regions:"Tasmania",exposure:"Lower irradiance, frequent moisture, strong winds and cool temperatures; coastal salt on exposed sites.",material:"Wind-load-rated mounting; seals and junction boxes resistant to persistent moisture; designs that tolerate low-light operation.",risk:"Moisture ingress, mechanical stress from wind, biological growth and soiling in damp conditions.",cost:"A lower energy baseline changes intervention economics: the same defect recovers less energy, so prioritisation by net benefit matters more, not less."}
+  };
+  var sel=document.getElementById('zone-select'),panel=document.getElementById('zone-panel');
+  function showZone(k){var z=Z[k]; if(!z||!panel)return; panel.hidden=false;
+    document.getElementById('zp-dot').style.background=z.color; document.getElementById('zp-eyebrow').textContent='Zone '+k;
+    document.getElementById('zp-title').textContent=z.name; document.getElementById('zp-regions').textContent=z.regions;
+    document.getElementById('zp-exposure').innerHTML=z.exposure; document.getElementById('zp-material').innerHTML=z.material;
+    document.getElementById('zp-risk').innerHTML=z.risk; document.getElementById('zp-cost').innerHTML=z.cost;
+    document.querySelectorAll('.zone-pin').forEach(function(e){e.classList.toggle('active',e.getAttribute('data-zone')===String(k))});
+    if(sel&&sel.value!==String(k)){for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===String(k)){sel.selectedIndex=i;break}}}
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  if(sel){sel.addEventListener('change',function(){if(sel.value)showZone(sel.value)})}
+  document.querySelectorAll('.zone-pin').forEach(function(e){
+    e.addEventListener('click',function(){showZone(e.getAttribute('data-zone'))});
+    e.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();showZone(e.getAttribute('data-zone'))}});
+  });
   var f=document.getElementById('contact-form');
   if(f){f.addEventListener('submit',function(e){
     e.preventDefault();

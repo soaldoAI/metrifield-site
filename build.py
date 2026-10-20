@@ -47,11 +47,11 @@ def nav(current, solid=False):
 </header>
 '''
 
-def cta(h, p):
+def cta(h, p, label="Get in touch"):
     return f'''<section class="cta">
   <div class="wrap">
     <div><h2>{h}</h2><p>{p}</p></div>
-    <a class="btn btn-accent" href="contact.html">Get in touch {ARROW}</a>
+    <a class="btn btn-accent" href="contact.html">{label} {ARROW}</a>
   </div>
 </section>
 '''
@@ -71,6 +71,29 @@ FOOTER = f'''<footer>
 (function(){{
   var n=document.getElementById('nav'),b=n&&n.querySelector('.nav-toggle');
   if(b){{b.addEventListener('click',function(){{var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)}})}}
+  var Z={{
+   1:{{name:"Monsoonal north",color:"#D6A75A",regions:"Top End, far-north and tropical Queensland, the Kimberley",exposure:"Sustained heat and humidity, intense UV, a long wet season, cyclonic wind and driving rain.",material:"Encapsulants, backsheets and edge seals with proven resistance to moisture ingress and UV; corrosion-resistant connectors and frames; mounting rated for cyclonic loads.",risk:"Delamination and moisture ingress, corrosion of interconnects and junction boxes, potential-induced degradation in humid conditions, biological growth and storm damage.",cost:"Moisture-driven mechanisms tend to progress once started, so early subsurface detection has high value. Post-wet-season inspection cadence and cyclone recovery dominate O&amp;M planning."}},
+   2:{{name:"Arid interior",color:"#C77D52",regions:"Central Australia, Pilbara and Goldfields, outback South Australia, western inland Queensland and New South Wales",exposure:"Extreme daytime heat, large day–night temperature swings, very high irradiance, dust and low humidity; remote sites with long travel distances.",material:"Interconnect and solder designs tolerant of thermal cycling; glass and coatings that resist abrasion and soiling; high-temperature-rated encapsulants and junction boxes.",risk:"Cell cracking and interconnect fatigue from thermal cycling, hot spots, soiling losses, accelerated encapsulant ageing under heat and UV.",cost:"Cleaning economics and travel cost dominate. Targeted diagnostics that avoid unnecessary site visits, and cleaning scheduled on measured recoverable energy, have the largest effect on lifetime cost."}},
+   3:{{name:"Subtropical east",color:"#7FA8C9",regions:"South-east and central Queensland coast, New South Wales north coast",exposure:"Warm, humid summers with severe storms and hail, high rainfall, salt load near the coast.",material:"Hail-rated front glass and frames; moisture-resistant encapsulation; corrosion protection within the coastal belt.",risk:"Hail impact and resulting micro-cracks, moisture ingress after storm damage, PID in humid periods, coastal corrosion.",cost:"Event-triggered screening after storms, and distinguishing cosmetic from performance-affecting hail damage, avoid both missed losses and unnecessary replacement."}},
+   4:{{name:"Temperate south-east",color:"#5F8F7A",regions:"Sydney, Hunter, Riverina and tablelands, the ACT, Victoria",exposure:"Moderate climate with frost, winter rain, variable irradiance, occasional heat extremes and bushfire smoke.",material:"Mainstream module constructions perform well; attention to frost tolerance, drainage and seasonal soiling from dust, pollen and smoke.",risk:"Gradual degradation rather than acute failure; seasonal soiling; occasional heatwave stress; smoke and ash deposition.",cost:"Lower exposure means intervention value is driven by gradual drift. Condition tracking over repeat inspections separates slow degradation from seasonal effects and times cleaning where it pays."}},
+   5:{{name:"Mediterranean south-west",color:"#9C8E6A",regions:"Perth and the south-west of Western Australia, Adelaide and the South Australian coast",exposure:"Hot, dry summers, cool wet winters, persistent coastal salt and strong winds near the coast.",material:"Corrosion-resistant frames, fasteners and connectors; anti-soiling surfaces for the dry season; robust seals against salt-laden moisture.",risk:"Salt corrosion of metallic components, summer soiling, thermal stress during heatwaves.",cost:"Salt accelerates degradation of exposed metals; the value of cleaning is strongly seasonal. Corrosion checks and dry-season cleaning schedules shape lifetime cost."}},
+   6:{{name:"Cool temperate Tasmania",color:"#6E7F99",regions:"Tasmania",exposure:"Lower irradiance, frequent moisture, strong winds and cool temperatures; coastal salt on exposed sites.",material:"Wind-load-rated mounting; seals and junction boxes resistant to persistent moisture; designs that tolerate low-light operation.",risk:"Moisture ingress, mechanical stress from wind, biological growth and soiling in damp conditions.",cost:"A lower energy baseline changes intervention economics: the same defect recovers less energy, so prioritisation by net benefit matters more, not less."}}
+  }};
+  var sel=document.getElementById('zone-select'),panel=document.getElementById('zone-panel');
+  function showZone(k){{var z=Z[k]; if(!z||!panel)return; panel.hidden=false;
+    document.getElementById('zp-dot').style.background=z.color; document.getElementById('zp-eyebrow').textContent='Zone '+k;
+    document.getElementById('zp-title').textContent=z.name; document.getElementById('zp-regions').textContent=z.regions;
+    document.getElementById('zp-exposure').innerHTML=z.exposure; document.getElementById('zp-material').innerHTML=z.material;
+    document.getElementById('zp-risk').innerHTML=z.risk; document.getElementById('zp-cost').innerHTML=z.cost;
+    document.querySelectorAll('.zone-pin').forEach(function(e){{e.classList.toggle('active',e.getAttribute('data-zone')===String(k))}});
+    if(sel&&sel.value!==String(k)){{for(var i=0;i<sel.options.length;i++){{if(sel.options[i].value===String(k)){{sel.selectedIndex=i;break}}}}}}
+    panel.scrollIntoView({{behavior:'smooth',block:'nearest'}});
+  }}
+  if(sel){{sel.addEventListener('change',function(){{if(sel.value)showZone(sel.value)}})}}
+  document.querySelectorAll('.zone-pin').forEach(function(e){{
+    e.addEventListener('click',function(){{showZone(e.getAttribute('data-zone'))}});
+    e.addEventListener('keydown',function(ev){{if(ev.key==='Enter'||ev.key===' '){{ev.preventDefault();showZone(e.getAttribute('data-zone'))}}}});
+  }});
   var f=document.getElementById('contact-form');
   if(f){{f.addEventListener('submit',function(e){{
     e.preventDefault();
@@ -97,12 +120,12 @@ index_body = f'''
   </div>
   <div class="hero-shade"></div>
   <div class="wrap">
-    <p class="eyebrow" style="color:var(--accent)">Metrifield Dynamics</p>
-    <h1>Find the defect from the air. <em>Diagnose it</em> on the panel.</h1>
-    <p class="lede">Drones screen the array with RGB and thermal imaging. A robot then goes onto the flagged modules with a terahertz scanner to see what is happening inside the glass. Metrifield links every result to the module's materials, exposure and energy performance, so each repair, replacement and design decision is made on lifecycle cost.</p>
+    <p class="eyebrow" style="color:var(--accent)">Solar asset intelligence</p>
+    <h1>Intelligent inspection. <em>Spatiotemporal twins.</em></h1>
+    <p class="lede">Robotic terahertz diagnostics assess subsurface condition. Digital twins track change across sites and time, guiding decisions to lower lifecycle costs.</p>
     <div class="hero-actions">
-      <a class="btn btn-accent" href="solutions.html">Explore solutions {ARROW}</a>
-      <a class="btn btn-outline" href="technology.html">How it works</a>
+      <a class="btn btn-accent" href="technology.html">Explore our technology {ARROW}</a>
+      <a class="btn btn-outline" href="contact.html">Talk to our team</a>
     </div>
     <div class="hero-foot">
       <span>Drone <b>RGB · thermal</b></span><span>Robot <b>terahertz, on the panel</b></span>
@@ -117,18 +140,18 @@ index_body = f'''
     <div class="trio">
       <div>
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M3 10h18M9 4v12M15 4v12M8 20h8"/></svg></div>
-        <h3 class="h3">A climate and condition database</h3>
-        <p>Every module recorded with its materials and batch, linked to where it sits: climate zone, terrain, coast, dust and fire exposure, plus every inspection and its energy performance. Over time, a map of how solar ages across Australia.</p>
+        <h3 class="h3">Intelligent robotic inspection</h3>
+        <p>Drone-mounted edge AI screens RGB and thermal imagery. Targeted terahertz scans assess subsurface material and interface condition.</p>
       </div>
       <div>
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg></div>
-        <h3 class="h3">Drone finds it, robot confirms it</h3>
-        <p>Drone RGB and thermal screening flags suspect modules. A panel-crawling robot then scans them with terahertz to confirm what is happening inside the encapsulation.</p>
+        <h3 class="h3">Spatiotemporal digital twins</h3>
+        <p>Models link material condition, environmental exposure and generation history, updating with new evidence to track change across sites and time.</p>
       </div>
       <div>
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M6 16l4-5 4 3 4-7"/><circle cx="18" cy="7" r="1.5"/></svg></div>
-        <h3 class="h3">Every action ranked by net benefit</h3>
-        <p>Clean, repair, replace or defer: the digital twin predicts recoverable energy, failure risk and cost for each option before a work order is raised, then learns from the outcome.</p>
+        <h3 class="h3">Lifecycle decision support</h3>
+        <p>Compare interventions by expected net benefit. Use measured outcomes to refine maintenance, material selection and site-specific design.</p>
       </div>
     </div>
   </div>
@@ -138,19 +161,28 @@ index_body = f'''
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">How it works</p>
-      <h2 class="h2">From field observation to a decision with the cost comparison attached</h2>
+      <h2 class="h2">From inspection to informed action.</h2>
     </div>
     <div class="steps">
       <div class="step-list">
-        <div class="step"><span class="n">01</span><div><h3>Drone screening</h3><p>Drones fly scheduled and event-triggered RGB and thermal surveys over the array. Edge AI checks image quality, locates each module and grades anomalies on site. Terrain, shading, climate and on-site exposure data separate regional conditions from microclimates inside the array.</p></div></div>
-        <div class="step"><span class="n">02</span><div><h3>Robot terahertz diagnosis</h3><p>A robot moves onto the flagged modules, and onto representative healthy ones, and scans them at close range with terahertz. This gives evidence of material layers and interface condition inside the encapsulation that surface imagery and thermal cannot show.</p></div></div>
-        <div class="step"><span class="n">03</span><div><h3>Cloud intelligence</h3><p>Inspections, healthy controls, SCADA and electrical data, work orders and actual expenditure are linked through module IDs, locations, timestamps and manufacturing batches, then coupled with yield, thermal, degradation and cost models to form module, string and plant digital twins.</p></div></div>
-        <div class="step"><span class="n">04</span><div><h3>Decision support and feedback</h3><p>Cleaning, reinspection, repair and replacement are prioritised by recoverable energy, expected loss and intervention cost. Each action's cost, condition change and generation response feeds back into the models.</p></div></div>
+        <div class="step"><span class="n">01</span><div><h3>Intelligent screening</h3><p>Drone-mounted edge AI checks RGB and thermal image quality, maps observations to individual modules and prioritises anomalies for targeted inspection.</p></div></div>
+        <div class="step"><span class="n">02</span><div><h3>Targeted THz diagnostics</h3><p>The wheel–rotor platform scans priority modules and healthy controls, using terahertz to assess encapsulation layers and buried interfaces in compatible module structures.</p></div></div>
+        <div class="step"><span class="n">03</span><div><h3>Spatiotemporal modelling</h3><p>Inspection, exposure and electrical data update module–string–plant models. ST-Twins track condition across sites and time, identifying where further measurements could improve decisions.</p></div></div>
+        <div class="step"><span class="n">04</span><div><h3>Decisions and feedback</h3><p>Owners compare maintenance and replacement options by expected net benefit. Actual costs and generation responses refine the models, improving future recommendations and inspection priorities.</p></div></div>
       </div>
       <figure class="figure">
         <a class="frame" href="assets/architecture.jpg" target="_blank" rel="noopener" aria-label="Open diagram at full size"><img src="assets/architecture.jpg" width="3600" height="2118" alt="System diagram: field sensing feeds a multimodal asset database and dynamic digital twin, which supports decisions for operating plants, new plants and manufacturers; outcomes and costs flow back to update the model." loading="lazy"></a>
         <figcaption>Field sensing → cloud intelligence → decision support, closed by measured outcomes and costs. Click to enlarge.</figcaption>
       </figure>
+      <div class="stages">
+        <ol>
+          <li><span class="n">01</span><b>Screen</b><h3>Aerial screening</h3><p>Scheduled and event-triggered RGB and thermal surveys identify and locate anomalies. Module-level mapping, terrain and environmental data provide spatial context and reveal changes over time.</p></li>
+          <li><span class="n">02</span><b>Diagnose</b><h3>Targeted diagnostics</h3><p>Robotic close-range inspections examine selected anomalies alongside healthy reference modules. Where suitable, terahertz sensing adds subsurface evidence beyond conventional optical and thermal imaging.</p></li>
+          <li><span class="n">03</span><b>Model</b><h3>Spatiotemporal digital twin</h3><p>Inspection records, environmental exposure, electrical data and maintenance history are connected through asset IDs and timestamps to track degradation, estimate energy losses and quantify uncertainty.</p></li>
+          <li><span class="n">04</span><b>Optimise</b><h3>Decision intelligence</h3><p>Cleaning, reinspection, repair, replacement and deferral are evaluated against recoverable energy, cost and risk. Measured intervention outcomes refine future predictions and operating decisions.</p></li>
+        </ol>
+        <p class="loopline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>Verified outcomes continuously refine the system</p>
+      </div>
     </div>
   </div>
 </section>
@@ -178,13 +210,13 @@ index_body = f'''
       </a>
       <a class="card" href="solutions.html#developers">
         <p class="who">Developers &amp; EPCs</p>
-        <h3>Planned plants</h3>
+        <h3>Deploying plants</h3>
         <p>Rank layout, tilt, row spacing, mounting height and module choice by whole-of-life cost, not just first-year yield.</p>
         <span class="more">Learn more {ARROW}</span>
       </a>
       <a class="card" href="solutions.html#manufacturers">
         <p class="who">Module manufacturers</p>
-        <h3>Factory feedback</h3>
+        <h3>Manufacturing plants</h3>
         <p>Trace field failure modes back to bills of materials, supplier batches and lamination windows before warranty costs arrive.</p>
         <span class="more">Learn more {ARROW}</span>
       </a>
@@ -199,9 +231,9 @@ index_body = f'''
       <h2 class="h2">Lower lifecycle cost. More delivered energy. Longer useful life.</h2>
     </div>
     <div class="outcomes">
-      <div><h3>Fewer site visits</h3><p>Tiered screening and on-demand terahertz inspection cut repeat visits and specialist labour.</p></div>
-      <div><h3>Less wasted work</h3><p>Work orders prioritised by economic value reduce low-value cleaning, unnecessary replacements and fault-related downtime.</p></div>
-      <div><h3>Fewer surprises</h3><p>Connected records from factory release to operation remove duplicate data collection and make defect responsibility clear.</p></div>
+      <div><h3>Targeted inspections</h3><p>Fleet-wide screening directs detailed diagnostics where they matter most.</p></div>
+      <div><h3>Value-driven maintenance</h3><p>Prioritise interventions by recoverable energy, cost and risk.</p></div>
+      <div><h3>Evidence-led prevention</h3><p>Trace degradation and intervention outcomes to inform future design and maintenance.</p></div>
     </div>
   </div>
 </section>
@@ -210,13 +242,13 @@ index_body = f'''
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">About Metrifield</p>
-      <h2 class="h2">Founded in Sydney by engineers who have built field sensing and edge AI for infrastructure</h2>
-      <p class="lede">Metrifield Dynamics was founded by Harrison, Sohan Domingo and Lauren to bring materials-level diagnostics and lifecycle economics together for solar. <a href="about.html">Meet the team</a>.</p>
+      <h2 class="h2">Solar asset intelligence, grounded in engineering.</h2>
+      <p class="lede">Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren, Metrifield Dynamics brings together expertise in materials science, field inspection and edge AI to connect multiscale diagnostics with energy performance and lifecycle economics. <a href="about.html">Meet the team</a>.</p>
     </div>
   </div>
 </section>
 
-{cta("Running, building or manufacturing for solar in Australia?", "We are looking for asset owners, O&amp;M providers, developers and module manufacturers to work with as early sites and data partners.")}
+{cta("Cut avoidable costs across the solar lifecycle.", "Identify recoverable energy losses, unnecessary maintenance and recurring defects. Turn module-level evidence into better operating decisions and future designs.", "Explore your cost-reduction opportunities")}
 </main>
 '''
 
@@ -226,8 +258,8 @@ solutions_body = f'''
 <section class="page-hero">
   <div class="wrap">
     <p class="eyebrow">Solutions</p>
-    <h1>Built around the decisions, not the data</h1>
-    <p class="lede">The same condition and degradation database serves three very different decisions: what to do on an operating plant this month, how to design the next one, and what to change in the factory.</p>
+    <h1>Reduce today's losses. Prevent tomorrow's.</h1>
+    <p class="lede">Not every anomaly warrants intervention. We assess the cost of inaction, prioritise by expected net benefit, and verify the outcomes, turning measured results into better decisions and fewer recurring losses.</p>
   </div>
 </section>
 
@@ -235,48 +267,45 @@ solutions_body = f'''
   <div class="wrap">
     <div class="sol" id="operators">
       <div class="sol-text">
-        <p class="eyebrow">Operating plants</p>
-        <h2 class="h2">Prioritise work by what it recovers</h2>
-        <p>Cleaning, reinspection, repairs and replacements are scheduled on recoverable energy, expected losses from failure and intervention cost. Before a human-reviewed work order is raised, the system records the predicted net benefit, timeframe and prediction interval for each option, including doing nothing yet.</p>
+        <p class="eyebrow">01 / Operating plants</p>
+        <h2 class="h2">Recover energy. Avoid unnecessary work.</h2>
+        <p>A detected anomaly is not automatically a work order. We combine existing plant data with scalable screening, escalating to detailed diagnostics only when further evidence could change a decision. Interventions are ranked by expected energy recovery, cost and risk, then evaluated against measured outcomes.</p>
         <ul>
-          <li>Event-triggered and scheduled screening with anomaly grading on site</li>
-          <li>Weather-normalised, controlled comparisons between cleaning zones to confirm response</li>
-          <li>Energy loss attributed at the metering resolution available, separating equipment, weather and curtailment</li>
-          <li>Reassessment triggered by new sites, unrepresented materials or prediction drift</li>
+          <li>Distinguish actionable losses from environmental and operational effects.</li>
+          <li>Match diagnostic effort to the value of the decision.</li>
+          <li>Verify recovery and use the results to refine future priorities.</li>
         </ul>
-        <p class="decides"><b>Decisions supported</b>Clean · reinspect · repair · replace · defer</p>
+        <p class="decides"><b>Decisions supported</b>Clean · Reinspect · Repair · Replace · Defer</p>
       </div>
       <div class="sol-media"><img src="assets/drone.jpg" alt="Inspection drone flying over rows of solar modules" loading="lazy"></div>
     </div>
 
     <div class="sol" id="developers">
       <div class="sol-text">
-        <p class="eyebrow">Planned plants</p>
-        <h2 class="h2">Rank design options by lifecycle cost, not just yield</h2>
-        <p>Existing irradiance and shading simulations already tell you how orientation and tilt affect energy. Metrifield adds site-specific degradation, failure risk and maintenance cost, with their uncertainties, so design options can be compared on delivered energy and whole-of-life cost together.</p>
+        <p class="eyebrow">02 / Deploying plants</p>
+        <h2 class="h2">Avoid costs before they are built in.</h2>
+        <p>Losses observed in operating plants reveal risks that conventional yield models may overlook. We translate comparable field evidence into site-specific design scenarios, evaluating material suitability, configuration and maintainability against lifetime energy and cost. Key assumptions remain traceable for validation once the plant is operational.</p>
         <ul>
-          <li>Orientation, tilt, row spacing, mounting height and module configuration ranked jointly</li>
-          <li>Serviceability and maintenance access priced into the layout</li>
-          <li>Material choice matched to hot, humid, saline or high-UV sites</li>
-          <li>Design scenario models become operational twins once the plant is accepted</li>
+          <li>Identify degradation risks under local environmental conditions.</li>
+          <li>Compare design alternatives by lifetime value, not upfront cost alone.</li>
+          <li>Carry design assumptions into commissioning and performance monitoring.</li>
         </ul>
-        <p class="decides"><b>Decisions supported</b>Layout · tilt · row spacing · mounting height · module choice</p>
+        <p class="decides"><b>Decisions supported</b>Module selection · Layout · Mounting · Maintenance access</p>
       </div>
-      <div class="sol-media"><img src="assets/hero-poster.jpg" alt="Aerial view of a solar farm layout" loading="lazy"></div>
+      <div class="sol-media"><img src="assets/aerial.jpg" alt="Aerial view of a solar farm layout" loading="lazy"></div>
     </div>
 
     <div class="sol" id="manufacturers">
       <div class="sol-text">
-        <p class="eyebrow">Module manufacturers</p>
-        <h2 class="h2">Trace field failure back to the factory</h2>
-        <p>Field failure modes and progression rates are linked to bills of materials, supplier batches, lamination processes and factory test records. Combined with your accelerated ageing results, the data identifies unsuitable material combinations and batch-specific process deviations earlier, narrowing material trials and reducing rework and warranty cost.</p>
+        <p class="eyebrow">03 / Manufacturing plants</p>
+        <h2 class="h2">Prevent recurring failures at the source.</h2>
+        <p>Recurring field failures can reveal opportunities to improve materials and production. By comparing performance across matched environments and batches, we investigate potential links to material selection and process conditions. Targeted validation then supports changes that can reduce future defects, rework and warranty exposure.</p>
         <ul>
-          <li>Same batches compared across environments; different batches within comparable environments</li>
-          <li>Encapsulant, backsheet or rear glass, and edge seal combinations ranked by environmental suitability</li>
-          <li>Lamination process windows (temperature, time, vacuum) flagged for controlled factory trials</li>
-          <li>Targeted inspection of at-risk batches already in the field</li>
+          <li>Separate environmental effects from material and batch variation.</li>
+          <li>Focus testing on suspected causes with the greatest economic impact.</li>
+          <li>Validate corrective measures before wider production changes.</li>
         </ul>
-        <p class="decides"><b>Decisions supported</b>Material selection · lamination windows · batch QA · product configuration by region</p>
+        <p class="decides"><b>Decisions supported</b>Material specifications · Process optimisation · Batch QA · Product design</p>
       </div>
       <div class="sol-media"><img src="assets/factory.jpg" alt="Solar module lamination line" loading="lazy"></div>
     </div>
@@ -293,8 +322,8 @@ technology_body = f'''
 <section class="page-hero">
   <div class="wrap">
     <p class="eyebrow">Technology</p>
-    <h1>A hybrid digital twin that predicts which action is most economical, and when</h1>
-    <p class="lede">Physics and data combined to optimise the economic value of interventions while continuously updating asset condition. Models track specific assets, compare intervention outcomes and make predictions that later observations can falsify.</p>
+    <h1>Grounded in physics. Accountable to evidence.</h1>
+    <p class="lede">Our hybrid digital twin combines physical modelling with real-world observations to track how assets evolve across space and time. It quantifies performance impacts, evaluates intervention scenarios and tests predictions against measured outcomes.</p>
   </div>
 </section>
 
@@ -302,15 +331,17 @@ technology_body = f'''
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">The evidence chain</p>
-      <h2 class="h2">Every link is recorded, so field observations become lifecycle decisions</h2>
+      <h2 class="h2">From material origins to measured outcomes.</h2>
+      <p class="lede">A continuous evidence chain connects physical conditions, asset performance and verified results, keeping predictions traceable, testable and open to refinement.</p>
     </div>
     <ol class="chain">
-      <li>Materials and processes</li>
+      <li>Material &amp; process context</li>
       <li>Environmental exposure</li>
       <li>Condition evolution</li>
-      <li>Energy losses</li>
-      <li>Intervention outcomes</li>
+      <li>Performance impact</li>
+      <li>Outcome validation</li>
     </ol>
+    <p class="chain-note">Validated outcomes inform future maintenance, design and manufacturing.</p>
   </div>
 </section>
 
@@ -318,17 +349,18 @@ technology_body = f'''
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Sensing</p>
-      <h2 class="h2">The drone finds candidates. The robot confirms them.</h2>
+      <h2 class="h2">From surface anomalies to material evidence.</h2>
+      <p class="lede">RGB and thermal surveys locate suspected problems across the array. Targeted robotic terahertz measurements investigate subsurface material and interface conditions that conventional imaging cannot directly assess.</p>
     </div>
     <div class="duo">
-      <figure><img src="assets/drone.jpg" alt="Inspection drone with RGB and thermal camera over a solar array" loading="lazy"><figcaption>01 — Drone RGB and thermal survey flags suspect modules</figcaption></figure>
-      <figure><img src="assets/crawler.jpg" alt="Crawler robot on a solar module carrying a terahertz scanner" loading="lazy"><figcaption>02 — Robot on the panel scans them with terahertz</figcaption></figure>
+      <figure><img src="assets/drone.jpg" alt="Inspection drone with RGB and thermal camera over a solar array" loading="lazy"><figcaption>01 — Aerial RGB and thermal screening identifies suspect modules.</figcaption></figure>
+      <figure><img src="assets/crawler.jpg" alt="Crawler robot on a solar module carrying a terahertz scanner" loading="lazy"><figcaption>02 — Robotic terahertz sensing investigates selected subsurface conditions.</figcaption></figure>
     </div>
     <div class="grid2">
-      <div><h3>Drone RGB and thermal screening</h3><p>Drones run scheduled and event-triggered surveys. Edge computing performs image quality checks, module localisation and anomaly grading before data leaves the site, with offline caching for remote plants.</p></div>
-      <div><h3>Robot terahertz, on the panel</h3><p>A robot moves onto flagged modules and scans at close range. Scans of high-risk locations and stratified healthy samples give identifiable evidence of interface and dielectric state within compatible encapsulation structures. Scans are allocated where the extra information changes the intervention choice and expected avoided loss exceeds the cost.</p></div>
-      <div><h3>Site and microclimate context</h3><p>Terrain, shading and long-term regional climate are combined with on-site irradiance, module and ambient temperature, humidity, wind, salt and dust, to separate regional conditions from microenvironments within the array.</p></div>
-      <div><h3>Fast and slow states</h3><p>Operating states follow existing SCADA updates. Slower material states update through inspections, accumulated exposure and extreme events, so each modality updates the same asset's state distribution through calibrated observation models.</p></div>
+      <div><h3>Aerial RGB &amp; thermal screening</h3><p>RGB identifies soiling, shading and visible damage; thermal imaging reveals abnormal heating. Together, they rapidly locate suspect modules and focus detailed inspection where it is most valuable.</p></div>
+      <div><h3>Robotic terahertz diagnostics</h3><p>Terahertz sensing probes accessible dielectric layers and interfaces, revealing contrasts associated with moisture, material changes and concealed structural irregularities. It adds subsurface evidence beyond optical appearance and surface temperature.</p></div>
+      <div><h3>Environmental context</h3><p>Irradiance, temperature, wind and shading provide the context needed to distinguish environmental effects from persistent anomalies, reducing false alarms and unnecessary inspections.</p></div>
+      <div><h3>Condition tracking</h3><p>Repeated observations and operating data reveal whether anomalies are temporary, persistent or progressing. Follow-up inspections are prioritised by changes in condition and their potential impact.</p></div>
     </div>
   </div>
 </section>
@@ -337,14 +369,44 @@ technology_body = f'''
   <div class="wrap">
     <div class="db-top">
     <div class="section-head" style="margin-bottom:0">
-      <p class="eyebrow">The climate and condition database</p>
-      <h2 class="h2">Where every module is, what it is made of, and how it is behaving</h2>
-      <p class="lede">The core asset is a database that links each module to the place it lives. Over time it becomes a map of how solar hardware ages across Australia's climate zones, and a guide to what to build where.</p>
+      <p class="eyebrow">Regional exposure &amp; module performance</p>
+      <h2 class="h2">Where in Australia are your solar assets?</h2>
+      <p class="lede">Find your state or geographic region, from the tropical north to the arid interior and temperate south. Explore how local environmental conditions influence material suitability, degradation risks and lifetime costs.</p>
+      <label class="zone-pick" for="zone-select">Choose a state or region
+        <select id="zone-select">
+          <option value="">Select…</option>
+          <option value="1">Northern Territory — Top End</option>
+          <option value="1">Queensland — far north &amp; tropical coast</option>
+          <option value="1">Western Australia — Kimberley</option>
+          <option value="2">Northern Territory — Central Australia</option>
+          <option value="2">Western Australia — Pilbara &amp; Goldfields</option>
+          <option value="2">South Australia — outback &amp; mid-north</option>
+          <option value="2">Queensland &amp; NSW — western inland</option>
+          <option value="3">Queensland — south-east &amp; central coast</option>
+          <option value="3">New South Wales — north coast</option>
+          <option value="4">New South Wales — Sydney, Hunter, Riverina &amp; tablelands</option>
+          <option value="4">Australian Capital Territory</option>
+          <option value="4">Victoria</option>
+          <option value="5">South Australia — Adelaide &amp; coastal south</option>
+          <option value="5">Western Australia — Perth &amp; south-west</option>
+          <option value="6">Tasmania</option>
+        </select>
+      </label>
     </div>
     <div class="mapwrap">
-      <svg class="aumap" viewBox="0 0 540 470" role="img" aria-labelledby="aumap-title"><title id="aumap-title">Map of Australia marking six climate zones used to stratify sites</title><path d="M374.7 28.6 L387.4 69.4 L407.2 81.8 L415.3 122.5 L424.7 134.9 L452.6 157.1 L468.8 185.5 L495.6 209.0 L497.9 236.2 L503.7 249.8 L495.6 284.4 L482.8 302.9 L475.8 315.2 L472.3 321.4 L463.0 341.2 L461.9 354.8 L450.2 363.4 L432.8 365.9 L420.0 379.5 L408.4 372.1 L402.6 369.6 L386.3 377.0 L364.2 369.6 L354.9 365.9 L342.1 353.5 L334.0 336.2 L328.1 327.6 L318.8 330.1 L310.7 316.5 L297.9 325.1 L278.1 302.9 L272.3 293.0 L240.9 285.6 L216.5 288.1 L182.8 295.5 L158.4 311.5 L135.1 315.2 L107.2 321.4 L88.6 328.8 L56.0 321.4 L54.9 304.1 L64.2 291.8 L61.9 273.2 L50.2 252.2 L36.3 218.9 L38.6 199.1 L44.4 167.0 L61.9 155.9 L75.8 152.2 L96.7 147.2 L122.3 138.6 L138.6 118.8 L154.9 110.2 L157.2 96.6 L171.2 87.9 L188.6 69.4 L207.2 81.8 L224.7 80.5 L232.8 58.3 L238.6 49.6 L252.6 37.3 L259.5 34.8 L279.3 44.7 L297.9 44.7 L309.5 48.4 L296.7 64.5 L299.1 79.3 L310.7 92.9 L337.4 112.6 L354.9 111.4 L363.0 81.8 L365.3 50.9 L374.7 28.6 Z" fill="var(--map-fill)" stroke="var(--map-line)" stroke-width="1.5" stroke-linejoin="round"/><path d="M400.2 399.2 L418.8 404.2 L442.1 401.7 L440.9 421.5 L437.4 430.1 L427.0 435.1 L415.3 432.6 L407.2 419.0 L400.2 405.4 L400.2 399.2 Z" fill="var(--map-fill)" stroke="var(--map-line)" stroke-width="1.5" stroke-linejoin="round"/><circle cx="238.6" cy="49.6" r="26" fill="#D6A75A" opacity=".22"/><circle cx="238.6" cy="49.6" r="13" fill="#D6A75A"/><text x="238.6" y="54.1" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">1</text><circle cx="274.7" cy="189.2" r="26" fill="#C77D52" opacity=".22"/><circle cx="274.7" cy="189.2" r="13" fill="#C77D52"/><text x="274.7" y="193.7" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">2</text><circle cx="485.1" cy="223.8" r="26" fill="#7FA8C9" opacity=".22"/><circle cx="485.1" cy="223.8" r="13" fill="#7FA8C9"/><text x="485.1" y="228.3" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">3</text><circle cx="432.8" cy="347.4" r="26" fill="#5F8F7A" opacity=".22"/><circle cx="432.8" cy="347.4" r="13" fill="#5F8F7A"/><text x="432.8" y="351.9" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">4</text><circle cx="72.3" cy="297.9" r="26" fill="#9C8E6A" opacity=".22"/><circle cx="72.3" cy="297.9" r="13" fill="#9C8E6A"/><text x="72.3" y="302.4" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">5</text><circle cx="424.7" cy="415.3" r="26" fill="#6E7F99" opacity=".22"/><circle cx="424.7" cy="415.3" r="13" fill="#6E7F99"/><text x="424.7" y="419.8" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">6</text></svg>
-      <ol class="zones"><li><span class="dot" style="background:#D6A75A">1</span><div><b>Monsoonal north</b><span>Heat, humidity, UV, cyclones</span></div></li><li><span class="dot" style="background:#C77D52">2</span><div><b>Arid interior</b><span>Extreme heat, dust, thermal cycling</span></div></li><li><span class="dot" style="background:#7FA8C9">3</span><div><b>Subtropical east</b><span>Humidity, hail, storms</span></div></li><li><span class="dot" style="background:#5F8F7A">4</span><div><b>Temperate south-east</b><span>Frost, rain, moderate UV</span></div></li><li><span class="dot" style="background:#9C8E6A">5</span><div><b>Mediterranean south-west</b><span>Salt, dry heat, winter rain</span></div></li><li><span class="dot" style="background:#6E7F99">6</span><div><b>Cool temperate Tasmania</b><span>Wind, moisture, low irradiance</span></div></li></ol>
+      <svg class="aumap" viewBox="0 0 540 470" role="img" aria-labelledby="aumap-title"><title id="aumap-title">Map of Australia marking six climate zones used to stratify sites</title><path d="M374.7 28.6 L387.4 69.4 L407.2 81.8 L415.3 122.5 L424.7 134.9 L452.6 157.1 L468.8 185.5 L495.6 209.0 L497.9 236.2 L503.7 249.8 L495.6 284.4 L482.8 302.9 L475.8 315.2 L472.3 321.4 L463.0 341.2 L461.9 354.8 L450.2 363.4 L432.8 365.9 L420.0 379.5 L408.4 372.1 L402.6 369.6 L386.3 377.0 L364.2 369.6 L354.9 365.9 L342.1 353.5 L334.0 336.2 L328.1 327.6 L318.8 330.1 L310.7 316.5 L297.9 325.1 L278.1 302.9 L272.3 293.0 L240.9 285.6 L216.5 288.1 L182.8 295.5 L158.4 311.5 L135.1 315.2 L107.2 321.4 L88.6 328.8 L56.0 321.4 L54.9 304.1 L64.2 291.8 L61.9 273.2 L50.2 252.2 L36.3 218.9 L38.6 199.1 L44.4 167.0 L61.9 155.9 L75.8 152.2 L96.7 147.2 L122.3 138.6 L138.6 118.8 L154.9 110.2 L157.2 96.6 L171.2 87.9 L188.6 69.4 L207.2 81.8 L224.7 80.5 L232.8 58.3 L238.6 49.6 L252.6 37.3 L259.5 34.8 L279.3 44.7 L297.9 44.7 L309.5 48.4 L296.7 64.5 L299.1 79.3 L310.7 92.9 L337.4 112.6 L354.9 111.4 L363.0 81.8 L365.3 50.9 L374.7 28.6 Z" fill="var(--map-fill)" stroke="var(--map-line)" stroke-width="1.5" stroke-linejoin="round"/><path d="M400.2 399.2 L418.8 404.2 L442.1 401.7 L440.9 421.5 L437.4 430.1 L427.0 435.1 L415.3 432.6 L407.2 419.0 L400.2 405.4 L400.2 399.2 Z" fill="var(--map-fill)" stroke="var(--map-line)" stroke-width="1.5" stroke-linejoin="round"/><circle cx="238.6" cy="49.6" r="26" fill="#D6A75A" opacity=".22"/><g class="zone-pin" data-zone="1" role="button" tabindex="0" aria-label="Zone 1"><circle cx="238.6" cy="49.6" r="13" fill="#D6A75A"/><text x="238.6" y="54.1" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">1</text></g><circle cx="274.7" cy="189.2" r="26" fill="#C77D52" opacity=".22"/><g class="zone-pin" data-zone="2" role="button" tabindex="0" aria-label="Zone 2"><circle cx="274.7" cy="189.2" r="13" fill="#C77D52"/><text x="274.7" y="193.7" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">2</text></g><circle cx="485.1" cy="223.8" r="26" fill="#7FA8C9" opacity=".22"/><g class="zone-pin" data-zone="3" role="button" tabindex="0" aria-label="Zone 3"><circle cx="485.1" cy="223.8" r="13" fill="#7FA8C9"/><text x="485.1" y="228.3" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">3</text></g><circle cx="432.8" cy="347.4" r="26" fill="#5F8F7A" opacity=".22"/><g class="zone-pin" data-zone="4" role="button" tabindex="0" aria-label="Zone 4"><circle cx="432.8" cy="347.4" r="13" fill="#5F8F7A"/><text x="432.8" y="351.9" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">4</text></g><circle cx="72.3" cy="297.9" r="26" fill="#9C8E6A" opacity=".22"/><g class="zone-pin" data-zone="5" role="button" tabindex="0" aria-label="Zone 5"><circle cx="72.3" cy="297.9" r="13" fill="#9C8E6A"/><text x="72.3" y="302.4" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">5</text></g><circle cx="424.7" cy="415.3" r="26" fill="#6E7F99" opacity=".22"/><g class="zone-pin" data-zone="6" role="button" tabindex="0" aria-label="Zone 6"><circle cx="424.7" cy="415.3" r="13" fill="#6E7F99"/><text x="424.7" y="419.8" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="Figtree,sans-serif">6</text></g></svg>
+      <ol class="zones"><li class="zone-pin" data-zone="1" role="button" tabindex="0"><span class="dot" style="background:#D6A75A">1</span><div><b>Monsoonal north</b><span>Heat, humidity, UV, cyclones</span></div></li><li class="zone-pin" data-zone="2" role="button" tabindex="0"><span class="dot" style="background:#C77D52">2</span><div><b>Arid interior</b><span>Extreme heat, dust, thermal cycling</span></div></li><li class="zone-pin" data-zone="3" role="button" tabindex="0"><span class="dot" style="background:#7FA8C9">3</span><div><b>Subtropical east</b><span>Humidity, hail, storms</span></div></li><li class="zone-pin" data-zone="4" role="button" tabindex="0"><span class="dot" style="background:#5F8F7A">4</span><div><b>Temperate south-east</b><span>Frost, rain, moderate UV</span></div></li><li class="zone-pin" data-zone="5" role="button" tabindex="0"><span class="dot" style="background:#9C8E6A">5</span><div><b>Mediterranean south-west</b><span>Salt, dry heat, winter rain</span></div></li><li class="zone-pin" data-zone="6" role="button" tabindex="0"><span class="dot" style="background:#6E7F99">6</span><div><b>Cool temperate Tasmania</b><span>Wind, moisture, low irradiance</span></div></li></ol>
     </div>
+    </div>
+    <div class="zone-panel" id="zone-panel" hidden>
+      <div class="zp-head"><span class="dot" id="zp-dot"></span><div><p class="eyebrow" id="zp-eyebrow">Zone</p><h3 id="zp-title"></h3><p id="zp-regions" class="zp-regions"></p></div></div>
+      <div class="zp-grid">
+        <div><b>Environmental exposure</b><p id="zp-exposure"></p></div>
+        <div><b>Material suitability</b><p id="zp-material"></p></div>
+        <div><b>Degradation risks</b><p id="zp-risk"></p></div>
+        <div><b>Lifetime cost drivers</b><p id="zp-cost"></p></div>
+      </div>
+      <p class="zp-note">Indicative guidance by climate zone. Site-specific assessment uses local exposure data and the plant's own inspection and performance records.</p>
     </div>
     <div class="grid2" style="margin-top:clamp(36px,5vw,64px)">
       <div><h3>Each module, as a record</h3><p>Manufacturer, model, bill of materials, factory batch and lamination record, install date, string position and mounting. Then every drone image, thermal frame, terahertz scan, work order and replacement, with timestamps.</p></div>
@@ -357,19 +419,28 @@ technology_body = f'''
   </div>
 </section>
 
-<section class="band band-dark">
+<section class="band band-dark" id="how-we-work">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Data and models</p>
-      <h2 class="h2">One asset record, a hierarchy of twins</h2>
-      <p class="lede">Module IDs, locations, electrical topology, manufacturing batches and replacement histories link RGB, thermal and terahertz inspections with exposure, SCADA data, work orders and actual expenditure.</p>
+      <p class="eyebrow">How we work</p>
+      <h2 class="h2">From site assessment to verified decisions.</h2>
+      <p class="lede">A phased approach that begins with broad-area screening and progresses to targeted diagnostics, physics-informed modelling and economic optimisation. Each step adds evidence where it can improve the next decision.</p>
     </div>
     <div class="grid2">
-      <div><h3>Aligned before attributed</h3><p>Timestamps, units, calibration records and data versions are standardised and terminology mapped to PV-Onto. Inconsistent sampling and interval averaging cause systematic power-prediction errors, so alignment precedes any anomaly attribution.</p></div>
-      <div><h3>Physics sets the baseline</h3><p>Irradiance, heat-balance and electrical models establish normal-operation baselines. Hierarchical degradation models represent cumulative environmental effects. Cost models evaluate interventions.</p></div>
-      <div><h3>Machine learning where it earns its place</h3><p>Parameter estimation, residual modelling and fast surrogate predictions. Model selection stays problem-specific: established solvers are used where they outperform learned ones, and historical fit is never treated as proof of long-term accuracy.</p></div>
-      <div><h3>Credibility tied to use</h3><p>Verification of implementation, parameter calibration and independent predictive evaluation are kept distinct, with credibility defined for specific operating conditions, prediction horizons and decisions.</p></div>
+      <div><h3>01 — Screen &amp; establish the baseline</h3><p>Drone RGB and thermal surveys identify and locate anomalies across the array. Existing SCADA, asset and maintenance records establish operating baselines and guide inspection priorities.</p></div>
+      <div><h3>02 — Characterise &amp; diagnose</h3><p>Site-specific heat, irradiance, moisture, shading and environmental exposure provide context for observed anomalies. Targeted robotic terahertz scans investigate selected modules and reference samples, adding subsurface material evidence where it can inform decisions.</p></div>
+      <div><h3>03 — Model &amp; optimise</h3><p>Multimodal observations feed a physics-informed, multiphysics digital twin linking environmental exposure, material condition and energy performance. Intervention scenarios are evaluated against expected energy recovery, lifecycle cost, risk and uncertainty.</p></div>
+      <div><h3>04 — Decide, verify &amp; improve</h3><p>Prioritise cleaning, reinspection, repair, replacement or deferral based on expected net value. Compare actual costs and measured outcomes with predictions to refine future maintenance, plant design and manufacturing decisions.</p></div>
     </div>
+    <ul class="qstrip">
+      <li><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg><b>Screen</b><span>Where?</span></li>
+      <li><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="4"/><path d="M12 3v2M4.9 6.9l1.4 1.4M3 13h2M19 13h2M17.7 8.3l1.4-1.4M7 20h10"/></svg><b>Characterise</b><span>Under what conditions?</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="8" cy="7" r="1.5"/><circle cx="16" cy="12" r="1.5"/><circle cx="10" cy="17" r="1.5"/></svg><b>Diagnose</b><span>What is happening?</span></li>
+      <li><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v5M12 12l-6 5M12 12l6 5"/></svg><b>Model</b><span>What is the impact?</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M12 3v18M4 7h16M6 7l-3 7h6zM18 7l-3 7h6z"/></svg><b>Decide</b><span>What is worth doing?</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg><b>Verify</b><span>Did it deliver?</span></li>
+    </ul>
+    <p class="pathway-line"><span class="eyebrow">Engagement pathway</span><b>Focused pilot</b><i>→</i><b>Validated value</b><i>→</i><b>Scaled deployment</b></p>
   </div>
 </section>
 
@@ -403,8 +474,8 @@ about_body = f'''
 <section class="page-hero">
   <div class="wrap">
     <p class="eyebrow">About</p>
-    <h1>Metrifield Dynamics connects what happens to a solar module with what it costs</h1>
-    <p class="lede">We are a Sydney-based company founded in 2026 by three people with backgrounds in field sensing, edge AI, infrastructure and energy. Our aim is a measurable, repeatable reduction in the lifecycle cost of utility-scale solar, under Australian conditions first.</p>
+    <h1>Solar asset intelligence, grounded in engineering.</h1>
+    <p class="lede">Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren, Metrifield Dynamics brings together expertise in materials science, field inspection and edge AI to connect multiscale diagnostics with energy performance and lifecycle economics.</p>
   </div>
 </section>
 
@@ -416,10 +487,10 @@ about_body = f'''
     </div>
     <div class="people">
       <div class="person">
-        <div class="photo"></div>
-        <h3>Harrison</h3>
+        <div class="photo"><img src="assets/harrison.jpg" alt="Harrison Su" width="800" height="1000" loading="lazy"></div>
+        <h3>Harrison Su</h3>
         <p class="role">Co-founder</p>
-        <p>Bio to come.</p>
+        <p>PhD in Materials Science and Engineering, and Director of Caelvox Technologies, developing advanced sensing architecture and automated inspection systems. His research spans energy materials, terahertz imaging and advanced characterisation, including collaborations with the Australian Synchrotron and the Australian Centre for Neutron Scattering. Focused on translating materials science into validated diagnostics, industrial applications and asset intelligence.</p>
       </div>
       <div class="person">
         <div class="photo"><img src="assets/sohan.jpg" alt="Sohan Domingo" width="800" height="1000" loading="lazy"></div>
@@ -428,10 +499,10 @@ about_body = f'''
         <p>Founder of Edgegenix, a Sydney venture studio building computer vision and edge inference systems for councils, utilities, fire agencies and insurers, and of BrightBuddy, bringing companion robots to Australian aged care. Previously with Pano AI. Long-standing focus on LiDAR, computer vision and geospatial systems for infrastructure.</p>
       </div>
       <div class="person">
-        <div class="photo"></div>
-        <h3>Lauren</h3>
+        <div class="photo"><img src="assets/laurens.jpg" alt="Laurens Willems van Beveren" width="800" height="1000" loading="lazy"></div>
+        <h3>Laurens Willems van Beveren</h3>
         <p class="role">Co-founder</p>
-        <p>Bio to come.</p>
+        <p>PhD in Applied Physics and Director of Australian Vacuum Services and Australian Drone Surveys. Former Experimental Scientist at Australia's National Measurement Institute, with extensive experience in precision instrumentation, measurement science and systems engineering. Combines scientific instrumentation expertise with CASA-credentialed drone operations, supporting reliable sensor integration, field inspection and engineering deployment.</p>
       </div>
     </div>
   </div>
@@ -512,10 +583,10 @@ contact_body = f'''
 '''
 
 PAGES = {
-  "index.html": ("Metrifield Dynamics — Lifecycle intelligence for utility-scale solar", "Metrifield links module materials, site exposure, inspection evidence and energy performance into one record, so solar maintenance and design decisions are made on lifecycle cost.", index_body),
+  "index.html": ("Metrifield Dynamics — Solar asset intelligence", "Intelligent robotic inspection and spatiotemporal digital twins: robotic terahertz diagnostics assess subsurface condition, and twins track change across sites and time to lower lifecycle costs.", index_body),
   "solutions.html": ("Solutions — Metrifield Dynamics", "Decision support for operating plants, planned plants and module manufacturers, from one condition and degradation database.", solutions_body),
   "technology.html": ("Technology — Metrifield Dynamics", "Tiered RGB, thermal and terahertz sensing, a multimodal asset record and a hybrid physics-and-data digital twin that predicts the most economical action.", technology_body),
-  "about.html": ("About — Metrifield Dynamics", "Metrifield Dynamics is a Sydney-based company founded by Harrison, Sohan Domingo and Lauren to reduce the lifecycle cost of utility-scale solar.", about_body),
+  "about.html": ("About — Metrifield Dynamics", "Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren: materials science, field inspection and edge AI for solar asset intelligence.", about_body),
   "contact.html": ("Contact — Metrifield Dynamics", "Get in touch with Metrifield about pilot sites, data partnerships and collaboration.", contact_body),
 }
 
