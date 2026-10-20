@@ -493,16 +493,16 @@ about_body = f'''
         <p>PhD in Materials Science and Engineering, and Director of Caelvox Technologies, developing advanced sensing architecture and automated inspection systems. His research spans energy materials, terahertz imaging and advanced characterisation, including collaborations with the Australian Synchrotron and the Australian Centre for Neutron Scattering. Focused on translating materials science into validated diagnostics, industrial applications and asset intelligence.</p>
       </div>
       <div class="person">
-        <div class="photo"><img src="assets/sohan.jpg" alt="Sohan Domingo" width="800" height="1000" loading="lazy"></div>
-        <h3>Sohan Domingo</h3>
-        <p class="role">Co-founder</p>
-        <p>Founder of Edgegenix, a Sydney venture studio building computer vision and edge inference systems for councils, utilities, fire agencies and insurers, and of BrightBuddy, bringing companion robots to Australian aged care. Previously with Pano AI. Long-standing focus on LiDAR, computer vision and geospatial systems for infrastructure.</p>
-      </div>
-      <div class="person">
         <div class="photo"><img src="assets/laurens.jpg" alt="Laurens Willems van Beveren" width="800" height="1000" loading="lazy"></div>
         <h3>Laurens Willems van Beveren</h3>
         <p class="role">Co-founder</p>
         <p>PhD in Applied Physics and Director of Australian Vacuum Services and Australian Drone Surveys. Former Experimental Scientist at Australia's National Measurement Institute, with extensive experience in precision instrumentation, measurement science and systems engineering. Combines scientific instrumentation expertise with CASA-credentialed drone operations, supporting reliable sensor integration, field inspection and engineering deployment.</p>
+      </div>
+      <div class="person">
+        <div class="photo"><img src="assets/sohan.jpg" alt="Sohan Domingo" width="800" height="1000" loading="lazy"></div>
+        <h3>Sohan Domingo</h3>
+        <p class="role">Co-founder</p>
+        <p>Master of Software Engineering, and Founder of Edgegenix, a Sydney venture studio building computer vision and edge inference systems for councils, utilities, fire agencies and insurers, and of BrightBuddy, bringing companion robots to Australian aged care. Long-standing focus on LiDAR, computer vision and geospatial systems for infrastructure, with hands-on experience across aerial data systems and edge AI deployment.</p>
       </div>
     </div>
   </div>
