@@ -446,26 +446,6 @@ technology_body = f'''
   </div>
 </section>
 
-<section class="band">
-  <div class="wrap">
-    <div class="steps">
-      <div class="section-head" style="margin-bottom:0;max-width:none">
-        <p class="eyebrow">The loop</p>
-        <h2 class="h2">Predictions are tested against outcomes, then the models update</h2>
-        <div class="prose" style="max-width:none;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px 40px">
-          <p>Before a work order is issued, the system records predicted net benefit, timeframe and prediction interval for cleaning, repair, replacement and deferral. Weather normalisation and controlled comparisons between cleaning zones then assess what actually happened.</p>
-          <p>Each intervention's cost, condition change and generation response feeds back into the models. New sites, unrepresented materials or significant drift trigger reassessment, so field experience improves subsequent maintenance, plant design and module production.</p>
-          <p><strong>Australian sites are stratified</strong> by temperature and humidity cycling, UV, salt and dust, rainfall and extreme-event exposure, with array microclimates, remote-site travel, communications constraints and local service costs built in. Model structures and priors are shared across sites while calibration stays local.</p>
-        </div>
-      </div>
-      <figure class="figure">
-        <a class="frame" href="assets/architecture.jpg" target="_blank" rel="noopener" aria-label="Open diagram at full size"><img src="assets/architecture.jpg" width="3600" height="2118" alt="System diagram showing the feedback loop from decisions and measured outcomes back to the digital twin." loading="lazy"></a>
-        <figcaption>Actions, measured outcomes and costs flow back to update the twin. Click to enlarge.</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
-
 </main>
 '''
 
