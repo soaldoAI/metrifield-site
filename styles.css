@@ -456,3 +456,7 @@ footer .brand .logo{height:52px}
 .dtag i{font-style:normal;font-size:11px;color:var(--accent-ink);letter-spacing:.06em}
 .dtag:hover{border-color:var(--accent);color:var(--accent-ink);transform:translateY(-1px)}
 .dp-io span:has(.dtag){display:block;margin-top:-4px}
+
+.dp-nav{display:flex;flex-wrap:wrap;gap:8px}
+.dp-back{color:var(--accent-ink);border-color:rgba(186,109,76,.4)}
+.dp-back[hidden]{display:none}

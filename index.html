@@ -108,7 +108,7 @@
         </div>
         <div class="dpanel" id="dpanel" hidden>
           <div class="dp-top">
-            <button type="button" class="dp-close" id="dp-close">← Overview</button>
+            <span class="dp-nav"><button type="button" class="dp-close" id="dp-close">← Overview</button><button type="button" class="dp-close dp-back" id="dp-back" hidden></button></span>
             <span class="dp-pager"><span id="dp-count">01 / 08</span><button type="button" id="dp-prev" aria-label="Previous step">←</button><button type="button" id="dp-next" aria-label="Next step">→</button></span>
           </div>
           <p class="eyebrow" id="dp-col"></p>
@@ -119,7 +119,7 @@
           <a class="dp-link" id="dp-link" href="#">Learn more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
         </div>
         <div class="dpanel opanel" id="opanel" hidden>
-          <div class="dp-top"><button type="button" class="dp-close" id="op-close">← Overview</button><span class="dp-pager">Outcome</span></div>
+          <div class="dp-top"><span class="dp-nav"><button type="button" class="dp-close" id="op-close">← Overview</button><button type="button" class="dp-close dp-back" id="op-back" hidden></button></span><span class="dp-pager">Outcome</span></div>
           <h3 class="dp-q" id="op-title"></h3>
           <div class="dp-io"><div><b>Measured by</b><span id="op-metric"></span></div><div><b>How it is achieved</b><span id="op-how"></span></div></div>
           <div class="dp-io"><div><b>Driven by</b><span id="op-drivers"></span></div></div>
@@ -295,14 +295,16 @@
     var h=document.getElementById('dhint'); if(h) h.hidden=true;
   }
   var OUT_OF={}; // node -> outcomes it contributes to (derived)
-  function dshow(id){ var d=DN[id]; if(!d||!dpanel) return; dcur=id; ocur=null; if(opanel) opanel.hidden=true;
+  var dfrom=null;
+  function dshow(id,from){ var d=DN[id]; if(!d||!dpanel) return; dcur=id; ocur=null; dfrom=from||null; if(opanel) opanel.hidden=true;
     document.getElementById('dp-col').textContent=d.col; document.getElementById('dp-title').textContent=d.n+' — '+d.title;
     document.getElementById('dp-q').textContent=d.q; document.getElementById('dp-body').textContent=d.body;
     document.getElementById('dp-in').textContent=d.inputs; document.getElementById('dp-out').textContent=d.outputs;
     var l=document.getElementById('dp-link'); l.href=d.link; l.firstChild.textContent=d.linktext+' ';
     document.getElementById('dp-count').textContent=d.n+' / 0'+DORD.length;
     var outs=Object.keys(DOUT).filter(function(k){return DOUT[k].nodes.indexOf(id)>=0});
-    dfocus([id],[]);
+    dfocus([id],(from&&from.out)?[from.out]:[]);
+    var bk=document.getElementById('dp-back'); if(bk){ if(from&&from.out){bk.hidden=false; bk.textContent='← Back to '+DOUT[from.out].title.replace('&amp;','&'); bk.setAttribute('data-go-out',from.out)} else bk.hidden=true; }
     var oc=document.getElementById('dp-contrib'); if(oc){oc.innerHTML=outs.map(function(k){return '<button type="button" class="dtag" data-go-out="'+k+'">'+DOUT[k].title+'</button>'}).join('')}
     document.querySelectorAll('.dtile').forEach(function(t){var on=t.getAttribute('data-node')===id; t.classList.toggle('active',on); t.setAttribute('aria-expanded',on)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.remove('lit')});
@@ -320,10 +322,11 @@
   document.addEventListener('keydown',function(e){ if(!dcur) return; if(e.key==='Escape') dhide(); if(e.key==='ArrowRight') dnx.click(); if(e.key==='ArrowLeft') dp.click(); });
   var DOUT={"deploy": {"title": "Lower deployment cost", "metric": "Construction cost per MW, including rework and premature replacement in the first years", "how": "Design choices are tested against field evidence from comparable sites before construction: module selection, layout, mounting and maintenance access are compared on lifetime value rather than upfront price, so costly corrections are avoided after the plant is built.", "nodes": ["site", "db", "twin", "new"], "link": "capabilities.html#developers", "linktext": "Deploying plants"}, "om": {"title": "Lower O&amp;M cost", "metric": "Operating cost per MW per year; inspection visits and specialist call-outs avoided", "how": "Fleet-wide drone screening replaces routine manual inspection, terahertz diagnostics are sent only where they can change a decision, and work orders are ranked by expected net benefit, so low-value cleaning and unnecessary replacements stop.", "nodes": ["rgb", "thz", "twin", "ops"], "link": "capabilities.html#operators", "linktext": "Operating plants"}, "life": {"title": "Longer useful life", "metric": "Degradation rate in percent per year; economic service life of the module fleet", "how": "Subsurface problems such as moisture ingress and delamination are found before they become failures, material and batch risks are traced back to the factory, and sites are matched to constructions that suit their climate zone.", "nodes": ["thz", "db", "mfg", "new"], "link": "technology.html#database", "linktext": "The climate and condition database"}, "energy": {"title": "More delivered energy", "metric": "MWh recovered per year; availability; weather-normalised performance ratio", "how": "Energy losses are attributed to their cause at the metering resolution available, cleaning and repair are timed by recoverable energy, and measured generation response after each intervention confirms what was actually recovered.", "nodes": ["rgb", "site", "twin", "ops"], "link": "capabilities.html#operators", "linktext": "Operating plants"}, "warranty": {"title": "Lower warranty exposure", "metric": "Recurring defects per batch; claims and rework per MW shipped", "how": "Field performance is compared across matched environments and manufacturing batches, so material and process causes of recurring failures are identified and validated before they reach wider production.", "nodes": ["thz", "db", "mfg"], "link": "capabilities.html#manufacturers", "linktext": "Manufacturing plants"}, "lcoe": {"title": "Lower lifecycle cost", "metric": "Net LCOE improvement after all platform costs: equipment, inspection, computing and model maintenance", "how": "The outcomes above act on both sides of the LCOE ratio at once: lower deployment, operating and replacement cost in the numerator, more delivered energy over a longer life in the denominator. Every claim is benchmarked against the plant's existing workflow.", "nodes": ["rgb", "thz", "site", "db", "twin", "ops", "new", "mfg"], "link": "technology.html", "linktext": "How it is measured"}}, ocur=null;
   var opanel=document.getElementById('opanel');
-  function oshow(k){ var o=DOUT[k]; if(!o||!opanel) return; ocur=k; dcur=null; if(dpanel) dpanel.hidden=true;
+  function oshow(k,from){ var o=DOUT[k]; if(!o||!opanel) return; ocur=k; dcur=null; if(dpanel) dpanel.hidden=true;
     document.getElementById('op-title').innerHTML=o.title; document.getElementById('op-metric').textContent=o.metric; document.getElementById('op-how').textContent=o.how;
     var l=document.getElementById('op-link'); l.href=o.link; l.firstChild.textContent=o.linktext+' ';
-    dfocus([],[k]);
+    dfocus((from&&from.node)?[from.node]:[],[k]);
+    var ob=document.getElementById('op-back'); if(ob){ if(from&&from.node){ob.hidden=false; ob.textContent='← Back to '+DN[from.node].n+' '+DN[from.node].title; ob.setAttribute('data-go-node',from.node)} else ob.hidden=true; }
     var dr=document.getElementById('op-drivers'); if(dr){dr.innerHTML=o.nodes.map(function(n){return '<button type="button" class="dtag" data-go-node="'+n+'"><i>'+DN[n].n+'</i>'+DN[n].title+'</button>'}).join('')}
     document.querySelectorAll('.dout').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-out')===k)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.toggle('lit', k==='lcoe')});
@@ -333,7 +336,7 @@
   function ohide(){ ocur=null; if(opanel) opanel.hidden=true; dfocus(null) }
   document.querySelectorAll('.dout').forEach(function(b){b.addEventListener('click',function(){var k=b.getAttribute('data-out'); if(ocur===k) ohide(); else oshow(k)})});
   var oc=document.getElementById('op-close'); if(oc) oc.addEventListener('click',ohide);
-  document.addEventListener('click',function(e){ var g=e.target.closest('[data-go-out]'); if(g){oshow(g.getAttribute('data-go-out')); return} var n=e.target.closest('[data-go-node]'); if(n){dshow(n.getAttribute('data-go-node'))} });
+  document.addEventListener('click',function(e){ var g=e.target.closest('[data-go-out]'); if(g){ var fromNode=dcur; oshow(g.getAttribute('data-go-out'), fromNode?{node:fromNode}:null); return} var n=e.target.closest('[data-go-node]'); if(n){ var fromOut=ocur; dshow(n.getAttribute('data-go-node'), fromOut?{out:fromOut}:null)} });
   if(idg){ idg.addEventListener('click',function(e){ if(!e.target.closest('.dtile,.dout,.dpanel')){ if(dcur) dhide(); if(ocur) ohide(); } }); }
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&ocur) ohide(); });
   var f=document.getElementById('contact-form');
