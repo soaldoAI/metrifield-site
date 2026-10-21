@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Builds the static Metrifield site: index, solutions, technology, about, contact.
+"""Builds the static Metrifield site: index, capabilities, technology, about, contact.
 Run: python3 build.py  → writes *.html next to this file, plus body.html (artifact preview copy of index)."""
 import pathlib, re
 
@@ -10,7 +10,7 @@ EMAIL = "info@metrifield.com"
 LOGO = '''<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 19.5 L11 10 L15 16 L18 12 L22 19.5" fill="none" stroke="#E59A1C" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'''
 ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'
 
-NAV = [("index.html","Home"),("solutions.html","Solutions"),("technology.html","Technology"),("about.html","About"),("contact.html","Contact")]
+NAV = [("index.html","Home"),("capabilities.html","Capabilities"),("technology.html","Technology"),("about.html","About"),("contact.html","Contact")]
 
 def head(title, desc, path):
     return f'''<!doctype html>
@@ -62,7 +62,7 @@ FOOTER = f'''<footer>
       <a class="brand" href="index.html"><img class="logo" src="assets/logo-white.png" alt="Metrifield Dynamics" width="1227" height="410"></a>
       <p style="max-width:34ch">Lifecycle intelligence for utility-scale solar. Sydney, Australia.</p>
     </div>
-    <div class="fcol"><b>Site</b><a href="solutions.html">Solutions</a><a href="technology.html">Technology</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+    <div class="fcol"><b>Site</b><a href="capabilities.html">Capabilities</a><a href="technology.html">Technology</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
     <div class="fcol"><b>Contact</b><a href="mailto:{EMAIL}">{EMAIL}</a><span>Sydney, NSW</span></div>
     <div class="legal"><span>© 2026 Metrifield Dynamics Pty Ltd</span><span>metrifield.com</span></div>
   </div>
@@ -236,27 +236,27 @@ index_body = f'''
 <section class="band" id="who">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Who we work with</p>
-      <h2 class="h2">Three decision-makers, one condition and degradation database</h2>
+      <p class="eyebrow">Capabilities</p>
+      <h2 class="h2">What we do, at each stage of a solar asset's life</h2>
     </div>
     <div class="cards">
-      <a class="card" href="solutions.html#operators">
+      <a class="card" href="capabilities.html#operators">
         <p class="who">Asset owners &amp; O&amp;M</p>
         <h3>Operating plants</h3>
         <p>Schedule cleaning, repairs and replacements on what they recover, and stop paying for low-value work.</p>
-        <span class="more">Learn more {ARROW}</span>
+        <span class="more">See how {ARROW}</span>
       </a>
-      <a class="card" href="solutions.html#developers">
+      <a class="card" href="capabilities.html#developers">
         <p class="who">Developers &amp; EPCs</p>
         <h3>Deploying plants</h3>
         <p>Rank layout, tilt, row spacing, mounting height and module choice by whole-of-life cost, not just first-year yield.</p>
-        <span class="more">Learn more {ARROW}</span>
+        <span class="more">See how {ARROW}</span>
       </a>
-      <a class="card" href="solutions.html#manufacturers">
+      <a class="card" href="capabilities.html#manufacturers">
         <p class="who">Module manufacturers</p>
         <h3>Manufacturing plants</h3>
         <p>Trace field failure modes back to bills of materials, supplier batches and lamination windows before warranty costs arrive.</p>
-        <span class="more">Learn more {ARROW}</span>
+        <span class="more">See how {ARROW}</span>
       </a>
     </div>
   </div>
@@ -289,14 +289,14 @@ index_body = f'''
 </main>
 '''
 
-solutions_body = f'''
-{nav("solutions.html", solid=True)}
+capabilities_body = f'''
+{nav("capabilities.html", solid=True)}
 <main>
 <section class="page-hero">
   <div class="wrap">
-    <p class="eyebrow">Solutions</p>
+    <p class="eyebrow">Capabilities</p>
     <h1>Reduce today's losses. Prevent tomorrow's.</h1>
-    <p class="lede">Not every anomaly warrants intervention. We assess the cost of inaction, prioritise by expected net benefit, and verify the outcomes, turning measured results into better decisions and fewer recurring losses.</p>
+    <p class="lede">What we do for solar assets at each stage of their life: plants already operating, plants being designed and built, and the factories that make the modules. Not every anomaly warrants intervention. We assess the cost of inaction, prioritise by expected net benefit, and verify the outcomes, turning measured results into better decisions and fewer recurring losses.</p>
   </div>
 </section>
 
@@ -564,7 +564,7 @@ contact_body = f'''
 
 PAGES = {
   "index.html": ("Metrifield Dynamics — Solar asset intelligence", "Intelligent robotic inspection and spatiotemporal digital twins: robotic terahertz diagnostics assess subsurface condition, and twins track change across sites and time to lower lifecycle costs.", index_body),
-  "solutions.html": ("Solutions — Metrifield Dynamics", "Decision support for operating plants, planned plants and module manufacturers, from one condition and degradation database.", solutions_body),
+  "capabilities.html": ("Capabilities — Metrifield Dynamics", "What Metrifield Dynamics does for operating plants, plants being deployed, and module manufacturers.", capabilities_body),
   "technology.html": ("Technology — Metrifield Dynamics", "Tiered RGB, thermal and terahertz sensing, a multimodal asset record and a hybrid physics-and-data digital twin that predicts the most economical action.", technology_body),
   "about.html": ("About — Metrifield Dynamics", "Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren: materials science, field inspection and edge AI for solar asset intelligence.", about_body),
   "contact.html": ("Contact — Metrifield Dynamics", "Get in touch with Metrifield about pilot sites, data partnerships and collaboration.", contact_body),
@@ -579,5 +579,5 @@ m = re.search(r"<head>(.*?)</head>\s*<body>\s*(.*)</body>\s*</html>\s*$", idx, r
 headinner, bodyinner = m.group(1), m.group(2)
 keep = "\n".join(l for l in headinner.splitlines() if l.startswith(("<title>", '<link rel="stylesheet"', '<link rel="preconnect"')))
 (ROOT/"body.html").write_text(f"{keep}\n<meta name=\"claude:viewport-fit-sides\" content=\"cover\">\n<style>body{{margin:0}}</style>\n{bodyinner}", encoding="utf-8")
-(ROOT/"_redirects").write_text("https://metrifield.com/* https://www.metrifield.com/:splat 301\n")
+(ROOT/"_redirects").write_text("https://metrifield.com/* https://www.metrifield.com/:splat 301\n/solutions.html /capabilities.html 301\n/solutions /capabilities.html 301\n")
 print("built", ", ".join(PAGES))
