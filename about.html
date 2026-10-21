@@ -146,7 +146,7 @@
     document.getElementById('dp-count').textContent=d.n+' / 0'+DORD.length;
     var outs=Object.keys(DOUT).filter(function(k){return DOUT[k].nodes.indexOf(id)>=0});
     dfocus([id],[]);
-    var oc=document.getElementById('dp-contrib'); if(oc){oc.textContent=outs.map(function(k){return DOUT[k].title.replace('&amp;','&')}).join(' · ')}
+    var oc=document.getElementById('dp-contrib'); if(oc){oc.innerHTML=outs.map(function(k){return '<button type="button" class="dtag" data-go-out="'+k+'">'+DOUT[k].title+'</button>'}).join('')}
     document.querySelectorAll('.dtile').forEach(function(t){var on=t.getAttribute('data-node')===id; t.classList.toggle('active',on); t.setAttribute('aria-expanded',on)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.remove('lit')});
     document.querySelectorAll('[data-arrow="'+id+'"]').forEach(function(a){a.classList.add('lit')});
@@ -167,7 +167,7 @@
     document.getElementById('op-title').innerHTML=o.title; document.getElementById('op-metric').textContent=o.metric; document.getElementById('op-how').textContent=o.how;
     var l=document.getElementById('op-link'); l.href=o.link; l.firstChild.textContent=o.linktext+' ';
     dfocus([],[k]);
-    var dr=document.getElementById('op-drivers'); if(dr){dr.textContent=o.nodes.map(function(n){return DN[n].n+' '+DN[n].title}).join(' · ')}
+    var dr=document.getElementById('op-drivers'); if(dr){dr.innerHTML=o.nodes.map(function(n){return '<button type="button" class="dtag" data-go-node="'+n+'"><i>'+DN[n].n+'</i>'+DN[n].title+'</button>'}).join('')}
     document.querySelectorAll('.dout').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-out')===k)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.toggle('lit', k==='lcoe')});
     opanel.hidden=false; opanel.classList.remove('pop'); void opanel.offsetWidth; opanel.classList.add('pop');
@@ -176,6 +176,7 @@
   function ohide(){ ocur=null; if(opanel) opanel.hidden=true; dfocus(null) }
   document.querySelectorAll('.dout').forEach(function(b){b.addEventListener('click',function(){var k=b.getAttribute('data-out'); if(ocur===k) ohide(); else oshow(k)})});
   var oc=document.getElementById('op-close'); if(oc) oc.addEventListener('click',ohide);
+  document.addEventListener('click',function(e){ var g=e.target.closest('[data-go-out]'); if(g){oshow(g.getAttribute('data-go-out')); return} var n=e.target.closest('[data-go-node]'); if(n){dshow(n.getAttribute('data-go-node'))} });
   if(idg){ idg.addEventListener('click',function(e){ if(!e.target.closest('.dtile,.dout,.dpanel')){ if(dcur) dhide(); if(ocur) ohide(); } }); }
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&ocur) ohide(); });
   var f=document.getElementById('contact-form');

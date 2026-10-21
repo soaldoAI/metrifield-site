@@ -450,3 +450,9 @@ footer .brand .logo{height:52px}
 @media (max-width:960px){.douts{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:560px){.douts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){[data-arrow].lit{animation:none}}
+
+/* clickable chain tags in the panels */
+.dtag{appearance:none;font:inherit;font-family:var(--font-display);font-size:13.5px;font-weight:600;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;margin:4px 6px 0 0;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:border-color .15s,color .15s,transform .15s}
+.dtag i{font-style:normal;font-size:11px;color:var(--accent-ink);letter-spacing:.06em}
+.dtag:hover{border-color:var(--accent);color:var(--accent-ink);transform:translateY(-1px)}
+.dp-io span:has(.dtag){display:block;margin-top:-4px}
