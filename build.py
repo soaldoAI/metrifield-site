@@ -4,6 +4,8 @@ Run: python3 build.py  → writes *.html next to this file, plus body.html (arti
 import pathlib, re
 
 ROOT = pathlib.Path(__file__).parent
+import hashlib
+VER = hashlib.md5((ROOT/"styles.css").read_bytes()).hexdigest()[:8]
 SITE = "https://www.metrifield.com"
 EMAIL = "info@metrifield.com"
 
@@ -30,7 +32,7 @@ def head(title, desc, path):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v={VER}">
 </head>
 <body>
 '''
@@ -685,5 +687,6 @@ m = re.search(r"<head>(.*?)</head>\s*<body>\s*(.*)</body>\s*</html>\s*$", idx, r
 headinner, bodyinner = m.group(1), m.group(2)
 keep = "\n".join(l for l in headinner.splitlines() if l.startswith(("<title>", '<link rel="stylesheet"', '<link rel="preconnect"')))
 (ROOT/"body.html").write_text(f"{keep}\n<meta name=\"claude:viewport-fit-sides\" content=\"cover\">\n<style>body{{margin:0}}</style>\n{bodyinner}", encoding="utf-8")
+(ROOT/"_headers").write_text("/*\n  Cache-Control: public, max-age=0, must-revalidate\n/assets/*\n  Cache-Control: public, max-age=604800\n/styles.css\n  Cache-Control: public, max-age=31536000, immutable\n")
 (ROOT/"_redirects").write_text("https://metrifield.com/* https://www.metrifield.com/:splat 301\n/solutions.html /capabilities.html 301\n/solutions /capabilities.html 301\n")
 print("built", ", ".join(PAGES))
