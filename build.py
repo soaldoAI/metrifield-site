@@ -286,7 +286,6 @@ index_body = f'''
   </div>
 </section>
 
-{cta("Cut avoidable costs across the solar lifecycle.", "Identify recoverable energy losses, unnecessary maintenance and recurring defects. Turn module-level evidence into better operating decisions and future designs.", "Explore your cost-reduction opportunities")}
 </main>
 '''
 
@@ -350,7 +349,6 @@ solutions_body = f'''
   </div>
 </section>
 
-{cta("Not sure which fits?", "Most engagements start on an operating plant with cleaning and targeted repair decisions, then extend to design and manufacturing feedback.")}
 </main>
 '''
 
@@ -468,7 +466,6 @@ technology_body = f'''
   </div>
 </section>
 
-{cta("Want the technical detail?", "We are happy to walk engineering and asset-management teams through the sensing, data model and twin architecture.")}
 </main>
 '''
 
@@ -527,7 +524,6 @@ about_body = f'''
   </div>
 </section>
 
-{cta("Interested in working with us?", "Pilot sites, data partners, research collaborators and engineers: we would like to hear from you.")}
 </main>
 '''
 
