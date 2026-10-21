@@ -115,14 +115,14 @@
           <p class="dp-title" id="dp-title"></p>
           <h3 class="dp-q" id="dp-q"></h3>
           <p class="dp-body" id="dp-body"></p>
-          <div class="dp-io"><div><b>In</b><span id="dp-in"></span></div><div><b>Out</b><span id="dp-out"></span></div></div>
+          <div class="dp-io"><div><b>In</b><span id="dp-in"></span></div><div><b>Out</b><span id="dp-out"></span></div><div><b>Contributes to</b><span id="dp-contrib"></span></div></div>
           <a class="dp-link" id="dp-link" href="#">Learn more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
         </div>
         <div class="dpanel opanel" id="opanel" hidden>
           <div class="dp-top"><button type="button" class="dp-close" id="op-close">← Overview</button><span class="dp-pager">Outcome</span></div>
           <h3 class="dp-q" id="op-title"></h3>
           <div class="dp-io"><div><b>Measured by</b><span id="op-metric"></span></div><div><b>How it is achieved</b><span id="op-how"></span></div></div>
-          <p class="dp-note">The highlighted boxes above are the steps that drive this outcome.</p>
+          <div class="dp-io"><div><b>Driven by</b><span id="op-drivers"></span></div></div>
           <a class="dp-link" id="op-link" href="#">Learn more <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
         </div>
       </div>
@@ -302,7 +302,8 @@
     var l=document.getElementById('dp-link'); l.href=d.link; l.firstChild.textContent=d.linktext+' ';
     document.getElementById('dp-count').textContent=d.n+' / 0'+DORD.length;
     var outs=Object.keys(DOUT).filter(function(k){return DOUT[k].nodes.indexOf(id)>=0});
-    dfocus([id,d.to],outs);
+    dfocus([id],[]);
+    var oc=document.getElementById('dp-contrib'); if(oc){oc.textContent=outs.map(function(k){return DOUT[k].title.replace('&amp;','&')}).join(' · ')}
     document.querySelectorAll('.dtile').forEach(function(t){var on=t.getAttribute('data-node')===id; t.classList.toggle('active',on); t.setAttribute('aria-expanded',on)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.remove('lit')});
     document.querySelectorAll('[data-arrow="'+id+'"]').forEach(function(a){a.classList.add('lit')});
@@ -322,7 +323,8 @@
   function oshow(k){ var o=DOUT[k]; if(!o||!opanel) return; ocur=k; dcur=null; if(dpanel) dpanel.hidden=true;
     document.getElementById('op-title').innerHTML=o.title; document.getElementById('op-metric').textContent=o.metric; document.getElementById('op-how').textContent=o.how;
     var l=document.getElementById('op-link'); l.href=o.link; l.firstChild.textContent=o.linktext+' ';
-    dfocus(o.nodes,[k]);
+    dfocus([],[k]);
+    var dr=document.getElementById('op-drivers'); if(dr){dr.textContent=o.nodes.map(function(n){return DN[n].n+' '+DN[n].title}).join(' · ')}
     document.querySelectorAll('.dout').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-out')===k)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.toggle('lit', k==='lcoe')});
     opanel.hidden=false; opanel.classList.remove('pop'); void opanel.offsetWidth; opanel.classList.add('pop');

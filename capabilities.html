@@ -150,7 +150,8 @@
     var l=document.getElementById('dp-link'); l.href=d.link; l.firstChild.textContent=d.linktext+' ';
     document.getElementById('dp-count').textContent=d.n+' / 0'+DORD.length;
     var outs=Object.keys(DOUT).filter(function(k){return DOUT[k].nodes.indexOf(id)>=0});
-    dfocus([id,d.to],outs);
+    dfocus([id],[]);
+    var oc=document.getElementById('dp-contrib'); if(oc){oc.textContent=outs.map(function(k){return DOUT[k].title.replace('&amp;','&')}).join(' · ')}
     document.querySelectorAll('.dtile').forEach(function(t){var on=t.getAttribute('data-node')===id; t.classList.toggle('active',on); t.setAttribute('aria-expanded',on)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.remove('lit')});
     document.querySelectorAll('[data-arrow="'+id+'"]').forEach(function(a){a.classList.add('lit')});
@@ -170,7 +171,8 @@
   function oshow(k){ var o=DOUT[k]; if(!o||!opanel) return; ocur=k; dcur=null; if(dpanel) dpanel.hidden=true;
     document.getElementById('op-title').innerHTML=o.title; document.getElementById('op-metric').textContent=o.metric; document.getElementById('op-how').textContent=o.how;
     var l=document.getElementById('op-link'); l.href=o.link; l.firstChild.textContent=o.linktext+' ';
-    dfocus(o.nodes,[k]);
+    dfocus([],[k]);
+    var dr=document.getElementById('op-drivers'); if(dr){dr.textContent=o.nodes.map(function(n){return DN[n].n+' '+DN[n].title}).join(' · ')}
     document.querySelectorAll('.dout').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-out')===k)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.toggle('lit', k==='lcoe')});
     opanel.hidden=false; opanel.classList.remove('pop'); void opanel.offsetWidth; opanel.classList.add('pop');
