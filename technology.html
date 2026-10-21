@@ -177,6 +177,10 @@
     var h=document.getElementById('dhint'); if(h) h.hidden=true;
   }
   var OUT_OF={}; // node -> outcomes it contributes to (derived)
+  var dscrim=document.getElementById('dscrim');
+  function dscrimSet(on){ if(!dscrim) return; var mobile=window.innerWidth<=960; dscrim.classList.toggle('on', on&&mobile); document.body.style.overflow=(on&&mobile)?'hidden':''; }
+  if(dscrim){ dscrim.addEventListener('click',function(){ if(dcur) dhide(); if(ocur) ohide(); }); }
+  [dpanel,opanel].forEach(function(pn){ if(!pn) return; var y0=null; pn.addEventListener('touchstart',function(e){ y0=e.touches[0].clientY },{passive:true}); pn.addEventListener('touchend',function(e){ if(y0===null) return; var dy=e.changedTouches[0].clientY-y0; if(dy>70 && pn.scrollTop<=0){ if(dcur) dhide(); if(ocur) ohide(); } y0=null; },{passive:true}); });
   var dfrom=null;
   function dshow(id,from){ var d=DN[id]; if(!d||!dpanel) return; dcur=id; ocur=null; dfrom=from||null; if(opanel) opanel.hidden=true;
     document.getElementById('dp-col').textContent=d.col; document.getElementById('dp-title').textContent=d.n+' — '+d.title;
@@ -193,9 +197,9 @@
     document.querySelectorAll('[data-arrow="'+id+'"]').forEach(function(a){a.classList.add('lit')});
     if(id==='ops'||id==='new'||id==='mfg'){document.querySelectorAll('[data-arrow="back"]').forEach(function(a){a.classList.add('lit')})}
     dpanel.hidden=false; dpanel.classList.remove('pop'); void dpanel.offsetWidth; dpanel.classList.add('pop');
-    if(window.innerWidth<960){dpanel.scrollIntoView({behavior:'smooth',block:'nearest'})}
+    dscrimSet(true);
   }
-  function dhide(){ dcur=null; if(dpanel) dpanel.hidden=true; document.querySelectorAll('.dtile').forEach(function(t){t.setAttribute('aria-expanded','false')}); dfocus(null) }
+  function dhide(){ dcur=null; dscrimSet(false); if(dpanel) dpanel.hidden=true; document.querySelectorAll('.dtile').forEach(function(t){t.setAttribute('aria-expanded','false')}); dfocus(null) }
   document.querySelectorAll('.dtile').forEach(function(t){t.addEventListener('click',function(){var id=t.getAttribute('data-node'); if(dcur===id) dhide(); else dshow(id)})});
   var dc=document.getElementById('dp-close'); if(dc) dc.addEventListener('click',dhide);
   var dp=document.getElementById('dp-prev'), dnx=document.getElementById('dp-next');
@@ -213,9 +217,9 @@
     document.querySelectorAll('.dout').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-out')===k)});
     document.querySelectorAll('[data-arrow]').forEach(function(a){a.classList.toggle('lit', k==='lcoe')});
     opanel.hidden=false; opanel.classList.remove('pop'); void opanel.offsetWidth; opanel.classList.add('pop');
-    if(window.innerWidth<960){opanel.scrollIntoView({behavior:'smooth',block:'nearest'})}
+    dscrimSet(true);
   }
-  function ohide(){ ocur=null; if(opanel) opanel.hidden=true; dfocus(null) }
+  function ohide(){ ocur=null; dscrimSet(false); if(opanel) opanel.hidden=true; dfocus(null) }
   document.querySelectorAll('.dout').forEach(function(b){b.addEventListener('click',function(){var k=b.getAttribute('data-out'); if(ocur===k) ohide(); else oshow(k)})});
   var oc=document.getElementById('op-close'); if(oc) oc.addEventListener('click',ohide);
   document.addEventListener('click',function(e){ var g=e.target.closest('[data-go-out]'); if(g){ var fromNode=dcur; oshow(g.getAttribute('data-go-out'), fromNode?{node:fromNode}:null); return} var n=e.target.closest('[data-go-node]'); if(n){ var fromOut=ocur; dshow(n.getAttribute('data-go-node'), fromOut?{out:fromOut}:null)} });
