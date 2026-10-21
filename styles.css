@@ -409,3 +409,20 @@ footer .brand .logo{height:52px}
   .dtile img{width:80px;height:60px}
 }
 @media (max-width:560px){.dp-io{grid-template-columns:1fr}.dstrip .dpill{margin-left:0}}
+
+/* clickable outcomes */
+.dstrip-label{padding:0 14px 0 0;color:var(--ink)}
+.dout{appearance:none;font:inherit;background:none;border:0;border-left:1px solid var(--line);padding:4px 14px;text-align:left;cursor:pointer;display:grid;gap:1px;color:var(--ink-2);border-radius:6px}
+.dout b{font-family:var(--font-display);font-weight:600;font-size:14px}
+.dout small{font-size:11.5px;color:var(--ink-3);letter-spacing:.01em}
+.dout:hover b,.dout.active b{color:var(--accent-ink)}
+.dout.active{background:var(--bg-2)}
+.dout:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dout.dpill{border-left:0;margin-left:auto;background:#DCEFEB;padding:8px 14px}
+.dout.dpill b{color:#155F52;font-weight:700}.dout.dpill small{color:#2E7064}
+.dout.dpill.active,.dout.dpill:hover{background:#C9E6DF}
+.dtile.dim{opacity:.45}
+.dtile.lit{border-color:var(--accent);box-shadow:0 0 0 3px rgba(186,109,76,.16)}
+.dp-note{font-size:13.5px;color:var(--ink-3)}
+.opanel .dp-io span{font-size:15.5px}
+@media (max-width:560px){.dout.dpill{margin-left:0}}
