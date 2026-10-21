@@ -439,11 +439,9 @@ footer .brand .logo{height:52px}
 .douts .dout-sum b{color:#155F52;font-weight:700}.douts .dout-sum small{color:#2E7064}
 .douts .dout-sum.active{border-color:#155F52;box-shadow:0 0 0 3px rgba(21,95,82,.18)}
 /* focus: fade everything not alive; hover brings it back */
-.idiag.focused .dtile:not(.alive),.idiag.focused .dout:not(.alive){opacity:.38;filter:saturate(.2)}
+.idiag.focused .dtile:not(.alive),.idiag.focused .dout:not(.alive){opacity:.32;filter:saturate(.15)}
 .idiag.focused .dtile:not(.alive):hover,.idiag.focused .dout:not(.alive):hover,.idiag.focused .dtile:not(.alive):focus-visible,.idiag.focused .dout:not(.alive):focus-visible{opacity:1;filter:none}
-.idiag.focused .dtile.alive:not(.active){border-color:rgba(186,109,76,.55)}
-.idiag.focused .dout.alive:not(.active){border-color:rgba(186,109,76,.55)}
-.dtile,.dout{transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease,opacity .25s ease,filter .25s ease}
+.dtile,.dout{transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease,opacity .45s ease,filter .45s ease}
 @keyframes arrowpulse{0%{filter:drop-shadow(0 0 0 rgba(186,109,76,0))}40%{filter:drop-shadow(0 0 6px rgba(186,109,76,.9))}100%{filter:drop-shadow(0 0 0 rgba(186,109,76,0))}}
 [data-arrow].lit{animation:arrowpulse .9s ease 1}
 .dpanel{position:relative}
