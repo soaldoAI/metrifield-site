@@ -120,6 +120,12 @@
     e.addEventListener('click',function(){showZone(e.getAttribute('data-zone'))});
     e.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();showZone(e.getAttribute('data-zone'))}});
   });
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var secs=[].slice.call(document.querySelectorAll('main > section'));
+    secs.forEach(function(sec,i){ var r=sec.getBoundingClientRect(); if(r.top>window.innerHeight*0.9){sec.classList.add('is-entering')} });
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove('is-entering');io.unobserve(e.target)}})},{rootMargin:'0px 0px -12% 0px',threshold:0.08});
+    secs.forEach(function(sec){io.observe(sec)});
+  }
   var f=document.getElementById('contact-form');
   if(f){f.addEventListener('submit',function(e){
     e.preventDefault();

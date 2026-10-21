@@ -328,3 +328,16 @@ footer .brand .logo{height:52px}
 .chainloop .centre{font-family:var(--font-display);font-weight:600;font-size:19px;fill:var(--ink)}
 .chainloop .centre2{font-size:15px;fill:var(--ink-2)}
 @media (max-width:560px){.chainloop .lbl{font-size:19px}.chainloop .num{font-size:19px}}
+
+/* section-by-section scrolling: snaps gently to each section on larger screens */
+@media (min-width:900px) and (prefers-reduced-motion:no-preference){
+  html{scroll-snap-type:y proximity;scroll-padding-top:0}
+  .nav-solid ~ main > section, .nav-solid ~ main > .band{scroll-margin-top:76px}
+  main > section, footer{scroll-snap-align:start}
+  main > section{scroll-snap-stop:normal}
+}
+/* subtle entrance as a section comes into view (content is visible at rest; this only animates the arrival) */
+@media (prefers-reduced-motion:no-preference){
+  main > section > .wrap{transition:opacity .6s ease,transform .6s ease}
+  main > section.is-entering > .wrap{opacity:0;transform:translateY(14px)}
+}
