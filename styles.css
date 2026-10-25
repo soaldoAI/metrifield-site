@@ -336,16 +336,18 @@ footer .brand .logo{height:52px}
 @media (max-width:700px){.zp-grid{grid-template-columns:1fr}}
 
 /* evidence chain loop */
-.chainwrap{max-width:640px;margin-inline:auto;width:100%}
-.chainloop{width:100%;height:auto;max-width:100%;overflow:visible}
-.chainloop .arc{fill:none;stroke:var(--ink-3);stroke-width:2.5}
-.chainloop .arc-back{stroke:var(--accent);stroke-width:3}
-.chainloop .node circle{fill:#fff;stroke:var(--accent);stroke-width:2.5}
-.chainloop .num{font-family:var(--font-display);font-weight:700;font-size:17px;fill:var(--accent-ink)}
-.chainloop .lbl{font-family:var(--font-display);font-weight:600;font-size:17px;fill:var(--ink)}
-.chainloop .centre{font-family:var(--font-display);font-weight:600;font-size:19px;fill:var(--ink)}
-.chainloop .centre2{font-size:15px;fill:var(--ink-2)}
-@media (max-width:560px){.chainloop .lbl{font-size:19px}.chainloop .num{font-size:19px}}
+.chainwrap{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(16px,3vw,36px);max-width:980px;margin-inline:auto}
+.chainloop{width:100%;height:auto;max-width:100%;overflow:visible;font-family:var(--font-display)}
+.chainloop .arc{fill:none;stroke:#4D7FB2;stroke-width:3}
+.chainloop .arc-back{stroke:var(--accent);stroke-width:4}
+.chainloop .node circle{fill:#E7F0F8;stroke:#4D7FB2;stroke-width:2}
+.chainloop .nico{fill:none;stroke:#2F5F91;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.chainloop .num{font-weight:700;font-size:13px;letter-spacing:.1em;fill:var(--accent-ink)}
+.chainloop .lbl{font-weight:600;font-size:19px;fill:var(--ink)}
+.chainloop .sub{font-size:14px;fill:var(--ink-2);font-family:var(--font-body)}
+.chainloop .centre{font-weight:600;font-size:21px;fill:var(--ink)}
+.chainloop .centre2{font-size:16px;fill:var(--ink-2);font-family:var(--font-body)}
+@media (max-width:760px){.chainwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.chainloop{min-width:620px}}
 
 /* section-by-section scrolling: snaps gently to each section on larger screens */
 @media (min-width:900px) and (prefers-reduced-motion:no-preference){
