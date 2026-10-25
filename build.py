@@ -381,10 +381,24 @@ index_body = f'''
   </div>
 </section>
 
-<section class="band" id="who">
+</main>
+'''
+
+capabilities_body = f'''
+{nav("capabilities.html", solid=True)}
+<main>
+<section class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Capabilities</p>
+    <h1>Reduce today's losses. Prevent tomorrow's.</h1>
+    <p class="lede">What we do for solar assets at each stage of their life: plants already operating, plants being designed and built, and the factories that make the modules. Not every anomaly warrants intervention. We assess the cost of inaction, prioritise by expected net benefit, and verify the outcomes, turning measured results into better decisions and fewer recurring losses.</p>
+  </div>
+</section>
+
+<section class="band band-tint" id="who">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">Capabilities</p>
+      <p class="eyebrow">Who we serve</p>
       <h2 class="h2 h2-wide">What we do at each stage of a solar asset's life</h2>
     </div>
     <div class="cards">
@@ -421,30 +435,6 @@ index_body = f'''
       <div><h3>Value-driven maintenance</h3><p>Prioritise interventions by recoverable energy, cost and risk.</p></div>
       <div><h3>Evidence-led prevention</h3><p>Trace degradation and intervention outcomes to inform future design and maintenance.</p></div>
     </div>
-  </div>
-</section>
-
-<section class="band band-tint">
-  <div class="wrap">
-    <div class="section-head">
-      <p class="eyebrow">About Metrifield</p>
-      <h2 class="h2">Solar asset intelligence, grounded in engineering.</h2>
-      <p class="lede">Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren, Metrifield Dynamics brings together expertise in materials science, field inspection and edge AI to connect multiscale diagnostics with energy performance and lifecycle economics. <a href="about.html">Meet the team</a>.</p>
-    </div>
-  </div>
-</section>
-
-</main>
-'''
-
-capabilities_body = f'''
-{nav("capabilities.html", solid=True)}
-<main>
-<section class="page-hero">
-  <div class="wrap">
-    <p class="eyebrow">Capabilities</p>
-    <h1>Reduce today's losses. Prevent tomorrow's.</h1>
-    <p class="lede">What we do for solar assets at each stage of their life: plants already operating, plants being designed and built, and the factories that make the modules. Not every anomaly warrants intervention. We assess the cost of inaction, prioritise by expected net benefit, and verify the outcomes, turning measured results into better decisions and fewer recurring losses.</p>
   </div>
 </section>
 
