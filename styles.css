@@ -307,7 +307,15 @@ footer .brand .logo{height:52px}
 .zone-pin{cursor:pointer}
 .aumap .zone-pin circle{transition:transform .15s ease;transform-box:fill-box;transform-origin:center}
 .aumap .zone-pin:hover circle,.aumap .zone-pin.active circle{transform:scale(1.18)}
-.aumap .zone-pin.active circle{stroke:var(--ink);stroke-width:2.5}
+.aumap .zone-pin.active circle:last-of-type{stroke:#fff;stroke-width:3}
+.aumap .zone-pin:focus,.aumap .zone-pin:focus-visible{outline:none}
+.aumap .region{opacity:.42;transition:fill .35s ease,opacity .35s ease}
+.aumap.focused .region.alive{opacity:.75}
+.aumap.focused .region:not(.alive){fill:#C9D1D8}
+.aumap.focused .zone-pin:not(.active){opacity:.35}
+.aumap .zone-pin{transition:opacity .35s ease}
+.zones.focused li.zone-pin:not(.active){opacity:.45}
+.zones li.zone-pin{transition:opacity .35s ease}
 .zones li.zone-pin{padding:8px 10px;margin:-4px -10px;border-radius:10px}
 .zones li.zone-pin:hover,.zones li.zone-pin.active{background:var(--bg-2)}
 .zones li.zone-pin.active b{color:var(--accent-ink)}

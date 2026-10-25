@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="styles.css?v=076211cc">
+<link rel="stylesheet" href="styles.css?v=6f35f123">
 </head>
 <body>
 
@@ -159,6 +159,8 @@
     document.getElementById('zp-exposure').innerHTML=z.exposure; document.getElementById('zp-mechanism').innerHTML=z.mechanism;
     document.getElementById('zp-act').innerHTML=z.act;
     document.querySelectorAll('.zone-pin').forEach(function(e){e.classList.toggle('active',e.getAttribute('data-zone')===String(k))});
+    document.querySelectorAll('.aumap,.zones').forEach(function(e){e.classList.add('focused')});
+    document.querySelectorAll('.aumap .region').forEach(function(r){r.classList.toggle('alive',r.getAttribute('data-region')===String(k))});
     if(sel&&sel.value!==String(k)){for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===String(k)){sel.selectedIndex=i;break}}}
     panel.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
