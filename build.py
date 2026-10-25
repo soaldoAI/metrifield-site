@@ -12,7 +12,7 @@ EMAIL = "info@metrifield.com"
 LOGO = '''<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 19.5 L11 10 L15 16 L18 12 L22 19.5" fill="none" stroke="#E59A1C" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'''
 ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'
 
-NAV = [("index.html","Home"),("capabilities.html","Capabilities"),("technology.html","Technology"),("about.html","About"),("contact.html","Contact")]
+NAV = [("index.html","Home"),("capabilities.html","Capabilities"),("technology.html","Technologies"),("about.html","About"),("contact.html","Contact")]
 
 def head(title, desc, path):
     return f'''<!doctype html>
@@ -64,7 +64,7 @@ FOOTER = f'''<footer>
       <a class="brand" href="index.html"><img class="logo" src="assets/logo-white.png" alt="Metrifield Dynamics" width="1227" height="410"></a>
       <p style="max-width:34ch">Lifecycle intelligence for utility-scale solar. Sydney, Australia.</p>
     </div>
-    <div class="fcol"><b>Site</b><a href="capabilities.html">Capabilities</a><a href="technology.html">Technology</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+    <div class="fcol"><b>Site</b><a href="capabilities.html">Capabilities</a><a href="technology.html">Technologies</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
     <div class="fcol"><b>Contact</b><a href="mailto:{EMAIL}">{EMAIL}</a><span>Sydney, NSW</span></div>
     <div class="legal"><span>© 2026 Metrifield Dynamics Pty Ltd</span><span>metrifield.com</span></div>
   </div>
@@ -205,15 +205,15 @@ index_body = f'''
   <div class="hero-shade"></div>
   <div class="wrap">
     <p class="eyebrow" style="color:var(--accent)">Solar asset intelligence</p>
-    <h1>Intelligent inspection. <em>Spatiotemporal twins.</em></h1>
+    <h1 class="hero-h1"><span>Intelligent Inspection.</span> <em>Spatiotemporal Twins.</em></h1>
     <p class="lede">Robotic terahertz diagnostics assess subsurface condition. Digital twins track change across sites and time, guiding decisions to lower lifecycle costs.</p>
     <div class="hero-actions">
       <a class="btn btn-accent" href="technology.html">Explore our technology {ARROW}</a>
       <a class="btn btn-outline" href="contact.html">Talk to our team</a>
     </div>
     <div class="hero-foot">
-      <span>Drone <b>RGB · thermal</b></span><span>Robot <b>terahertz, on the panel</b></span>
-      <span>Scope <b>module → string → plant</b></span>
+      <span>Sensor <b>RGB&thinsp;|&thinsp;Thermal&thinsp;|&thinsp;THz</b></span>
+      <span>Platform <b>UAV&thinsp;|&thinsp;UGV</b></span>
       <span>Built for <b>Australian conditions</b></span>
     </div>
   </div>
@@ -365,7 +365,7 @@ index_body = f'''
   <div class="wrap">
     <div class="section-head">
       <p class="eyebrow">Capabilities</p>
-      <h2 class="h2">What we do, at each stage of a solar asset's life</h2>
+      <h2 class="h2 h2-wide">What we do at each stage of a solar asset's life</h2>
     </div>
     <div class="cards">
       <a class="card" href="capabilities.html#operators">
@@ -485,7 +485,7 @@ technology_body = f'''
 <main>
 <section class="page-hero">
   <div class="wrap">
-    <p class="eyebrow">Technology</p>
+    <p class="eyebrow">Technologies</p>
     <h1>Grounded in physics. Accountable to evidence.</h1>
     <p class="lede">Our hybrid digital twin combines physical modelling with real-world observations to track how assets evolve across space and time. It quantifies performance impacts, evaluates intervention scenarios and tests predictions against measured outcomes.</p>
   </div>
@@ -701,7 +701,7 @@ contact_body = f'''
 PAGES = {
   "index.html": ("Metrifield Dynamics — Solar asset intelligence", "Intelligent robotic inspection and spatiotemporal digital twins: robotic terahertz diagnostics assess subsurface condition, and twins track change across sites and time to lower lifecycle costs.", index_body),
   "capabilities.html": ("Capabilities — Metrifield Dynamics", "What Metrifield Dynamics does for operating plants, plants being deployed, and module manufacturers.", capabilities_body),
-  "technology.html": ("Technology — Metrifield Dynamics", "Tiered RGB, thermal and terahertz sensing, a multimodal asset record and a hybrid physics-and-data digital twin that predicts the most economical action.", technology_body),
+  "technology.html": ("Technologies — Metrifield Dynamics", "Tiered RGB, thermal and terahertz sensing, a multimodal asset record and a hybrid physics-and-data digital twin that predicts the most economical action.", technology_body),
   "about.html": ("About — Metrifield Dynamics", "Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren: materials science, field inspection and edge AI for solar asset intelligence.", about_body),
   "contact.html": ("Contact — Metrifield Dynamics", "Get in touch with Metrifield about pilot sites, data partnerships and collaboration.", contact_body),
 }
