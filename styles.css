@@ -253,17 +253,21 @@ footer .brand .logo{height:52px}
 @media (max-width:480px){.brand .logo{height:38px}}
 
 /* climate zone map */
-:root{--map-fill:#E3EAF0;--map-line:#9FB0BF}
-.db-top{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);gap:clamp(28px,5vw,72px);align-items:center}
-.mapwrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(16px,2.5vw,28px)}
+:root{--map-fill:#E3EAF0;--map-line:#7B8894}
+.region-intro{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:end;margin-bottom:clamp(28px,4vw,44px)}
+.region-pick{display:grid;gap:14px}
+.region-note{font-family:var(--font-display);font-weight:500;font-size:15px;color:var(--ink-2);border-left:3px solid var(--accent);padding-left:14px;line-height:1.45}
+.mapwrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,3vw,44px);align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,36px)}
 .aumap{width:100%;height:auto;max-width:100%}
-.zones{display:grid;gap:10px;font-size:14px;min-width:0}
-.zones li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
-.zones .dot{width:22px;height:22px;border-radius:50%;color:#fff;font-family:var(--font-display);font-weight:700;font-size:12px;display:grid;place-items:center;flex:none;margin-top:1px}
-.zones b{display:block;font-family:var(--font-display);font-weight:600;font-size:14.5px;color:var(--ink);line-height:1.25}
-.zones div span{color:var(--ink-2);font-size:13px}
-@media (max-width:960px){.db-top{grid-template-columns:1fr}}
-@media (max-width:560px){.mapwrap{grid-template-columns:1fr}}
+.aumap .city circle{fill:var(--ink)}
+.aumap .city text{font-family:var(--font-body);font-size:11.5px;fill:var(--ink-2);font-weight:500}
+.zones{display:grid;gap:8px;font-size:14px;min-width:0}
+.zones li{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.zones .dot{width:26px;height:26px;border-radius:50%;color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px;display:grid;place-items:center;flex:none;margin-top:1px}
+.zones b{display:block;font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--ink);line-height:1.25}
+.zones div span{color:var(--ink-2);font-size:14px}
+@media (max-width:960px){.region-intro{grid-template-columns:1fr;align-items:start}}
+@media (max-width:760px){.mapwrap{grid-template-columns:1fr}}
 
 /* stage strip under the diagram */
 .stages{margin-top:clamp(28px,4vw,44px);background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(20px,3vw,32px)}
@@ -300,7 +304,7 @@ footer .brand .logo{height:52px}
 .aumap .zone-pin circle{transition:transform .15s ease;transform-box:fill-box;transform-origin:center}
 .aumap .zone-pin:hover circle,.aumap .zone-pin.active circle{transform:scale(1.18)}
 .aumap .zone-pin.active circle{stroke:var(--ink);stroke-width:2.5}
-.zones li.zone-pin{padding:4px 6px;margin:-4px -6px;border-radius:8px}
+.zones li.zone-pin{padding:8px 10px;margin:-4px -10px;border-radius:10px}
 .zones li.zone-pin:hover,.zones li.zone-pin.active{background:var(--bg-2)}
 .zones li.zone-pin.active b{color:var(--accent-ink)}
 .zone-pin:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -311,7 +315,9 @@ footer .brand .logo{height:52px}
 .zp-head h3{font-size:24px}
 .zp-regions{font-size:15px;color:var(--ink-2)}
 .zp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 28px}
-.zp-grid > div{display:grid;gap:6px;padding-top:12px;border-top:1px solid var(--line)}
+.zp-grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.zp-grid-3{grid-template-columns:1fr}}
+.zp-grid > div{display:grid;gap:6px;padding-top:12px;border-top:1px solid var(--line);align-content:start}
 .zp-grid b{font-family:var(--font-display);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
 .zp-grid p{font-size:15.5px;color:var(--ink)}
 .zp-note{font-size:13.5px;color:var(--ink-3)}
