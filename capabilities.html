@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="styles.css?v=c4ad3fe6">
+<link rel="stylesheet" href="styles.css?v=667de467">
 </head>
 <body>
 
@@ -202,11 +202,23 @@
     document.getElementById('hp-title').textContent=h.title; document.getElementById('hp-what').textContent=h.text;
     hwrap.classList.add('focused'); document.querySelectorAll('.hnode,.hlink').forEach(function(e){e.classList.toggle('alive',e.getAttribute('data-h')===k)});
     document.querySelectorAll('.hnode').forEach(function(e){e.classList.toggle('active',e.getAttribute('data-h')===k)});
-    if(window.innerWidth<=900) document.getElementById('hpanel').scrollIntoView({behavior:'smooth',block:'start'});
+    hplace(k);
   }
+  function hplace(k){ var pop=document.getElementById('hpanel'), sc=document.querySelector('.hubscroll'), node=document.querySelector('.hnode[data-h="'+k+'"]'); if(!pop||!sc||!node) return;
+    pop.hidden=false; pop.classList.remove('pop'); void pop.offsetWidth; pop.classList.add('pop');
+    if(window.innerWidth<=760){ pop.style.left=pop.style.top=''; pop.classList.add('hpop-static'); pop.scrollIntoView({behavior:'smooth',block:'nearest'}); return; }
+    pop.classList.remove('hpop-static');
+    var r=node.getBoundingClientRect(), c=sc.getBoundingClientRect(), out=node.classList.contains('hnode-out'), pw=pop.offsetWidth, ph=pop.offsetHeight, gap=14;
+    var left=out? r.left-c.left-pw-gap : r.right-c.left+gap;
+    var top=r.top-c.top+r.height/2-ph/2;
+    top=Math.max(0,Math.min(top,c.height-ph)); left=Math.max(0,Math.min(left,c.width-pw));
+    pop.classList.toggle('hpop-left',out); pop.style.left=left+'px'; pop.style.top=top+'px';
+  }
+  window.addEventListener('resize',function(){ if(hcur) hplace(hcur) });
+  var hx=document.getElementById('hp-close'); if(hx) hx.addEventListener('click',hreset);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&hcur) hreset() });
   function hreset(){ hcur=null; if(!hwrap) return; hwrap.classList.remove('focused'); document.querySelectorAll('.hnode,.hlink').forEach(function(e){e.classList.remove('alive','active')});
-    document.getElementById('hp-eyebrow').textContent='The database'; document.getElementById('hp-title').textContent='One record per module';
-    document.getElementById('hp-what').textContent='Click any part of the diagram to see what it holds. Four streams flow in and attach to the same module; two things come out of it.'; }
+    var pop=document.getElementById('hpanel'); if(pop) pop.hidden=true; }
   document.querySelectorAll('.hnode').forEach(function(n){ var k=n.getAttribute('data-h'); n.addEventListener('click',function(){ hcur===k?hreset():hshow(k) }); n.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault(); hcur===k?hreset():hshow(k)} }); });
   var hc=document.querySelector('.hcore'); if(hc){ hc.addEventListener('click',hreset); hc.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();hreset()} }); }
   var f=document.getElementById('contact-form');

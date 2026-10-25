@@ -520,9 +520,19 @@ footer .brand .logo{height:52px}
 .hubwrap.focused .hlink.alive{stroke:var(--accent);opacity:1;stroke-width:4}
 .hubwrap.focused .hlink.hout.alive{stroke:#155F52}
 .hnode:focus,.hcore:focus{outline:none}
-.hpanel{display:grid;gap:8px;align-content:start;min-width:0;border-top:1px solid var(--line);padding-top:18px;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:32px}
-.hpanel .eyebrow{grid-column:1/-1}
-@media (max-width:760px){.hpanel{grid-template-columns:1fr}}
+.hubscroll{position:relative}
+.hpop{position:absolute;z-index:5;width:min(340px,100%);background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:18px 20px 20px;box-shadow:0 24px 50px -24px rgba(14,27,42,.45);display:grid;gap:8px}
+.hpop[hidden]{display:none}
+.hpop.pop{animation:dpop .3s ease}
+.hpop h3{font-size:20px;padding-right:24px}
+.hpop .hp-what{font-size:15px;color:var(--ink);line-height:1.5}
+.hpop-close{position:absolute;top:8px;right:10px;appearance:none;background:none;border:0;font-size:22px;line-height:1;color:var(--ink-3);cursor:pointer;padding:4px 6px}
+.hpop-close:hover{color:var(--ink)}
+.hpop::before{content:"";position:absolute;top:calc(50% - 8px);left:-9px;width:16px;height:16px;background:#fff;border-left:1px solid var(--line);border-bottom:1px solid var(--line);transform:rotate(45deg)}
+.hpop.hpop-left::before{left:auto;right:-9px;border-left:0;border-bottom:0;border-right:1px solid var(--line);border-top:1px solid var(--line)}
+.hpop.hpop-static{position:static;width:100%;margin-top:14px}
+.hpop.hpop-static::before{display:none}
+.hhint{font-size:14px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:14px}
 .hpanel h3{font-size:clamp(20px,2vw,26px)}
 .hp-what{font-size:16px;color:var(--ink)}
 .hp-why{font-size:15px;color:var(--accent-ink);font-weight:500}
@@ -535,4 +545,4 @@ footer .brand .logo{height:52px}
 .hrec dt{color:var(--ink-3)}.hrec dd{margin:0;color:var(--ink)}
 @media (max-width:960px){.hubwrap{grid-template-columns:1fr}}
 .hnode:focus-visible rect{stroke:var(--accent);stroke-width:3}
-.hpanel{scroll-margin-top:96px}
+.hpop{scroll-margin-top:96px}
