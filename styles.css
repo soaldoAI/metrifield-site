@@ -512,7 +512,8 @@ footer .brand .logo{height:52px}
 .hubwrap{display:grid;grid-template-columns:1fr;gap:clamp(16px,2vw,28px);align-items:start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,32px)}
 .hubscroll{min-width:0}
 .hub{width:100%;height:auto;max-width:100%;font-family:var(--font-display)}
-@media (max-width:760px){.hubscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-inline:-6px;padding-inline:6px}.hub{min-width:680px}}
+.hub-v{display:none}
+@media (max-width:760px){.hub:not(.hub-v){display:none}.hub-v{display:block}}
 .hhead{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;fill:var(--ink-3)}
 .hhead-out{fill:#155F52}
 .hlink{fill:none;stroke:#4D7FB2;stroke-width:2.5;stroke-linejoin:round;opacity:.8;transition:opacity .4s,stroke .3s,stroke-width .3s}

@@ -578,6 +578,23 @@ technology_body = f'''
     <text x="470" y="272" text-anchor="middle" class="hlabel">One record</text><text x="470" y="291" text-anchor="middle" class="hlabel">per module</text>
   </g>
 </svg>
+<svg class="hub hub-v" viewBox="0 0 400 650" role="img" aria-label="Four input streams flow into one database record per module; two outputs are drawn from it">
+<text x="159.0" y="28" text-anchor="middle" class="hhead">Flows in</text>
+<text x="241.0" y="478" text-anchor="middle" class="hhead hhead-out">Comes out</text>
+<path class="hlink" data-h="record" d="M304 70 H332 V390 H232" marker-end="url(#harrow)"/>
+<path class="hlink" data-h="environment" d="M304 142 H332 V390 H232" marker-end="url(#harrow)"/>
+<path class="hlink" data-h="performance" d="M304 214 H332 V390 H232" marker-end="url(#harrow)"/>
+<path class="hlink" data-h="zones" d="M304 286 H332 V390 H232" marker-end="url(#harrow)"/>
+<path class="hlink hout" data-h="guidance" d="M110 390 H68 V520 H94" marker-end="url(#harrow)"/>
+<path class="hlink hout" data-h="map" d="M110 390 H68 V592 H94" marker-end="url(#harrow)"/>
+<g class="hnode" data-h="record" role="button" tabindex="0" aria-label="Module record"><rect x="14" y="40.0" width="290" height="60" rx="12"/><g transform="translate(44 70)" class="hicon"><rect x="-12" y="-9" width="24" height="18" rx="3"/><path d="M-6 -2h6M-6 3h12"/></g><text x="72" y="66" class="hlabel">Module record</text><text x="72" y="85" class="hsub">ID · materials · batch · history</text></g>
+<g class="hnode" data-h="environment" role="button" tabindex="0" aria-label="Environment"><rect x="14" y="112.0" width="290" height="60" rx="12"/><g transform="translate(44 142)" class="hicon"><circle cx="0" cy="-4" r="4.5"/><path d="M-12 10c3-7 7-10 12-10s9 3 12 10"/></g><text x="72" y="138" class="hlabel">Environment</text><text x="72" y="157" class="hsub">Climate · terrain · microclimate</text></g>
+<g class="hnode" data-h="performance" role="button" tabindex="0" aria-label="Performance"><rect x="14" y="184.0" width="290" height="60" rx="12"/><g transform="translate(44 214)" class="hicon"><path d="M-12 9l6-8 5 4 5-9 8 6"/></g><text x="72" y="210" class="hlabel">Performance</text><text x="72" y="229" class="hsub">SCADA · strings · weather-normalised</text></g>
+<g class="hnode" data-h="zones" role="button" tabindex="0" aria-label="Six climate zones"><rect x="14" y="256.0" width="290" height="60" rx="12"/><g transform="translate(44 286)" class="hicon"><circle cx="0" cy="0" r="11"/><path d="M-11 0h22M0 -11c-5 5-5 17 0 22M0 -11c5 5 5 17 0 22"/></g><text x="72" y="282" class="hlabel">Six climate zones</text><text x="72" y="301" class="hsub">Sites stratified by exposure</text></g>
+<g class="hnode hnode-out" data-h="guidance" role="button" tabindex="0" aria-label="Deployment guidance"><rect x="96" y="490.0" width="290" height="60" rx="12"/><g transform="translate(126 520)" class="hicon"><path d="M-10 10l6-16 5 9 8-3-7 10z"/></g><text x="154" y="516" class="hlabel">Deployment guidance</text><text x="154" y="535" class="hsub">What to build where</text></g>
+<g class="hnode hnode-out" data-h="map" role="button" tabindex="0" aria-label="Degradation map"><rect x="96" y="562.0" width="290" height="60" rx="12"/><g transform="translate(126 592)" class="hicon"><path d="M-12 -7l8-3 8 3 8-3v16l-8 3-8-3-8 3z M-4 -10v16M4 -7v16"/></g><text x="154" y="588" class="hlabel">Degradation map</text><text x="154" y="607" class="hsub">Rates by material · batch · zone</text></g>
+<g class="hcore" role="button" tabindex="0" data-h="core" aria-label="The database"><rect x="110" y="320" width="120" height="140" rx="14" fill="#fff" stroke="none"/><ellipse cx="170" cy="350" rx="40" ry="13"/><path d="M130 350v22c0 7 18 13 40 13s40-6 40-13v-22c0 7-18 13-40 13s-40-6-40-13z"/><path d="M130 372v22c0 7 18 13 40 13s40-6 40-13v-22c0 7-18 13-40 13s-40-6-40-13z" class="hcore-low"/><text x="170" y="430" text-anchor="middle" class="hlabel">One record</text><text x="170" y="448" text-anchor="middle" class="hlabel">per module</text></g>
+</svg>
       <div class="hpop" id="hpanel" hidden>
         <button type="button" class="hpop-close" id="hp-close" aria-label="Close">×</button>
         <p class="eyebrow" id="hp-eyebrow">The database</p>
