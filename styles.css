@@ -261,7 +261,7 @@ footer .brand .logo{height:52px}
 .region-intro{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:end;margin-bottom:clamp(28px,4vw,44px)}
 .region-pick{display:grid;gap:14px}
 .region-note{font-family:var(--font-display);font-weight:500;font-size:15px;color:var(--ink-2);border-left:3px solid var(--accent);padding-left:14px;line-height:1.45}
-.mapwrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,3vw,44px);align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,36px)}
+.mapwrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(20px,3vw,44px);align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,36px)}
 .aumap{width:100%;height:auto;max-width:100%}
 .aumap .city circle{fill:var(--ink)}
 .aumap .city text{font-family:var(--font-body);font-size:11.5px;fill:var(--ink-2);font-weight:500}
@@ -333,18 +333,20 @@ footer .brand .logo{height:52px}
 .zones li.zone-pin.active b{color:var(--accent-ink)}
 .zone-pin:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .zone-panel[hidden]{display:none}
-.zone-panel{margin-top:22px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:clamp(20px,3vw,30px);display:grid;gap:18px}
+.mapside{min-width:0;display:grid}
+.zones[hidden],.zone-panel[hidden]{display:none}
+.zone-panel{background:var(--bg-2);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:clamp(18px,2.5vw,26px);display:grid;gap:14px;animation:dpop .3s ease}
+.zp-back{justify-self:start;appearance:none;font:inherit;font-family:var(--font-display);font-size:13.5px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer;color:var(--ink)}
 .zp-head{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
 .zp-head .dot{width:36px;height:36px;border-radius:50%}
-.zp-head h3{font-size:24px}
+.zp-head h3{font-size:21px}
 .zp-regions{font-size:15px;color:var(--ink-2)}
 .zp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 28px}
-.zp-grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-@media (max-width:900px){.zp-grid-3{grid-template-columns:1fr}}
+.zp-grid-3{grid-template-columns:1fr;gap:10px}
 .zp-grid > div{display:grid;gap:6px;padding-top:12px;border-top:1px solid var(--line);align-content:start}
 .zp-grid b{font-family:var(--font-display);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
-.zp-grid p{font-size:15.5px;color:var(--ink)}
-.zp-note{font-size:13.5px;color:var(--ink-3)}
+.zp-grid p{font-size:15px;color:var(--ink);line-height:1.5}
+.zp-note{font-size:12.5px;color:var(--ink-3);line-height:1.4}
 @media (max-width:700px){.zp-grid{grid-template-columns:1fr}}
 
 /* evidence chain loop */

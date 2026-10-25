@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="styles.css?v=8969c5b6">
+<link rel="stylesheet" href="styles.css?v=f12ccac5">
 </head>
 <body>
 
@@ -103,7 +103,8 @@
    6:{name:"Temperate south-east &amp; Tasmania",color:"#6E7F99",regions:"New South Wales south coast and tablelands, the ACT, Victoria, Tasmania",exposure:"Cooler seasonal conditions, wetting, dew, low solar angles, local frost, site-specific snow or snow load.",mechanism:"Temporary frost and condensation effects must be separated from persistent moisture-related or material deterioration.",act:"Avoid frost and dew artefacts; thermal only in a valid irradiance and load window; EL or electrical reference for persistent abnormalities; reinspect when conditions are suitable."}
   };
   var sel=document.getElementById('zone-select'),panel=document.getElementById('zone-panel');
-  function showZone(k){var z=Z[k]; if(!z||!panel)return; panel.hidden=false;
+  var legend=document.querySelector('.mapside .zones');
+  function showZone(k){var z=Z[k]; if(!z||!panel)return; panel.hidden=false; if(legend) legend.hidden=true;
     document.getElementById('zp-dot').style.background=z.color; document.getElementById('zp-eyebrow').textContent='Zone '+k;
     document.getElementById('zp-title').innerHTML=z.name; document.getElementById('zp-regions').textContent=z.regions;
     document.getElementById('zp-exposure').innerHTML=z.exposure; document.getElementById('zp-mechanism').innerHTML=z.mechanism;
@@ -112,8 +113,10 @@
     document.querySelectorAll('.aumap,.zones').forEach(function(e){e.classList.add('focused')});
     document.querySelectorAll('.aumap .region').forEach(function(r){r.classList.toggle('alive',r.getAttribute('data-region')===String(k))});
     if(sel&&sel.value!==String(k)){for(var i=0;i<sel.options.length;i++){if(sel.options[i].value===String(k)){sel.selectedIndex=i;break}}}
-    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+    if(window.innerWidth<=760) panel.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
+  function hideZone(){ if(panel) panel.hidden=true; if(legend) legend.hidden=false; if(sel) sel.selectedIndex=0; document.querySelectorAll('.zone-pin').forEach(function(e){e.classList.remove('active')}); document.querySelectorAll('.aumap,.zones').forEach(function(e){e.classList.remove('focused')}); document.querySelectorAll('.aumap .region').forEach(function(r){r.classList.remove('alive')}); }
+  var zb=document.getElementById('zp-back'); if(zb) zb.addEventListener('click',hideZone);
   if(sel){sel.addEventListener('change',function(){if(sel.value)showZone(sel.value)})}
   document.querySelectorAll('.zone-pin').forEach(function(e){
     e.addEventListener('click',function(){showZone(e.getAttribute('data-zone'))});
