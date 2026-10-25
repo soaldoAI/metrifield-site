@@ -493,29 +493,36 @@ footer .brand .logo{height:52px}
 @media (min-width:961px){.dsheet-grip,.dscrim{display:none}}
 
 /* database hub and spokes */
-.hubwrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,32px)}
+.hubwrap{display:grid;grid-template-columns:1fr;gap:clamp(16px,2vw,28px);align-items:start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,32px)}
+.hubscroll{min-width:0}
 .hub{width:100%;height:auto;max-width:100%;font-family:var(--font-display)}
-.hlink{stroke:var(--ink-3);stroke-width:2;opacity:.55;transition:opacity .4s,stroke .3s}
-.hlink.hout{stroke:#155F52;stroke-width:2.5}
+@media (max-width:760px){.hubscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-inline:-6px;padding-inline:6px}.hub{min-width:680px}}
+.hhead{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;fill:var(--ink-3)}
+.hhead-out{fill:#155F52}
+.hlink{fill:none;stroke:#4D7FB2;stroke-width:2.5;stroke-linejoin:round;opacity:.8;transition:opacity .4s,stroke .3s,stroke-width .3s}
+.hlink.hout{stroke:#155F52;stroke-width:3.5;stroke-dasharray:none}
 .hnode{cursor:pointer;transition:opacity .4s}
-.hnode circle{fill:#fff;stroke:var(--ink-3);stroke-width:2;transition:stroke .2s,fill .2s,transform .15s;transform-box:fill-box;transform-origin:center}
-.hnode:hover circle,.hnode:focus-visible circle{transform:scale(1.08);stroke:var(--accent)}
-.hnode.active circle{stroke:var(--accent);stroke-width:3;fill:#FBF1EC}
-.hnode-out circle{stroke:#155F52}
-.hnode-out.active circle{stroke:#155F52;fill:#DCEFEB}
-.hicon{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hnode rect{fill:#E7F0F8;stroke:#4D7FB2;stroke-width:1.5;transition:stroke .2s,fill .2s,transform .15s;transform-box:fill-box;transform-origin:center}
+.hnode:hover rect,.hnode:focus-visible rect{transform:scale(1.03);stroke:var(--ink)}
+.hnode.active rect{stroke:var(--accent);stroke-width:3;fill:#fff}
+.hnode-out rect{fill:#DCEFEB;stroke:#155F52}
+.hnode-out.active rect{stroke:var(--accent);fill:#fff}
+.hicon{fill:none;stroke:#2F5F91;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .hnode-out .hicon{stroke:#155F52}
-.hlabel{font-size:14px;font-weight:600;fill:var(--ink)}
-.hlabel-core{font-size:13px;fill:var(--ink-2);font-weight:500}
+.hlabel{font-size:17px;font-weight:600;fill:var(--ink)}
+.hsub{font-size:13px;fill:var(--ink-2);font-family:var(--font-body)}
 .hcore{cursor:pointer}
 .hcore ellipse,.hcore path{fill:#4D7FB2;stroke:#2F5F91;stroke-width:1.5}
 .hcore ellipse{fill:#6B9AC9}
 .hcore .hcore-low{fill:#2F5F91}
-.hubwrap.focused .hnode:not(.alive),.hubwrap.focused .hlink:not(.alive){opacity:.28}
+.hubwrap.focused .hnode:not(.alive),.hubwrap.focused .hlink:not(.alive){opacity:.22}
 .hubwrap.focused .hnode:not(.alive):hover{opacity:1}
-.hubwrap.focused .hlink.alive{stroke:var(--accent);opacity:1;stroke-width:3}
+.hubwrap.focused .hlink.alive{stroke:var(--accent);opacity:1;stroke-width:4}
 .hubwrap.focused .hlink.hout.alive{stroke:#155F52}
-.hpanel{display:grid;gap:10px;align-content:start;min-width:0}
+.hnode:focus,.hcore:focus{outline:none}
+.hpanel{display:grid;gap:8px;align-content:start;min-width:0;border-top:1px solid var(--line);padding-top:18px;grid-template-columns:minmax(0,1fr) minmax(0,2fr);column-gap:32px}
+.hpanel .eyebrow{grid-column:1/-1}
+@media (max-width:760px){.hpanel{grid-template-columns:1fr}}
 .hpanel h3{font-size:clamp(20px,2vw,26px)}
 .hp-what{font-size:16px;color:var(--ink)}
 .hp-why{font-size:15px;color:var(--accent-ink);font-weight:500}
@@ -526,7 +533,6 @@ footer .brand .logo{height:52px}
 .hrec-head em{font-style:normal;text-transform:none;letter-spacing:0;font-weight:500;color:var(--accent-ink)}
 .hrec dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-family:var(--font-mono,ui-monospace,monospace);font-size:13px}
 .hrec dt{color:var(--ink-3)}.hrec dd{margin:0;color:var(--ink)}
-@media (max-width:900px){.hubwrap{grid-template-columns:1fr}}
-.hnode:focus,.hcore:focus{outline:none}
-.hnode:focus-visible circle{stroke:var(--accent);stroke-width:3}
+@media (max-width:960px){.hubwrap{grid-template-columns:1fr}}
+.hnode:focus-visible rect{stroke:var(--accent);stroke-width:3}
 .hpanel{scroll-margin-top:96px}
