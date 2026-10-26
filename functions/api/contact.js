@@ -1,6 +1,14 @@
 // Cloudflare Pages Function: POST /api/contact
 // Sends the enquiry to info@metrifield.com via Resend. Requires env RESEND_API_KEY.
-const TO = "info@metrifield.com";
+const TO = [
+  "info@metrifield.com",
+  "sohan.domingo@metrifield.com",
+  "sohan.domingo@edgegenix.com",
+  "laurens.willemsvanbeveren@metrifield.com",
+  "laurenswillemsvanbeveren@gmail.com",
+  "harrison.su@metrifield.com",
+  "harrisons@caelvox.com.au",
+];
 const FROM = "Metrifield website <noreply@metrifield.com>";
 
 const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -41,7 +49,7 @@ export async function onRequestPost({ request, env }) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
-    body: JSON.stringify({ from: FROM, to: [TO], reply_to: email, subject, text, html }),
+    body: JSON.stringify({ from: FROM, to: TO, reply_to: email, subject, text, html }),
   });
   if (!r.ok) return json(502, { ok: false, error: "Could not send right now. Please email us directly." });
   return json(200, { ok: true });
