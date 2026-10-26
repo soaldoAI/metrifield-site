@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="styles.css?v=a1cd120e">
+<link rel="stylesheet" href="styles.css?v=a1cf39c8">
 </head>
 <body>
 
@@ -268,12 +268,17 @@
   document.querySelectorAll('.hnode').forEach(function(n){ var k=n.getAttribute('data-h'); n.addEventListener('click',function(){ hcur===k?hreset():hshow(k) }); n.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault(); hcur===k?hreset():hshow(k)} }); });
   var hc=document.querySelector('.hcore'); if(hc){ hc.addEventListener('click',hreset); hc.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();hreset()} }); }
   var f=document.getElementById('contact-form');
-  if(f){f.addEventListener('submit',function(e){
-    e.preventDefault();
-    var d=new FormData(f),s='Enquiry from '+(d.get('name')||'')+' — '+(d.get('org')||'');
-    var body='Name: '+d.get('name')+'\nOrganisation: '+d.get('org')+'\nEmail: '+d.get('email')+'\nI am: '+d.get('type')+'\n\n'+d.get('msg');
-    f.classList.add('sent');
-    try{window.location.href='mailto:info@metrifield.com?subject='+encodeURIComponent(s)+'&body='+encodeURIComponent(body)}catch(err){}
+  if(f){var fb=f.querySelector('button[type=submit]'),ferr=f.querySelector('.err');
+    f.addEventListener('submit',function(e){
+    e.preventDefault(); if(f.classList.contains('busy')) return;
+    var d=new FormData(f),o={}; d.forEach(function(v,k){o[k]=v});
+    if(!o.name||!o.email||!o.msg){ferr.textContent='Please fill in your name, email and message.';ferr.hidden=false;return}
+    f.classList.add('busy'); ferr.hidden=true; fb.disabled=true;
+    fetch('/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(o)})
+      .then(function(r){return r.json().catch(function(){return{ok:false}})})
+      .then(function(j){ if(j.ok){f.classList.add('sent');f.reset()} else {ferr.textContent=j.error||'Could not send right now. Please email us directly at info@metrifield.com.';ferr.hidden=false} })
+      .catch(function(){ferr.textContent='Could not send right now. Please email us directly at info@metrifield.com.';ferr.hidden=false})
+      .then(function(){f.classList.remove('busy');fb.disabled=false});
   })}
 })();
 </script>

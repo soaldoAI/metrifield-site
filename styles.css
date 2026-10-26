@@ -226,6 +226,9 @@ a.card:hover .more svg{transform:translateX(3px)}
 .form .note{font-size:14px;color:var(--ink-3)}
 .form .ok{display:none;background:#E6F4EA;color:#1E5631;border-radius:8px;padding:12px 14px;font-size:15px}
 .form.sent .ok{display:block}
+.form .err{background:#FBE9E7;color:#8A2A1D;border-radius:8px;padding:12px 14px;font-size:15px}
+.form .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form.sent .two,.form.sent .field,.form.sent button{display:none}
 @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
 @media (max-width:560px){.form .two{grid-template-columns:1fr}}
 

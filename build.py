@@ -197,12 +197,17 @@ FOOTER = f'''<footer>
   document.querySelectorAll('.hnode').forEach(function(n){{ var k=n.getAttribute('data-h'); n.addEventListener('click',function(){{ hcur===k?hreset():hshow(k) }}); n.addEventListener('keydown',function(e){{ if(e.key==='Enter'||e.key===' '){{e.preventDefault(); hcur===k?hreset():hshow(k)}} }}); }});
   var hc=document.querySelector('.hcore'); if(hc){{ hc.addEventListener('click',hreset); hc.addEventListener('keydown',function(e){{ if(e.key==='Enter'||e.key===' '){{e.preventDefault();hreset()}} }}); }}
   var f=document.getElementById('contact-form');
-  if(f){{f.addEventListener('submit',function(e){{
-    e.preventDefault();
-    var d=new FormData(f),s='Enquiry from '+(d.get('name')||'')+' — '+(d.get('org')||'');
-    var body='Name: '+d.get('name')+'\\nOrganisation: '+d.get('org')+'\\nEmail: '+d.get('email')+'\\nI am: '+d.get('type')+'\\n\\n'+d.get('msg');
-    f.classList.add('sent');
-    try{{window.location.href='mailto:{EMAIL}?subject='+encodeURIComponent(s)+'&body='+encodeURIComponent(body)}}catch(err){{}}
+  if(f){{var fb=f.querySelector('button[type=submit]'),ferr=f.querySelector('.err');
+    f.addEventListener('submit',function(e){{
+    e.preventDefault(); if(f.classList.contains('busy')) return;
+    var d=new FormData(f),o={{}}; d.forEach(function(v,k){{o[k]=v}});
+    if(!o.name||!o.email||!o.msg){{ferr.textContent='Please fill in your name, email and message.';ferr.hidden=false;return}}
+    f.classList.add('busy'); ferr.hidden=true; fb.disabled=true;
+    fetch('/api/contact',{{method:'POST',headers:{{'content-type':'application/json'}},body:JSON.stringify(o)}})
+      .then(function(r){{return r.json().catch(function(){{return{{ok:false}}}})}})
+      .then(function(j){{ if(j.ok){{f.classList.add('sent');f.reset()}} else {{ferr.textContent=j.error||'Could not send right now. Please email us directly at {EMAIL}.';ferr.hidden=false}} }})
+      .catch(function(){{ferr.textContent='Could not send right now. Please email us directly at {EMAIL}.';ferr.hidden=false}})
+      .then(function(){{f.classList.remove('busy');fb.disabled=false}});
   }})}}
 }})();
 </script>
@@ -737,7 +742,9 @@ contact_body = f'''
           </div>
         </div>
         <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="msg" required></textarea></div>
-        <p class="ok">Thanks. Your email app should open with the message ready to send; if it doesn't, email us directly at {EMAIL}.</p>
+        <div class="field hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <p class="ok">Thanks, your message has been sent. We will come back to you within two business days.</p>
+        <p class="err" hidden></p>
         <div><button class="btn btn-dark" type="submit">Send message {ARROW}</button></div>
         <p class="note">No mailing lists. We only use your details to reply.</p>
       </form>
