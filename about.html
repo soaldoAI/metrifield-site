@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="styles.css?v=d50eb81b">
+<link rel="stylesheet" href="styles.css?v=b4b4c5e1">
 </head>
 <body>
 
@@ -250,9 +250,9 @@
     function add(role,text){var d=document.createElement('div');d.className='msg '+role;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
     form.addEventListener('submit',function(e){e.preventDefault();var q=inp.value.trim();if(!q||C.classList.contains('busy'))return;inp.value='';add('user',q);hist.push({role:'user',content:q});
       C.classList.add('busy');var t=add('bot typing','…');
-      fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:hist})})
+      fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:hist,page:location.pathname})})
         .then(function(r){return r.json().catch(function(){return{}})})
-        .then(function(j){var a=j.ok?j.reply:(j.error||'Sorry, something went wrong. Please email info@metrifield.com.');t.textContent=a;t.className='msg bot';if(j.ok)hist.push({role:'assistant',content:a});hist=hist.slice(-10)})
+        .then(function(j){var a=j.ok?j.reply:(j.error||'Sorry, something went wrong. Please email info@metrifield.com.');t.textContent=a;t.className='msg bot';if(j.ok)hist.push({role:'assistant',content:a});hist=hist.slice(-10);if(j.unknown){var k=document.createElement('a');k.href='contact.html';k.className='msg-link';k.textContent='Ask the team directly →';t.appendChild(document.createElement('br'));t.appendChild(k)}})
         .catch(function(){t.textContent='Sorry, something went wrong. Please email info@metrifield.com.';t.className='msg bot'})
         .then(function(){C.classList.remove('busy');log.scrollTop=log.scrollHeight});
     });

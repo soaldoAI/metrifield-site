@@ -39,13 +39,36 @@ const SYSTEM = `You are the assistant on metrifield.com, the website of Metrifie
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
 
-export async function onRequestPost({ request, env }) {
+const UNKNOWN_RE = /don'?t have (that|this|the) information|do not have (that|this|the) information|not (something )?(i|we) (can|have)|outside what i can help/i;
+
+async function logChat(env, ctx, rec) {
+  if (!env.SHEET_WEBHOOK_URL) return;
+  const p = fetch(env.SHEET_WEBHOOK_URL, { method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ kind: "chat", secret: env.SHEET_WEBHOOK_SECRET || "", ...rec }) }).catch(() => {});
+  ctx && ctx.waitUntil ? ctx.waitUntil(p) : await p;
+}
+
+async function flagUnanswered(env, ctx, rec) {
+  if (!env.RESEND_API_KEY) return;
+  const esc = (x) => String(x || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const p = fetch("https://api.resend.com/emails", { method: "POST",
+    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+    body: JSON.stringify({ from: "Metrifield website <noreply@metrifield.com>", to: ["info@metrifield.com"],
+      subject: `Website chat: unanswered question — "${String(rec.question).slice(0, 60)}"`,
+      text: `A visitor asked the site assistant something it couldn't answer.\n\nPage: ${rec.page}\nQuestion: ${rec.question}\nAssistant replied: ${rec.answer}\n\nIf this is a real gap, add it to knowledge/06-faq.md in the site repo. Logged in the "Chat log" tab of the Website Enquiries sheet.`,
+      html: `<p>A visitor asked the site assistant something it couldn't answer.</p><p><b>Page:</b> ${esc(rec.page)}<br><b>Question:</b> ${esc(rec.question)}<br><b>Assistant replied:</b> ${esc(rec.answer)}</p><p style="color:#666">If this is a real gap, add it to <code>knowledge/06-faq.md</code> in the site repo. Logged in the "Chat log" tab of the Website Enquiries sheet.</p>` }) }).catch(() => {});
+  ctx && ctx.waitUntil ? ctx.waitUntil(p) : await p;
+}
+
+export async function onRequestPost(ctx) {
+  const { request, env } = ctx;
   if (!env.AI) return json(500, { ok: false, error: "Assistant not configured." });
   let body; try { body = await request.json(); } catch { return json(400, { ok: false, error: "Bad request" }); }
   const history = (Array.isArray(body.messages) ? body.messages : []).filter((m) => m && (m.role === "user" || m.role === "assistant") && m.content).slice(-8);
   const last = [...history].reverse().find((m) => m.role === "user");
   if (!last) return json(400, { ok: false, error: "Empty message" });
   const q = String(last.content).slice(0, 500);
+  const page = String(body.page || request.headers.get("referer") || "").slice(0, 200);
 
   // Greetings / meta without retrieval
   if (/^\s*(hi|hello|hey|g'day|good (morning|afternoon|evening)|thanks?|thank you|cheers)\b[\s!.?]*$/i.test(q)) {
@@ -59,7 +82,10 @@ export async function onRequestPost({ request, env }) {
   // Use previous user turn as extra retrieval context for follow-ups like "tell me more"
   const prevUser = history.filter((m) => m.role === "user").slice(-2, -1)[0];
   const hits = retrieve(q.split(/\s+/).length <= 4 && prevUser ? q + " " + prevUser.content : q);
-  if (!hits.length || hits[0].s < MIN_SCORE) return json(200, { ok: true, reply: FALLBACK, gated: true });
+  if (!hits.length || hits[0].s < MIN_SCORE) {
+    await logChat(env, ctx, { page, question: q, answer: FALLBACK, status: "off-topic", sources: "", model: "" });
+    return json(200, { ok: true, reply: FALLBACK, gated: true });
+  }
 
   const context = hits.map((h, i) => `[${i + 1}] ${h.c.title}\n${h.c.text}`).join("\n\n");
   const messages = [{ role: "system", content: SYSTEM }];
@@ -73,7 +99,11 @@ export async function onRequestPost({ request, env }) {
       let reply = ((r && (r.response || (r.result && r.result.response))) || "").trim();
       reply = reply.replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim(); // strip reasoning blocks some models emit
       if (!reply) continue;
-      return json(200, { ok: true, reply, sources: hits.map((h) => h.c.title), model });
+      const unknown = UNKNOWN_RE.test(reply);
+      const rec = { page, question: q, answer: reply, status: unknown ? "unknown" : "answered", sources: hits.map((h) => h.c.title).join(" | "), model };
+      await logChat(env, ctx, rec);
+      if (unknown) await flagUnanswered(env, ctx, rec);
+      return json(200, { ok: true, reply, sources: hits.map((h) => h.c.title), model, unknown });
     } catch (e) { lastErr = e; console.error("AI error", model, e && e.message); }
   }
   return json(200, { ok: false, error: "The assistant is unavailable right now. Please email info@metrifield.com.", detail: String(lastErr && lastErr.message || lastErr).slice(0, 300) });

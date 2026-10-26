@@ -597,3 +597,4 @@ footer .brand .logo{height:52px}
 .chat-note{margin:0;padding:0 14px 12px;font-size:12px;color:var(--ink-3)}
 .chat-note a{color:inherit}
 @media (max-width:600px){.chat{right:12px;bottom:12px}.chat-fab span{display:none}.chat-fab{padding:14px}}
+.msg-link{display:inline-block;margin-top:6px;font-family:var(--font-display);font-weight:600;color:var(--accent-ink);text-decoration:none}
