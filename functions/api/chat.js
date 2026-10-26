@@ -71,7 +71,8 @@ export async function onRequestPost({ request, env }) {
     if (!reply) reply = FALLBACK;
     return json(200, { ok: true, reply, sources: hits.map((h) => h.c.title) });
   } catch (e) {
-    return json(502, { ok: false, error: "The assistant is unavailable right now. Please email info@metrifield.com." });
+    console.error("AI error", e && e.message);
+    return json(200, { ok: false, error: "The assistant is unavailable right now. Please email info@metrifield.com.", detail: String(e && e.message || e).slice(0, 300) });
   }
 }
 
