@@ -21,6 +21,7 @@ const INDEX = CHUNKS.map((c) => {
   return { c, tf, len: words.length, title: new Set(tok(c.title).map(stem)) };
 });
 const DF = new Map(); for (const e of INDEX) for (const w of e.tf.keys()) DF.set(w, (DF.get(w) || 0) + 1);
+const OVERVIEW = ["Who we are","What does Metrifield do in one sentence?","How is this different from a normal drone thermal inspection?","Target customers","Mission"].map((t) => CHUNKS.find((c) => c.title.endsWith("— " + t))).filter(Boolean);
 const N = INDEX.length, AVG = INDEX.reduce((a, e) => a + e.len, 0) / N;
 const idf = (w) => Math.log(1 + (N - (DF.get(w) || 0) + 0.5) / ((DF.get(w) || 0) + 0.5));
 
@@ -81,7 +82,11 @@ export async function onRequestPost(ctx) {
 
   // Use previous user turn as extra retrieval context for follow-ups like "tell me more"
   const prevUser = history.filter((m) => m.role === "user").slice(-2, -1)[0];
-  const hits = retrieve(q.split(/\s+/).length <= 4 && prevUser ? q + " " + prevUser.content : q);
+  let hits = retrieve(q.split(/\s+/).length <= 4 && prevUser ? q + " " + prevUser.content : q);
+  // Generic "about the company" questions: the word "Metrifield" is in every passage so it scores ~0; route to the overview chunks.
+  if ((!hits.length || hits[0].s < MIN_SCORE) && /metrifield|your (company|business|team|services?)|what (do|does|can) you (do|offer|provide)|about you\b|who are you/i.test(q)) {
+    hits = OVERVIEW.map((c) => ({ s: MIN_SCORE, c }));
+  }
   if (!hits.length || hits[0].s < MIN_SCORE) {
     await logChat(env, ctx, { page, question: q, answer: FALLBACK, status: "off-topic", sources: "", model: "" });
     return json(200, { ok: true, reply: FALLBACK, gated: true });

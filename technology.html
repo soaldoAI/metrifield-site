@@ -328,15 +328,18 @@
 
   // --- chat widget
   var C=document.getElementById('chat');
-  if(C){var fab=C.querySelector('.chat-fab'),panel=C.querySelector('.chat-panel'),log=C.querySelector('.chat-log'),form=C.querySelector('.chat-form'),inp=form.querySelector('input'),hist=[];
-    function open(o){panel.hidden=!o;fab.setAttribute('aria-expanded',o);C.classList.toggle('open',o);if(o)inp.focus()}
+  if(C){var fab=C.querySelector('.chat-fab'),panel=C.querySelector('.chat-panel'),log=C.querySelector('.chat-log'),form=C.querySelector('.chat-form'),inp=form.querySelector('input'),hist=[],S=null;
+    try{S=window.sessionStorage}catch(e){}
+    function save(){try{S&&S.setItem('mf-chat',JSON.stringify({h:hist,html:log.innerHTML,open:!panel.hidden}))}catch(e){}}
+    function open(o){panel.hidden=!o;fab.setAttribute('aria-expanded',o);C.classList.toggle('open',o);if(o)inp.focus();save()}
+    try{var st=S&&JSON.parse(S.getItem('mf-chat')||'null');if(st&&st.h){hist=st.h;log.innerHTML=st.html;if(st.open){panel.hidden=false;fab.setAttribute('aria-expanded',true);C.classList.add('open')};log.scrollTop=log.scrollHeight}}catch(e){}
     fab.addEventListener('click',function(){open(panel.hidden)}); C.querySelector('.chat-close').addEventListener('click',function(){open(false)});
     function add(role,text){var d=document.createElement('div');d.className='msg '+role;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
     form.addEventListener('submit',function(e){e.preventDefault();var q=inp.value.trim();if(!q||C.classList.contains('busy'))return;inp.value='';add('user',q);hist.push({role:'user',content:q});
       C.classList.add('busy');var t=add('bot typing','…');
       fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:hist,page:location.pathname})})
         .then(function(r){return r.json().catch(function(){return{}})})
-        .then(function(j){var a=j.ok?j.reply:(j.error||'Sorry, something went wrong. Please email info@metrifield.com.');t.textContent=a;t.className='msg bot';if(j.ok)hist.push({role:'assistant',content:a});hist=hist.slice(-10);if(j.unknown){var k=document.createElement('a');k.href='contact.html';k.className='msg-link';k.textContent='Ask the team directly →';t.appendChild(document.createElement('br'));t.appendChild(k)}})
+        .then(function(j){var a=j.ok?j.reply:(j.error||'Sorry, something went wrong. Please email info@metrifield.com.');t.textContent=a;t.className='msg bot';if(j.ok)hist.push({role:'assistant',content:a});hist=hist.slice(-10);if(j.unknown){var k=document.createElement('a');k.href='contact.html';k.className='msg-link';k.textContent='Ask the team directly →';t.appendChild(document.createElement('br'));t.appendChild(k)};save()})
         .catch(function(){t.textContent='Sorry, something went wrong. Please email info@metrifield.com.';t.className='msg bot'})
         .then(function(){C.classList.remove('busy');log.scrollTop=log.scrollHeight});
     });
