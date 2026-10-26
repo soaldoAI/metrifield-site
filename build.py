@@ -13,7 +13,7 @@ PHONES = [("0415 286 866","+61415286866"),("0414 886 627","+61414886627"),("0423
 LOGO = '''<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 19.5 L11 10 L15 16 L18 12 L22 19.5" fill="none" stroke="#E59A1C" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'''
 ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'
 
-NAV = [("index.html","Home"),("capabilities.html","Capabilities"),("technology.html","Technologies"),("about.html","About"),("contact.html","Contact")]
+NAV = [("index.html","Home"),("capabilities.html","Capabilities"),("services.html","Services"),("technology.html","Technologies"),("about.html","About"),("contact.html","Contact")]
 
 def head(title, desc, path):
     return f'''<!doctype html>
@@ -65,11 +65,20 @@ FOOTER = f'''<footer>
       <a class="brand" href="index.html"><img class="logo" src="assets/logo-white.png" alt="Metrifield Dynamics" width="1227" height="410"></a>
       <p style="max-width:34ch">Lifecycle intelligence for operating solar assets and future deployments. Sydney, Australia.</p>
     </div>
-    <div class="fcol"><b>Site</b><a href="capabilities.html">Capabilities</a><a href="technology.html">Technologies</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+    <div class="fcol"><b>Site</b><a href="capabilities.html">Capabilities</a><a href="services.html">Services</a><a href="technology.html">Technologies</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
     <div class="fcol"><b>Contact</b><a href="mailto:{EMAIL}">{EMAIL}</a><a href="tel:{PHONES[0][1]}">{PHONES[0][0]}</a><span>Sydney, NSW</span><a class="flink" href="https://www.linkedin.com/company/metrifield-dynamics/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a></div>
     <div class="legal"><span>© 2026 Metrifield Dynamics Pty Ltd · ABN 65 703 052 064 · ACN 703 052 064</span><span>metrifield.com</span></div>
   </div>
 </footer>
+<div class="chat" id="chat">
+  <button class="chat-fab" type="button" aria-expanded="false" aria-controls="chat-panel" aria-label="Ask Metrifield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg><span>Ask us</span></button>
+  <div class="chat-panel" id="chat-panel" hidden>
+    <div class="chat-head"><b>Metrifield assistant</b><span>Answers from our site · not a human</span><button type="button" class="chat-close" aria-label="Close">×</button></div>
+    <div class="chat-log" role="log" aria-live="polite"><div class="msg bot">Hi — ask me about what Metrifield does, the sensing and digital twin, or how a pilot works.</div></div>
+    <form class="chat-form"><input type="text" name="q" placeholder="Ask a question…" autocomplete="off" maxlength="500" required><button type="submit" aria-label="Send">{ARROW}</button></form>
+    <p class="chat-note">Don't share confidential details here. For anything specific, <a href="contact.html">talk to us</a>.</p>
+  </div>
+</div>
 <script>
 (function(){{
   var n=document.getElementById('nav'),b=n&&n.querySelector('.nav-toggle');
@@ -209,11 +218,28 @@ FOOTER = f'''<footer>
       .catch(function(){{ferr.textContent='Could not send right now. Please email us directly at {EMAIL}.';ferr.hidden=false}})
       .then(function(){{f.classList.remove('busy');fb.disabled=false}});
   }})}}
+
+  // --- chat widget
+  var C=document.getElementById('chat');
+  if(C){{var fab=C.querySelector('.chat-fab'),panel=C.querySelector('.chat-panel'),log=C.querySelector('.chat-log'),form=C.querySelector('.chat-form'),inp=form.querySelector('input'),hist=[];
+    function open(o){{panel.hidden=!o;fab.setAttribute('aria-expanded',o);C.classList.toggle('open',o);if(o)inp.focus()}}
+    fab.addEventListener('click',function(){{open(panel.hidden)}}); C.querySelector('.chat-close').addEventListener('click',function(){{open(false)}});
+    function add(role,text){{var d=document.createElement('div');d.className='msg '+role;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}}
+    form.addEventListener('submit',function(e){{e.preventDefault();var q=inp.value.trim();if(!q||C.classList.contains('busy'))return;inp.value='';add('user',q);hist.push({{role:'user',content:q}});
+      C.classList.add('busy');var t=add('bot typing','…');
+      fetch('/api/chat',{{method:'POST',headers:{{'content-type':'application/json'}},body:JSON.stringify({{messages:hist}})}})
+        .then(function(r){{return r.json().catch(function(){{return{{}}}})}})
+        .then(function(j){{var a=j.ok?j.reply:(j.error||'Sorry, something went wrong. Please email info@metrifield.com.');t.textContent=a;t.className='msg bot';if(j.ok)hist.push({{role:'assistant',content:a}});hist=hist.slice(-10)}})
+        .catch(function(){{t.textContent='Sorry, something went wrong. Please email info@metrifield.com.';t.className='msg bot'}})
+        .then(function(){{C.classList.remove('busy');log.scrollTop=log.scrollHeight}});
+    }});
+  }}
 }})();
 </script>
 </body>
 </html>
 '''
+
 
 # ---------------------------------------------------------------- pages
 index_body = f'''
@@ -496,6 +522,112 @@ capabilities_body = f'''
 </main>
 '''
 
+
+services_body = f'''
+{nav("services.html", solid=True)}
+<main>
+<section class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Services</p>
+    <h1>Field data you can act on.</h1>
+    <p class="lede">Everything we build runs on evidence collected in the field. These are the services we deliver directly: surveys, subsurface diagnostics, custom edge AI and the lifecycle twin that ties them together.</p>
+  </div>
+</section>
+
+<section class="band band-tint">
+  <div class="wrap">
+    <div class="cards cards-4">
+      <a class="card" href="#surveys"><p class="who">01</p><h3>Drone surveys</h3><p>RGB and thermal imaging with on-board defect detection, orthomosaics and 3D site twins.</p><span class="more">Details {ARROW}</span></a>
+      <a class="card" href="#thz"><p class="who">02</p><h3>Subsurface diagnostics</h3><p>Robotic terahertz measurements on selected modules to see what cameras cannot.</p><span class="more">Details {ARROW}</span></a>
+      <a class="card" href="#edge-ai"><p class="who">03</p><h3>Custom edge AI</h3><p>Computer-vision models trained on your data and deployed on drones, robots and fixed cameras.</p><span class="more">Details {ARROW}</span></a>
+      <a class="card" href="#twin"><p class="who">04</p><h3>Lifecycle digital twin</h3><p>Regular automated surveys feeding a spatiotemporal twin and decision dashboard.</p><span class="more">Details {ARROW}</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="sol" id="surveys">
+      <div class="sol-text">
+        <p class="eyebrow">01 / Drone surveys</p>
+        <h2 class="h2">Whole-array screening in a single flight.</h2>
+        <p>Drone-mounted RGB and thermal cameras capture every module. An on-board edge inference unit detects and ranks anomalies in flight — hotspots, cracked glass, soiling, vegetation, string outages — so you receive a prioritised inspection plan rather than terabytes of raw imagery. Each survey also produces a georeferenced orthomosaic and a 3D model of the site.</p>
+        <ul>
+          <li>RGB + thermal capture with module-level localisation.</li>
+          <li>Edge AI anomaly detection and ranking during the flight.</li>
+          <li>Orthomosaic, 3D terrain and site digital twin as deliverables.</li>
+          <li>Operations by CASA-credentialed remote pilots under a certified operator.</li>
+        </ul>
+        <p class="decides"><b>Typical use</b>Commissioning inspection · Annual condition survey · Post-event damage mapping · Warranty evidence</p>
+      </div>
+      <div class="sol-media"><img src="assets/drone-alt.jpg" alt="Survey drone with RGB and thermal payload" loading="lazy"></div>
+    </div>
+
+    <div class="sol" id="thz">
+      <div class="sol-text">
+        <p class="eyebrow">02 / Subsurface diagnostics</p>
+        <h2 class="h2">See inside the module.</h2>
+        <p>Where screening flags a module worth a closer look, a panel-crawling robot carries a terahertz sensor across its surface. THz penetrates glass and encapsulant and returns material-state evidence — delamination, moisture ingress, interface and encapsulant degradation — that RGB and thermal imaging can only infer. Repeat scans quantify change between visits.</p>
+        <ul>
+          <li>Targeted measurements on modules selected by the screening pass.</li>
+          <li>Material-state evidence for root-cause assessment.</li>
+          <li>Repair verification and repeat-scan comparison.</li>
+        </ul>
+        <p class="decides"><b>Typical use</b>Root cause of underperforming strings · Warranty claims · Pre-purchase due diligence</p>
+      </div>
+      <div class="sol-media"><img src="assets/crawler.jpg" alt="Panel-crawling robot carrying a terahertz sensor" loading="lazy"></div>
+    </div>
+
+    <div class="sol" id="edge-ai">
+      <div class="sol-text">
+        <p class="eyebrow">03 / Custom edge AI</p>
+        <h2 class="h2">Your detection problem, running on your hardware.</h2>
+        <p>The same pipeline that powers our surveys is available for your own use cases. We collect and label data, train computer-vision models, quantise them for edge hardware and deploy them on drones, ground robots or fixed cameras — with on-device inference and store-and-forward of only the events that matter.</p>
+        <ul>
+          <li>Dataset design, labelling and model training.</li>
+          <li>Deployment on NVIDIA Jetson, Hailo and comparable edge accelerators.</li>
+          <li>Camera integration, on-device inference and cloud hand-off.</li>
+        </ul>
+        <p class="decides"><b>Typical use</b>Vegetation encroachment · Security and intrusion · Fire and smoke · Construction progress · Wildlife</p>
+      </div>
+      <div class="sol-media"><img src="assets/architecture.jpg" alt="Edge AI inference unit and camera integration" loading="lazy"></div>
+    </div>
+
+    <div class="sol" id="twin">
+      <div class="sol-text">
+        <p class="eyebrow">04 / Lifecycle digital twin</p>
+        <h2 class="h2">From one-off survey to ongoing service.</h2>
+        <p>Automated, remotely operated surveys on a regular cadence keep the twin current. Each module's materials, exposure history, inspection evidence and energy performance are linked in one record, and the twin predicts the most economical action — clean, reinspect, repair, replace or defer — with the cost comparison made explicit. The dashboard is yours; the data stays attributable to your plant.</p>
+        <ul>
+          <li>Scheduled and event-triggered surveys.</li>
+          <li>Hybrid physics-and-data model refined by measured outcomes.</li>
+          <li>Decision dashboard with recoverable-energy and cost estimates.</li>
+        </ul>
+        <p class="decides"><b>Typical use</b>Portfolio O&amp;M prioritisation · Degradation tracking · Design feedback for the next plant</p>
+      </div>
+      <div class="sol-media"><img src="assets/band.jpg" alt="Digital twin dashboard" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<section class="band band-dark">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">How an engagement runs</p>
+      <h2 class="h2">Start small. Measure. Then scale.</h2>
+    </div>
+    <div class="outcomes">
+      <div><h3>1. Focused pilot</h3><p>One site, defined scope, measured baseline. Usually a survey plus targeted diagnostics on flagged modules.</p></div>
+      <div><h3>2. Validated value</h3><p>Recommended actions are carried out and the recovery is measured against the baseline.</p></div>
+      <div><h3>3. Fleet rollout</h3><p>Regular automated surveys across the portfolio, feeding the twin and your O&amp;M planning.</p></div>
+    </div>
+  </div>
+</section>
+
+{cta("Tell us about your site.", "Pilot sites, data partnerships and custom edge AI work all start with a conversation.")}
+</main>
+'''
+
 technology_body = f'''
 {nav("technology.html", solid=True)}
 <main>
@@ -757,6 +889,7 @@ contact_body = f'''
 PAGES = {
   "index.html": ("Metrifield Dynamics — Solar asset intelligence", "Intelligent robotic inspection and spatiotemporal digital twins: robotic terahertz diagnostics assess subsurface condition, and twins track change across sites and time to lower lifecycle costs.", index_body),
   "capabilities.html": ("Capabilities — Metrifield Dynamics", "What Metrifield Dynamics does for operating plants, plants being deployed, and module manufacturers.", capabilities_body),
+  "services.html": ("Services — Metrifield Dynamics", "Drone surveys with edge AI, robotic terahertz diagnostics, custom edge AI models and a lifecycle digital twin service for solar assets.", services_body),
   "technology.html": ("Technologies — Metrifield Dynamics", "Tiered RGB, thermal and terahertz sensing, a multimodal asset record and a hybrid physics-and-data digital twin that predicts the most economical action.", technology_body),
   "about.html": ("About — Metrifield Dynamics", "Founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren: materials science, field inspection and edge AI for solar asset intelligence.", about_body),
   "contact.html": ("Contact — Metrifield Dynamics", "Get in touch with Metrifield about pilot sites, data partnerships and collaboration.", contact_body),

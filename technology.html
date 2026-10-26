@@ -15,14 +15,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="styles.css?v=a1cf39c8">
+<link rel="stylesheet" href="styles.css?v=d50eb81b">
 </head>
 <body>
 
 <header class="nav nav-solid" id="nav">
   <div class="wrap">
     <a class="brand" href="index.html" aria-label="Metrifield Dynamics home"><img class="logo logo-dark" src="assets/logo.png" alt="Metrifield Dynamics" width="1227" height="410"><img class="logo logo-light" src="assets/logo-white.png" alt="" width="1227" height="410" aria-hidden="true"></a>
-    <nav class="nav-links" aria-label="Main"><a href="index.html">Home</a><a href="capabilities.html">Capabilities</a><a href="technology.html" aria-current="page">Technologies</a><a href="about.html">About</a></nav>
+    <nav class="nav-links" aria-label="Main"><a href="index.html">Home</a><a href="capabilities.html">Capabilities</a><a href="services.html">Services</a><a href="technology.html" aria-current="page">Technologies</a><a href="about.html">About</a></nav>
     <a class="btn btn-dark nav-cta" href="contact.html">Talk to us</a>
     <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
@@ -172,11 +172,20 @@
       <a class="brand" href="index.html"><img class="logo" src="assets/logo-white.png" alt="Metrifield Dynamics" width="1227" height="410"></a>
       <p style="max-width:34ch">Lifecycle intelligence for operating solar assets and future deployments. Sydney, Australia.</p>
     </div>
-    <div class="fcol"><b>Site</b><a href="capabilities.html">Capabilities</a><a href="technology.html">Technologies</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+    <div class="fcol"><b>Site</b><a href="capabilities.html">Capabilities</a><a href="services.html">Services</a><a href="technology.html">Technologies</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
     <div class="fcol"><b>Contact</b><a href="mailto:info@metrifield.com">info@metrifield.com</a><a href="tel:+61415286866">0415 286 866</a><span>Sydney, NSW</span><a class="flink" href="https://www.linkedin.com/company/metrifield-dynamics/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a></div>
     <div class="legal"><span>© 2026 Metrifield Dynamics Pty Ltd · ABN 65 703 052 064 · ACN 703 052 064</span><span>metrifield.com</span></div>
   </div>
 </footer>
+<div class="chat" id="chat">
+  <button class="chat-fab" type="button" aria-expanded="false" aria-controls="chat-panel" aria-label="Ask Metrifield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg><span>Ask us</span></button>
+  <div class="chat-panel" id="chat-panel" hidden>
+    <div class="chat-head"><b>Metrifield assistant</b><span>Answers from our site · not a human</span><button type="button" class="chat-close" aria-label="Close">×</button></div>
+    <div class="chat-log" role="log" aria-live="polite"><div class="msg bot">Hi — ask me about what Metrifield does, the sensing and digital twin, or how a pilot works.</div></div>
+    <form class="chat-form"><input type="text" name="q" placeholder="Ask a question…" autocomplete="off" maxlength="500" required><button type="submit" aria-label="Send"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button></form>
+    <p class="chat-note">Don't share confidential details here. For anything specific, <a href="contact.html">talk to us</a>.</p>
+  </div>
+</div>
 <script>
 (function(){
   var n=document.getElementById('nav'),b=n&&n.querySelector('.nav-toggle');
@@ -316,6 +325,22 @@
       .catch(function(){ferr.textContent='Could not send right now. Please email us directly at info@metrifield.com.';ferr.hidden=false})
       .then(function(){f.classList.remove('busy');fb.disabled=false});
   })}
+
+  // --- chat widget
+  var C=document.getElementById('chat');
+  if(C){var fab=C.querySelector('.chat-fab'),panel=C.querySelector('.chat-panel'),log=C.querySelector('.chat-log'),form=C.querySelector('.chat-form'),inp=form.querySelector('input'),hist=[];
+    function open(o){panel.hidden=!o;fab.setAttribute('aria-expanded',o);C.classList.toggle('open',o);if(o)inp.focus()}
+    fab.addEventListener('click',function(){open(panel.hidden)}); C.querySelector('.chat-close').addEventListener('click',function(){open(false)});
+    function add(role,text){var d=document.createElement('div');d.className='msg '+role;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
+    form.addEventListener('submit',function(e){e.preventDefault();var q=inp.value.trim();if(!q||C.classList.contains('busy'))return;inp.value='';add('user',q);hist.push({role:'user',content:q});
+      C.classList.add('busy');var t=add('bot typing','…');
+      fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:hist})})
+        .then(function(r){return r.json().catch(function(){return{}})})
+        .then(function(j){var a=j.ok?j.reply:(j.error||'Sorry, something went wrong. Please email info@metrifield.com.');t.textContent=a;t.className='msg bot';if(j.ok)hist.push({role:'assistant',content:a});hist=hist.slice(-10)})
+        .catch(function(){t.textContent='Sorry, something went wrong. Please email info@metrifield.com.';t.className='msg bot'})
+        .then(function(){C.classList.remove('busy');log.scrollTop=log.scrollHeight});
+    });
+  }
 })();
 </script>
 </body>
