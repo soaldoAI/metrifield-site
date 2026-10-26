@@ -1,41 +1,78 @@
-// Cloudflare Pages Function: POST /api/chat  — site assistant on Workers AI (binding: AI)
+// Cloudflare Pages Function: POST /api/chat
+// Retrieval-grounded site assistant on Workers AI (binding: AI).
+// Knowledge chunks are compiled from /knowledge/*.md by build.py into ./_knowledge.js.
+import { CHUNKS } from "./_knowledge.js";
+
 const MODEL = "@cf/meta/llama-3.1-8b-instruct";
-const SYSTEM = `You are the assistant on metrifield.com, the website of Metrifield Dynamics Pty Ltd (Sydney, Australia). Answer briefly (2–5 sentences), plainly, in Australian English. Only answer from the facts below; if something is not covered, say you don't know and suggest emailing info@metrifield.com or using the Contact page. Never invent prices, customers, certifications or dates. Do not discuss grants or funding applications.
+const TOP_K = 5;
+const MIN_SCORE = 3.5;          // below this: refuse without calling the model
+const FALLBACK = "That's outside what I can help with here — I only answer questions about Metrifield Dynamics and our solar asset services. For anything else, email info@metrifield.com or use the Contact page.";
 
-ABOUT: Metrifield Dynamics provides lifecycle intelligence for solar assets — operating plants and future deployments. Founded by Harrison Su (PhD Materials Science; terahertz imaging and spectroscopy), Sohan Domingo (Master of Software Engineering; edge AI and computer vision; founder of Edgegenix) and Laurens Willems van Beveren (PhD Applied Physics; scientific instrumentation; director of Australian Drone Surveys; CASA-credentialed drone operations). Contact: info@metrifield.com, phone 0415 286 866, Sydney NSW. ABN 65 703 052 064.
+const STOP = new Set("a an and are as at be by do does for from how i in is it its of on or that the this to we what when where which who why with you your can our us me my about tell more please".split(" "));
+const tok = (s) => String(s).toLowerCase().replace(/[^a-z0-9µ\-]+/g, " ").split(" ").filter((w) => w.length > 1 && !STOP.has(w));
+const stem = (w) => w.replace(/(ings?|ers?|ies|ied|es|s|ly|tion|tions|al)$/,"");
+const SYN = { twin: ["twin","st-twin","digital"], terahertz: ["terahertz","thz"], thz: ["terahertz","thz"], drone: ["drone","uav","survey"], price: ["price","cost","pricing","quote"], cost: ["price","cost","pricing","quote"], founder: ["founder","founded","team","who"], ceo: ["founder","founded","team"], robot: ["robot","crawling","crawler"], region: ["region","climate","zone","australia"], ai: ["ai","edge","model","vision"] };
 
-WHAT WE DO: Drone-mounted RGB and thermal imaging with on-board edge AI screens whole arrays and ranks anomalies. A panel-crawling robot carries terahertz (THz) sensing to assess subsurface module condition — encapsulant, interfaces, moisture, delamination — which cameras cannot see. LiDAR maps terrain for microclimate modelling. Everything feeds a spatiotemporally resolved digital twin ("ST-Twin"): a hybrid physics-and-data model linking each module's materials and batch, local environmental exposure, inspection evidence, energy performance and maintenance history. Repeated surveys and real outcomes refine it over time. Output is decisions with explicit cost comparison: clean, reinspect, repair, replace or defer; design choices for new plants (module selection, layout, mounting); and feedback to module manufacturers on field failure modes. Over time the database becomes a map of how solar hardware ages across Australia's climate zones.
+// Pre-tokenise chunks once per isolate
+const INDEX = CHUNKS.map((c) => {
+  const words = tok(c.title + " " + c.title + " " + c.text).map(stem);
+  const tf = new Map(); for (const w of words) tf.set(w, (tf.get(w) || 0) + 1);
+  return { c, tf, len: words.length };
+});
+const DF = new Map(); for (const e of INDEX) for (const w of e.tf.keys()) DF.set(w, (DF.get(w) || 0) + 1);
+const N = INDEX.length, AVG = INDEX.reduce((a, e) => a + e.len, 0) / N;
+const idf = (w) => Math.log(1 + (N - (DF.get(w) || 0) + 0.5) / ((DF.get(w) || 0) + 0.5));
 
-WHO IT IS FOR: owners and operators of solar farms and O&M providers (operating plants); developers and EPCs (plants being designed and built); module manufacturers; research partners.
+function retrieve(q) {
+  let terms = tok(q); terms = terms.flatMap((w) => SYN[w] ? SYN[w] : [w]).map(stem);
+  const uniq = [...new Set(terms)];
+  const scored = INDEX.map((e) => {
+    let s = 0;
+    for (const w of uniq) { const f = e.tf.get(w) || 0; if (!f) continue; s += idf(w) * (f * 2.2) / (f + 1.2 * (0.25 + 0.75 * e.len / AVG)); }
+    return { s, c: e.c };
+  }).sort((a, b) => b.s - a.s);
+  return scored.slice(0, TOP_K).filter((x) => x.s > 0);
+}
 
-SERVICES: (1) Drone surveys — RGB + thermal with edge AI defect detection, orthomosaics and 3D digital twins of the site, CASA-compliant operations. (2) Subsurface diagnostics — targeted robotic terahertz measurements on selected modules. (3) Custom edge AI — training and deploying computer-vision models on drones, robots and fixed cameras for customers' own use cases. (4) Lifecycle digital twin — the ST-Twin platform and dashboard as an ongoing service, with regular automated surveys.
-
-ENGAGEMENT: typically starts with a focused pilot on one site with a measured baseline, then validated value, then fleet rollout. Pricing is quoted per engagement — direct pricing questions to the Contact page.
-
-REGIONS: Australia-wide; the site's regional map covers the tropical north, eastern seaboard, arid interior, inland agricultural margins, Mediterranean-type south-west and temperate south-east, each with different dominant degradation drivers (salt and wetting, soiling and deposition, heat and diurnal cycling, hail, frost and snow).`;
+const SYSTEM = `You are the assistant on metrifield.com, the website of Metrifield Dynamics Pty Ltd (Sydney, Australia). Answer in Australian English, plainly, in 2–5 sentences. Use ONLY the reference passages provided in the user message. If the passages do not contain the answer, say you don't have that information and suggest emailing info@metrifield.com. Never invent prices, dates, customers, certifications or capabilities. Do not discuss grants, government funding or funding applications. Do not mention "passages" or "context" — just answer. If asked your name, say you are the Metrifield assistant, an automated helper.`;
 
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
 
 export async function onRequestPost({ request, env }) {
   if (!env.AI) return json(500, { ok: false, error: "Assistant not configured." });
-  let body;
-  try { body = await request.json(); } catch { return json(400, { ok: false, error: "Bad request" }); }
-  const history = Array.isArray(body.messages) ? body.messages.slice(-10) : [];
-  const messages = [{ role: "system", content: SYSTEM }];
-  for (const m of history) {
-    if (!m || (m.role !== "user" && m.role !== "assistant")) continue;
-    const content = String(m.content || "").slice(0, 2000);
-    if (content) messages.push({ role: m.role, content });
+  let body; try { body = await request.json(); } catch { return json(400, { ok: false, error: "Bad request" }); }
+  const history = (Array.isArray(body.messages) ? body.messages : []).filter((m) => m && (m.role === "user" || m.role === "assistant") && m.content).slice(-8);
+  const last = [...history].reverse().find((m) => m.role === "user");
+  if (!last) return json(400, { ok: false, error: "Empty message" });
+  const q = String(last.content).slice(0, 500);
+
+  // Greetings / meta without retrieval
+  if (/^\s*(hi|hello|hey|g'day|good (morning|afternoon|evening)|thanks?|thank you|cheers)\b[\s!.?]*$/i.test(q)) {
+    return json(200, { ok: true, reply: "Hi — I can answer questions about Metrifield Dynamics: what we do, our drone and terahertz inspection services, the digital twin, who we work with and how to get started. What would you like to know?" });
   }
-  if (!messages.some((m) => m.role === "user")) return json(400, { ok: false, error: "Empty message" });
+
+  if (/\b(your name|who are you|are you (a )?(bot|human|person|real)|what are you)\b/i.test(q)) {
+    return json(200, { ok: true, reply: "I'm the Metrifield assistant — an automated helper that answers from the content on metrifield.com, not a person. Ask me about our services, the technology or how to get started; for anything specific to your site, use the Contact page." });
+  }
+
+  // Use previous user turn as extra retrieval context for follow-ups like "tell me more"
+  const prevUser = history.filter((m) => m.role === "user").slice(-2, -1)[0];
+  const hits = retrieve(q.split(/\s+/).length <= 4 && prevUser ? q + " " + prevUser.content : q);
+  if (!hits.length || hits[0].s < MIN_SCORE) return json(200, { ok: true, reply: FALLBACK, gated: true });
+
+  const context = hits.map((h, i) => `[${i + 1}] ${h.c.title}\n${h.c.text}`).join("\n\n");
+  const messages = [{ role: "system", content: SYSTEM }];
+  for (const m of history.slice(0, -1)) messages.push({ role: m.role, content: String(m.content).slice(0, 1500) });
+  messages.push({ role: "user", content: `Reference passages:\n\n${context}\n\nQuestion: ${q}` });
+
   try {
-    const r = await env.AI.run(MODEL, { messages, max_tokens: 400, temperature: 0.3 });
-    const reply = (r && (r.response || (r.result && r.result.response))) || "";
-    return json(200, { ok: true, reply: reply.trim() || "Sorry, I didn't catch that — could you rephrase?" });
+    const r = await env.AI.run(MODEL, { messages, max_tokens: 350, temperature: 0.2 });
+    let reply = ((r && (r.response || (r.result && r.result.response))) || "").trim();
+    if (!reply) reply = FALLBACK;
+    return json(200, { ok: true, reply, sources: hits.map((h) => h.c.title) });
   } catch (e) {
     return json(502, { ok: false, error: "The assistant is unavailable right now. Please email info@metrifield.com." });
   }
 }
 
-export const onRequest = ({ request }) =>
-  request.method === "POST" ? undefined : new Response("Method not allowed", { status: 405 });
+export const onRequest = ({ request }) => request.method === "POST" ? undefined : new Response("Method not allowed", { status: 405 });
