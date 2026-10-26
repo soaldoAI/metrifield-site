@@ -8,6 +8,7 @@ import hashlib
 VER = hashlib.md5((ROOT/"styles.css").read_bytes()).hexdigest()[:8]
 SITE = "https://www.metrifield.com"
 EMAIL = "info@metrifield.com"
+PHONES = [("0415 286 866","+61415286866"),("0414 886 627","+61414886627")]
 
 LOGO = '''<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 19.5 L11 10 L15 16 L18 12 L22 19.5" fill="none" stroke="#E59A1C" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'''
 ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'
@@ -65,7 +66,7 @@ FOOTER = f'''<footer>
       <p style="max-width:34ch">Lifecycle intelligence for operating solar assets and future deployments. Sydney, Australia.</p>
     </div>
     <div class="fcol"><b>Site</b><a href="capabilities.html">Capabilities</a><a href="technology.html">Technologies</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
-    <div class="fcol"><b>Contact</b><a href="mailto:{EMAIL}">{EMAIL}</a><span>Sydney, NSW</span><a class="flink" href="https://www.linkedin.com/company/metrifield-dynamics/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a></div>
+    <div class="fcol"><b>Contact</b><a href="mailto:{EMAIL}">{EMAIL}</a><a href="tel:{PHONES[0][1]}">{PHONES[0][0]}</a><span>Sydney, NSW</span><a class="flink" href="https://www.linkedin.com/company/metrifield-dynamics/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>LinkedIn</a></div>
     <div class="legal"><span>© 2026 Metrifield Dynamics Pty Ltd · ABN 65 703 052 064 · ACN 703 052 064</span><span>metrifield.com</span></div>
   </div>
 </footer>
@@ -706,6 +707,7 @@ contact_body = f'''
     <div class="contact-grid">
       <div class="contact-info">
         <div class="row"><p class="k">Email</p><p class="v"><a href="mailto:{EMAIL}">{EMAIL}</a></p></div>
+        <div class="row"><p class="k">Phone</p><p class="v">{'<br>'.join(f'<a href="tel:{t}">{d}</a>' for d,t in PHONES)}</p></div>
         <div class="row"><p class="k">Location</p><p class="v">Sydney, NSW, Australia</p></div>
         <div class="row">
           <p class="k">We want to hear from</p>
