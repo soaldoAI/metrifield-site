@@ -1,6 +1,7 @@
 // Cloudflare Pages Function: POST /api/contact
 // Sends the enquiry to info@metrifield.com via Resend. Requires env RESEND_API_KEY.
-const TO = [
+// All recipients are BCC so none of them see each other's addresses.
+const BCC = [
   "info@metrifield.com",
   "sohan.domingo@metrifield.com",
   "sohan.domingo@edgegenix.com",
@@ -10,6 +11,7 @@ const TO = [
   "harrisons@caelvox.com.au",
 ];
 const FROM = "Metrifield website <noreply@metrifield.com>";
+const TO = "Metrifield Dynamics <noreply@metrifield.com>"; // visible To: (Resend requires one); real recipients are in BCC
 
 const esc = (s) => String(s || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
@@ -49,7 +51,7 @@ export async function onRequestPost({ request, env }) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
-    body: JSON.stringify({ from: FROM, to: TO, reply_to: email, subject, text, html }),
+    body: JSON.stringify({ from: FROM, to: [TO], bcc: BCC, reply_to: email, subject, text, html }),
   });
   if (!r.ok) return json(502, { ok: false, error: "Could not send right now. Please email us directly." });
   return json(200, { ok: true });
