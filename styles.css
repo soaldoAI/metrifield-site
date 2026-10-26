@@ -237,6 +237,8 @@ footer .fcol{display:grid;gap:8px;align-content:start}
 footer .fcol b{font-family:var(--font-display);color:#fff;font-weight:600;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
 footer a{text-decoration:none}
 footer a:hover{color:#fff}
+footer .flink{display:inline-flex;align-items:center;gap:8px;margin-top:6px}
+footer .flink svg{width:16px;height:16px;fill:currentColor}
 footer .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.1);padding-top:20px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:13.5px}
 @media (max-width:760px){footer .wrap{grid-template-columns:1fr}}
 
