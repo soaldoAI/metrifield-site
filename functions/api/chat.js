@@ -3,7 +3,8 @@
 // Knowledge chunks are compiled from /knowledge/*.md by build.py into ./_knowledge.js.
 import { CHUNKS } from "./_knowledge.js";
 
-const MODEL = "@cf/meta/llama-3.1-8b-instruct";
+// Tried in order; the first that responds is used (guards against model retirements).
+const MODELS = ["@cf/meta/llama-3.3-70b-instruct-fp8-fast", "@cf/qwen/qwen3-30b-a3b-fp8", "@cf/zai-org/glm-4.7-flash", "@cf/meta/llama-4-scout-17b-16e-instruct"];
 const TOP_K = 5;
 const MIN_SCORE = 3.5;          // below this: refuse without calling the model
 const FALLBACK = "That's outside what I can help with here — I only answer questions about Metrifield Dynamics and our solar asset services. For anything else, email info@metrifield.com or use the Contact page.";
@@ -65,15 +66,17 @@ export async function onRequestPost({ request, env }) {
   for (const m of history.slice(0, -1)) messages.push({ role: m.role, content: String(m.content).slice(0, 1500) });
   messages.push({ role: "user", content: `Reference passages:\n\n${context}\n\nQuestion: ${q}` });
 
-  try {
-    const r = await env.AI.run(MODEL, { messages, max_tokens: 350, temperature: 0.2 });
-    let reply = ((r && (r.response || (r.result && r.result.response))) || "").trim();
-    if (!reply) reply = FALLBACK;
-    return json(200, { ok: true, reply, sources: hits.map((h) => h.c.title) });
-  } catch (e) {
-    console.error("AI error", e && e.message);
-    return json(200, { ok: false, error: "The assistant is unavailable right now. Please email info@metrifield.com.", detail: String(e && e.message || e).slice(0, 300) });
+  let lastErr = null;
+  for (const model of MODELS) {
+    try {
+      const r = await env.AI.run(model, { messages, max_tokens: 350, temperature: 0.2 });
+      let reply = ((r && (r.response || (r.result && r.result.response))) || "").trim();
+      reply = reply.replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim(); // strip reasoning blocks some models emit
+      if (!reply) continue;
+      return json(200, { ok: true, reply, sources: hits.map((h) => h.c.title), model });
+    } catch (e) { lastErr = e; console.error("AI error", model, e && e.message); }
   }
+  return json(200, { ok: false, error: "The assistant is unavailable right now. Please email info@metrifield.com.", detail: String(lastErr && lastErr.message || lastErr).slice(0, 300) });
 }
 
 export const onRequest = ({ request }) => request.method === "POST" ? undefined : new Response("Method not allowed", { status: 405 });
