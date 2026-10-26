@@ -8,7 +8,7 @@ import hashlib
 VER = hashlib.md5((ROOT/"styles.css").read_bytes()).hexdigest()[:8]
 SITE = "https://www.metrifield.com"
 EMAIL = "info@metrifield.com"
-PHONES = [("0415 286 866","+61415286866"),("0414 886 627","+61414886627")]
+PHONES = [("0415 286 866","+61415286866"),("0414 886 627","+61414886627"),("0423 613 086","+61423613086")]
 
 LOGO = '''<svg viewBox="0 0 28 28" aria-hidden="true"><rect x="1.5" y="1.5" width="25" height="25" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 19.5 L11 10 L15 16 L18 12 L22 19.5" fill="none" stroke="#E59A1C" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/></svg>'''
 ARROW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>'
