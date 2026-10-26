@@ -48,6 +48,9 @@ Yes — dataset design, labelling, training, quantisation and deployment on NVID
 ## Can you inspect after hail or a storm?
 Yes. We map the event footprint and safe access first, then RGB damage mapping, then qualified electrical and structural review; thermal is used only under valid conditions.
 
+## Are you insured for drone operations?
+Yes. Our drone operations are conducted under a CASA-certified operator that holds public liability, professional indemnity and workers' compensation insurance. Certificates of currency and cover levels are provided during scoping of an engagement.
+
 ## Are you a research project or a company?
 A company: Metrifield Dynamics Pty Ltd, founded in Sydney by Harrison Su, Sohan Domingo and Laurens Willems van Beveren.
 

@@ -23,7 +23,7 @@ export const CHUNKS = [
 {
 "doc": "Services",
 "title": "Services — Drone surveys",
-"text": "Drone-mounted RGB and thermal cameras capture every module in an array. An on-board edge inference unit detects and ranks anomalies in flight — hotspots, cracked glass, soiling, vegetation, string outages — so the customer receives a prioritised inspection plan rather than raw imagery. Each survey also produces a georeferenced orthomosaic and a 3D model (digital twin) of the site. Operations are by CASA-credentialed remote pilots under a certified operator. Typical uses: commissioning inspection, annual condition survey, post-event damage mapping (hail, storm, fire), warranty evidence."
+"text": "Drone-mounted RGB and thermal cameras capture every module in an array. An on-board edge inference unit detects and ranks anomalies in flight — hotspots, cracked glass, soiling, vegetation, string outages — so the customer receives a prioritised inspection plan rather than raw imagery. Each survey also produces a georeferenced orthomosaic and a 3D model (digital twin) of the site. Operations are by CASA-credentialed remote pilots under a certified operator that holds public liability, professional indemnity and workers' compensation insurance; certificates of currency are provided during scoping. Typical uses: commissioning inspection, annual condition survey, post-event damage mapping (hail, storm, fire), warranty evidence."
 },
 {
 "doc": "Services",
@@ -209,6 +209,11 @@ export const CHUNKS = [
 "doc": "Frequently asked questions",
 "title": "Frequently asked questions — Can you inspect after hail or a storm?",
 "text": "Yes. We map the event footprint and safe access first, then RGB damage mapping, then qualified electrical and structural review; thermal is used only under valid conditions."
+},
+{
+"doc": "Frequently asked questions",
+"title": "Frequently asked questions — Are you insured for drone operations?",
+"text": "Yes. Our drone operations are conducted under a CASA-certified operator that holds public liability, professional indemnity and workers' compensation insurance. Certificates of currency and cover levels are provided during scoping of an engagement."
 },
 {
 "doc": "Frequently asked questions",
