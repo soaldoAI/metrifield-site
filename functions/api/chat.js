@@ -12,13 +12,13 @@ const FALLBACK = "That's outside what I can help with here — I only answer que
 const STOP = new Set("a an and are as at be by do does for from how i in is it its of on or that the this to we what when where which who why with you your can our us me my about tell more please".split(" "));
 const tok = (s) => String(s).toLowerCase().replace(/[^a-z0-9µ\-]+/g, " ").split(" ").filter((w) => w.length > 1 && !STOP.has(w));
 const stem = (w) => w.replace(/(ings?|ers?|ies|ied|es|s|ly|tion|tions|al)$/,"");
-const SYN = { twin: ["twin","st-twin","digital"], terahertz: ["terahertz","thz"], thz: ["terahertz","thz"], drone: ["drone","uav","survey"], price: ["price","cost","pricing","quote"], cost: ["price","cost","pricing","quote"], founder: ["founder","founded","team","who"], ceo: ["founder","founded","team"], robot: ["robot","crawling","crawler"], region: ["region","climate","zone","australia"], ai: ["ai","edge","model","vision"] };
+const SYN = { contact: ["contact","email","phone","reach"], email: ["contact","email"], phone: ["contact","phone"], call: ["contact","phone"], customer: ["customer","client","work with","owner","operator"], client: ["customer","client"], twin: ["twin","st-twin","digital"], terahertz: ["terahertz","thz"], thz: ["terahertz","thz"], drone: ["drone","uav","survey"], price: ["price","cost","pricing","quote"], cost: ["price","cost","pricing","quote"], founder: ["founder","founded","team","who"], ceo: ["founder","founded","team"], robot: ["robot","crawling","crawler"], region: ["region","climate","zone","australia"], ai: ["ai","edge","model","vision"] };
 
 // Pre-tokenise chunks once per isolate
 const INDEX = CHUNKS.map((c) => {
   const words = tok(c.title + " " + c.title + " " + c.text).map(stem);
   const tf = new Map(); for (const w of words) tf.set(w, (tf.get(w) || 0) + 1);
-  return { c, tf, len: words.length };
+  return { c, tf, len: words.length, title: new Set(tok(c.title).map(stem)) };
 });
 const DF = new Map(); for (const e of INDEX) for (const w of e.tf.keys()) DF.set(w, (DF.get(w) || 0) + 1);
 const N = INDEX.length, AVG = INDEX.reduce((a, e) => a + e.len, 0) / N;
@@ -29,7 +29,7 @@ function retrieve(q) {
   const uniq = [...new Set(terms)];
   const scored = INDEX.map((e) => {
     let s = 0;
-    for (const w of uniq) { const f = e.tf.get(w) || 0; if (!f) continue; s += idf(w) * (f * 2.2) / (f + 1.2 * (0.25 + 0.75 * e.len / AVG)); }
+    for (const w of uniq) { const f = e.tf.get(w) || 0; if (!f) continue; s += idf(w) * (f * 2.2) / (f + 1.2 * (0.25 + 0.75 * e.len / AVG)); if (e.title.has(w)) s += 1.6; }
     return { s, c: e.c };
   }).sort((a, b) => b.s - a.s);
   return scored.slice(0, TOP_K).filter((x) => x.s > 0);
