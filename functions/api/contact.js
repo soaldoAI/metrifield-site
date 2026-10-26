@@ -27,13 +27,13 @@ export async function onRequestPost({ request, env }) {
   const text = `Name: ${name}\nOrganisation: ${org}\nEmail: ${email}\nI am a: ${type}\n\n${msg}`;
   const html = `<p><b>Name:</b> ${esc(name)}<br><b>Organisation:</b> ${esc(org)}<br><b>Email:</b> <a href="mailto:${esc(email)}">${esc(email)}</a><br><b>I am a:</b> ${esc(type)}</p><p style="white-space:pre-wrap">${esc(msg)}</p>`;
 
-  // Log to Google Sheet (optional; Apps Script web app URL + shared secret in env)
-  if (env.SHEET_WEBHOOK_URL && env.SHEET_WEBHOOK_SECRET) {
+  // Log to Google Sheet (optional; Apps Script web app URL in env, secret optional)
+  if (env.SHEET_WEBHOOK_URL) {
     try {
       await fetch(env.SHEET_WEBHOOK_URL, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ secret: env.SHEET_WEBHOOK_SECRET, name, org, email, type, msg, source: request.headers.get("referer") || "metrifield.com" }),
+        body: JSON.stringify({ secret: env.SHEET_WEBHOOK_SECRET || "", name, org, email, type, msg, source: request.headers.get("referer") || "metrifield.com" }),
       });
     } catch (e) { /* sheet logging is best-effort; email still goes */ }
   }
