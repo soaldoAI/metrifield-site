@@ -290,24 +290,26 @@
       .then(function(){f.classList.remove('busy');fb.disabled=false});
   })}
 
-  // --- chat widget
+  // --- chat widget (own scope: the map script also uses 'panel')
+  (function(){
   var C=document.getElementById('chat');
-  if(C){var fab=C.querySelector('.chat-fab'),panel=C.querySelector('.chat-panel'),log=C.querySelector('.chat-log'),form=C.querySelector('.chat-form'),inp=form.querySelector('input'),hist=[],S=null;
+  if(C){var cfab=C.querySelector('.chat-fab'),cpanel=C.querySelector('.chat-panel'),clog=C.querySelector('.chat-log'),cform=C.querySelector('.chat-form'),cinp=cform.querySelector('input'),chist=[],S=null;
     try{S=window.sessionStorage}catch(e){}
-    function save(){try{S&&S.setItem('mf-chat',JSON.stringify({h:hist,html:log.innerHTML,open:!panel.hidden}))}catch(e){}}
-    function open(o){panel.hidden=!o;fab.setAttribute('aria-expanded',o);C.classList.toggle('open',o);if(o)inp.focus();save()}
-    try{var st=S&&JSON.parse(S.getItem('mf-chat')||'null');if(st&&st.h){hist=st.h;log.innerHTML=st.html;if(st.open){panel.hidden=false;fab.setAttribute('aria-expanded',true);C.classList.add('open')};log.scrollTop=log.scrollHeight}}catch(e){}
-    fab.addEventListener('click',function(){open(panel.hidden)}); C.querySelector('.chat-close').addEventListener('click',function(){open(false)});
-    function add(role,text){var d=document.createElement('div');d.className='msg '+role;d.textContent=text;log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
-    form.addEventListener('submit',function(e){e.preventDefault();var q=inp.value.trim();if(!q||C.classList.contains('busy'))return;inp.value='';add('user',q);hist.push({role:'user',content:q});
-      C.classList.add('busy');var t=add('bot typing','…');
-      fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:hist,page:location.pathname})})
+    function csave(){try{S&&S.setItem('mf-chat',JSON.stringify({h:chist,html:clog.innerHTML,open:!cpanel.hidden}))}catch(e){}}
+    function copen(o){cpanel.hidden=!o;cfab.setAttribute('aria-expanded',o);C.classList.toggle('open',o);if(o)cinp.focus();csave()}
+    try{var st=S&&JSON.parse(S.getItem('mf-chat')||'null');if(st&&st.h){chist=st.h;clog.innerHTML=st.html;if(st.open){cpanel.hidden=false;cfab.setAttribute('aria-expanded',true);C.classList.add('open')};clog.scrollTop=clog.scrollHeight}}catch(e){}
+    cfab.addEventListener('click',function(){copen(cpanel.hidden)}); C.querySelector('.chat-close').addEventListener('click',function(){copen(false)});
+    function cadd(role,text){var d=document.createElement('div');d.className='msg '+role;d.textContent=text;clog.appendChild(d);clog.scrollTop=clog.scrollHeight;return d}
+    cform.addEventListener('submit',function(e){e.preventDefault();var q=cinp.value.trim();if(!q||C.classList.contains('busy'))return;cinp.value='';cadd('user',q);chist.push({role:'user',content:q});
+      C.classList.add('busy');var t=cadd('bot typing','…');
+      fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:chist,page:location.pathname})})
         .then(function(r){return r.json().catch(function(){return{}})})
-        .then(function(j){var a=j.ok?j.reply:(j.error||'Sorry, something went wrong. Please email info@metrifield.com.');t.textContent=a;t.className='msg bot';if(j.ok)hist.push({role:'assistant',content:a});hist=hist.slice(-10);if(j.unknown){var k=document.createElement('a');k.href='contact.html';k.className='msg-link';k.textContent='Ask the team directly →';t.appendChild(document.createElement('br'));t.appendChild(k)};save()})
+        .then(function(j){var a=j.ok?j.reply:(j.error||'Sorry, something went wrong. Please email info@metrifield.com.');t.textContent=a;t.className='msg bot';if(j.ok)chist.push({role:'assistant',content:a});chist=chist.slice(-10);if(j.unknown){var k=document.createElement('a');k.href='contact.html';k.className='msg-link';k.textContent='Ask the team directly →';t.appendChild(document.createElement('br'));t.appendChild(k)};csave()})
         .catch(function(){t.textContent='Sorry, something went wrong. Please email info@metrifield.com.';t.className='msg bot'})
-        .then(function(){C.classList.remove('busy');log.scrollTop=log.scrollHeight});
+        .then(function(){C.classList.remove('busy');clog.scrollTop=clog.scrollHeight});
     });
   }
+  })();
 })();
 </script>
 </body>
